@@ -1,0 +1,57 @@
+.memory {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 20vw;
+
+  & img.postImage {
+    border-radius: 20px;
+    width: 100%;
+    aspect-ratio: 1/1;
+  }
+
+  & .postInfoContainer {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & .memoryDescription {
+      width: 100%;
+      height: 100px;
+
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 10px;
+
+      font-family: var(--mainFont);
+
+      & img.authorProfilePic {
+        height: 60%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        object-position: center;
+
+        border: 2px solid var(--main__orange);
+        border-radius: 50%;
+      }
+    }
+
+    & button {
+      height: 60px;
+      aspect-ratio: 1/1;
+
+      background: none;
+      border: none;
+
+      & img {
+        height: 100%;
+      }
+    }
+  }
+}
