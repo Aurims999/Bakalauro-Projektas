@@ -1,37 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-
-* {
-  margin: 0;
-  padding: 0px;
-  box-sizing: border-box;
-}
-
-:root {
-  /* -- Project's color palette -- */
-  --main__purple: #8c52ff;
-  --main__orange: #f59b12;
-  --main__black: #292f33;
-
-  --light__purple: #efe7ff;
-
-  --focus__lighter__purple: #a476ff;
-
-  /* ----------------------------- */
-
-  /* -- Fonts -- */
-  --headlineFont: "Urbanist", sans-serif;
-  --mainFont: "Montserrat", sans-serif;
-  /* ----------- */
-}
-
-body {
-  background-color: paleturquoise;
-}
-
 h1 {
+  padding: 0.5rem 0rem;
+
   font-family: var(--headlineFont);
   font-size: 3rem;
   font-weight: bold;
   text-transform: capitalize;
+
+  color: var(--main__black);
 }

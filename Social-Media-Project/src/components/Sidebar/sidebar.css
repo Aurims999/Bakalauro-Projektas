@@ -1,0 +1,121 @@
+header {
+  width: minmax(200px, 20vw);
+  height: 100vh;
+  padding: 10px 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  position: fixed;
+
+  background-color: var(--light__purple);
+  font-family: var(--mainFont);
+
+  & .mainInfo {
+    margin-top: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    & img.websiteLogo {
+      height: 10vh;
+      width: auto;
+    }
+
+    & img.profilePicture {
+      height: 20vh;
+      aspect-ratio: 1/1;
+
+      border-radius: 50%;
+      border: 15px solid var(--main__orange);
+
+      object-fit: cover;
+      object-position: center;
+
+      background-color: rgb(185, 226, 151);
+    }
+
+    & .userDescription {
+      margin: 1rem 0rem;
+
+      text-align: center;
+      font-family: var(--mainFont);
+    }
+
+    & ul {
+      margin-top: 20px;
+
+      list-style: none;
+      font-weight: bold;
+
+      & li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 0.5rem 2rem;
+        gap: 15px;
+
+        font-size: 1.125rem;
+
+        transition: background-color 0.2s ease-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #dbd4eb;
+        }
+
+        &:active {
+          background-color: #cac4d7;
+        }
+      }
+    }
+  }
+
+  & .logoutArea {
+    width: 100%;
+
+    & img {
+      width: 40px;
+    }
+
+    & button {
+      width: 100%;
+      padding: 1rem 2rem;
+      margin: 1rem 0rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+
+      background: none;
+      border: none;
+      border-top: 1px solid var(--main__black);
+
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: var(--mainFont);
+
+      cursor: pointer;
+      transition: background-color 0.2s ease-out;
+
+      &:hover {
+        background-color: #dbd4eb;
+      }
+
+      &:active {
+        background-color: #cac4d7;
+      }
+    }
+
+    & p {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+  }
+}

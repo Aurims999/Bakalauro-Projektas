@@ -2,6 +2,7 @@
   width: fit-content;
   height: auto;
   padding: 15px 30px;
+  margin: 10px 0px;
 
   display: flex;
   justify-content: space-around;
@@ -14,6 +15,8 @@
   border-radius: 10px;
 
   filter: drop-shadow(6px 4px 6px #8c8c8c);
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
 
   & img {
     height: 50%;

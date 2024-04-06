@@ -1,5 +1,6 @@
 .container {
   width: 100%;
+  margin: 20px 0px;
 
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -9,6 +10,4 @@
     grid-row: span 2;
     grid-column: span 2;
   }
-
-  background-color: navajowhite;
 }
