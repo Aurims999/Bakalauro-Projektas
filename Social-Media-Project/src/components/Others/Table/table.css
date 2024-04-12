@@ -1,0 +1,10 @@
+.dataTable{
+    width: 90%;
+    height: 70vh;
+
+    border-radius: 15px;
+    background: linear-gradient(135deg, 
+    rgba(255,255,255,1) 0%, 
+    rgba(239,231,255,1) 100%);
+    filter: drop-shadow(14px 22px 20px hsla(260, 54%, 75%, 0.385));
+}
