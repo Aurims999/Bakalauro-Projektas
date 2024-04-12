@@ -6,141 +6,40 @@ export default function MemoriesContainer({ data }) {
   return (
     <div className="container">
       <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        image={"./images/memories/example__memory-1.jpg"}
+        title={"Sunny Flight to Honduras"}
+        author={"TravelForLife"}
+        authorImage={"./images/users/example__profilePic-1.jpg"}
       />
       <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        image={"./images/memories/example__memory-2.jpg"}
+        title={"Strength of Mountains"}
+        author={"Mountains Lover <3"}
+        authorImage={"./images/users/example__profilePic-2.jpg"}
       />
       <Memory
-        image={"./images/KaunasStreet.jpg"}
+        image={"./images/memories/example__memory-3.jpg"}
         title={"Beauty of Kaunas"}
         author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        authorImage={"./images/users/example__profilePic-3.jpg"}
       />
       <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        image={"./images/memories/example__memory-4.jpg"}
+        title={"Sunset glory"}
+        author={"ILoveSunsets-49582"}
+        authorImage={"./images/users/example__profilePic-4.jpg"}
       />
       <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        image={"./images/memories/example__memory-5.jpg"}
+        title={"Gorgeous Malta"}
+        author={"Generic Traveler 548"}
+        authorImage={"./images/users/example__profilePic-5.jpg"}
       />
       <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
-      />
-      <Memory
-        image={"./images/KaunasStreet.jpg"}
-        title={"Beauty of Kaunas"}
-        author={"PhotoMaster<3"}
-        authorImage={
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-        }
+        image={"./images/memories/example__memory-6.jpg"}
+        title={"Cold mountains"}
+        author={"Mountains Lover <3 (2)"}
+        authorImage={"./images/users/example__profilePic-6.jpg"}
       />
     </div>
   );

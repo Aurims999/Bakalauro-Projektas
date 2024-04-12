@@ -7,12 +7,12 @@ export default function Sidebar() {
         <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
         <img
           className="profilePicture"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQQW8evYocVJa_sUjRKucO4U6qTPHmRLWeIixsej2Jlg&s"
+          src="./images/users/example__profilePic-2.jpg"
           alt="Profile Image"
         />
         <div className="userDescription">
-          <h2>Username</h2>
-          <p>Role</p>
+          <h2>{"Mountains Lover <3"}</h2>
+          <p>Standard User</p>
         </div>
         <ul>
           <li>

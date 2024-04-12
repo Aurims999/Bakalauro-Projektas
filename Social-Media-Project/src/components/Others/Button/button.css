@@ -19,7 +19,7 @@
   cursor: pointer;
 
   & img {
-    height: 50%;
+    height: 20px;
     max-height: 35px;
   }
 
