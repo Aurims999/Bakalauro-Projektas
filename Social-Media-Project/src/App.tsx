@@ -6,6 +6,8 @@ import MessagesPage from "./routes/MessagesPage/MessagesPage";
 import MemoriesPage from "./routes/MemoriesPage/MemoriesPage";
 import CommentsPage from "./routes/CommentsPage/CommentsPage";
 
+import PostUploadPage from "./routes/PostUploadPage/PostUploadPage";
+
 import "./App.css";
 
 function App() {
@@ -13,11 +15,12 @@ function App() {
     <div className="appContainer">
       <Routes>
         <Route path="/" element={<Sidebar />}>
-          <Route index element={ <MainPage/>}/>
-          <Route path="messages" element={<MessagesPage/>}/>
-          <Route path="memories" element={<MemoriesPage/>}/>
-          <Route path="comments" element={<CommentsPage/>}/>
+          <Route index element={<MainPage />} />
+          <Route path="messages" element={<MessagesPage />} />
+          <Route path="memories" element={<MemoriesPage />} />
+          <Route path="comments" element={<CommentsPage />} />
         </Route>
+        <Route path="new-memory" element={<PostUploadPage />}></Route>
       </Routes>
     </div>
   );

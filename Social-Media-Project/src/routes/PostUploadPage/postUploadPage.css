@@ -1,0 +1,35 @@
+.uploadPageContainer {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & .imageUploadField {
+    height: 100%;
+    width: 40%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url("../../assets/inputPage__background.png");
+    background-size: cover;
+  }
+
+  & .postDetailsForm {
+    width: 60%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--light__white);
+
+    & .contentContainer {
+      width: 70%;
+    }
+  }
+}
