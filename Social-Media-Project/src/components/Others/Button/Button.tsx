@@ -1,13 +1,17 @@
+import { Link } from "react-router-dom";
 import "./button.css";
 
-export default function Button({ icon, innerText, buttonColor, textColor }) {
+export default function Button({ icon, innerText, link, buttonColor, textColor }) {
   return (
-    <button
-      className="styledButton"
-      style={buttonColor != null ? { backgroundColor: buttonColor } : {}}
-    >
-      {icon != null ? <img src={icon} alt="buttonIcon" /> : null}
-      <p style={textColor != null ? { color: textColor } : {}}>{innerText}</p>
-    </button>
+    <Link to={link}>
+      <button
+        className="styledButton"
+        style={buttonColor != null ? { backgroundColor: buttonColor } : {}}
+      >
+        {icon != null ? <img src={icon} alt="buttonIcon" /> : null}
+        <p style={textColor != null ? { color: textColor } : {}}>{innerText}</p>
+      </button>
+    </Link>
+    
   );
 }

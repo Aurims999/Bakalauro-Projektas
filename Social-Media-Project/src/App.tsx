@@ -1,21 +1,24 @@
-import Sidebar from "./components/Sidebar/Sidebar";
-import MemoriesContainer from "./components/Memories/MemoriesContainer";
-import Button from "./components/Others/Button/Button";
+import { Routes, Route } from "react-router-dom";
+
+import Sidebar from "./routes/Sidebar/Sidebar";
+import MainPage from "./routes/MainPage/mainPage";
+import MessagesPage from "./routes/MessagesPage/MessagesPage";
+import MemoriesPage from "./routes/MemoriesPage/MemoriesPage";
+import CommentsPage from "./routes/CommentsPage/CommentsPage";
 
 import "./App.css";
 
 function App() {
   return (
     <div className="appContainer">
-      <Sidebar />
-      <main>
-        <h1>Memories</h1>
-        <Button
-          icon={"./icons/plus-white.png"}
-          innerText={"Share your memory"}
-        />
-        <MemoriesContainer />
-      </main>
+      <Routes>
+        <Route path="/" element={<Sidebar />}>
+          <Route index element={ <MainPage/>}/>
+          <Route path="messages" element={<MessagesPage/>}/>
+          <Route path="memories" element={<MemoriesPage/>}/>
+          <Route path="comments" element={<CommentsPage/>}/>
+        </Route>
+      </Routes>
     </div>
   );
 }
