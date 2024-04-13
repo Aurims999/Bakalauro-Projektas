@@ -1,8 +1,0 @@
-input.input-imageField {
-  width: 20vw;
-  aspect-ratio: 1/1;
-
-  background-color: transparent;
-  border: 5px dashed var(--main__black);
-  border-radius: 30px;
-}

@@ -1,0 +1,106 @@
+.input-imageField {
+  width: 20vw;
+  aspect-ratio: 1/1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+  border: 5px dashed var(--main__black);
+  border-radius: 30px;
+
+  cursor: pointer;
+
+  & .fieldVisualCues {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-family: var(--mainFont);
+    color: var(--main__black);
+
+    & img {
+      width: 40%;
+      aspect-ratio: 1/1;
+
+      margin: 25px;
+
+      transition: all 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+      &:hover {
+        transform: scale(1.1);
+
+        filter: brightness(160%);
+      }
+    }
+
+    & h2 {
+      font-size: 1.75rem;
+    }
+
+    & p {
+      font-size: 1.125rem;
+      font-style: italic;
+      text-wrap: wrap;
+      text-align: center;
+
+      margin: 5px 20px;
+    }
+  }
+}
+
+input.input-imageField {
+  display: none;
+}
+
+.input-radioField {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 20px 10px;
+
+  & input {
+    display: none;
+  }
+
+  & label {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0px 20px;
+
+    border: 4px solid var(--main__black);
+    border-radius: 15px;
+
+    text-transform: capitalize;
+    cursor: pointer;
+
+    & img {
+      width: 70%;
+      aspect-ratio: 1/1;
+      display: none;
+    }
+  }
+
+  &:hover {
+    filter: brightness(200%);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: rgb(227, 227, 227);
+  }
+}
