@@ -88,6 +88,10 @@ input.input-imageField {
     text-transform: capitalize;
     cursor: pointer;
 
+    & .selected{
+      
+    }
+
     & img {
       width: 70%;
       aspect-ratio: 1/1;
