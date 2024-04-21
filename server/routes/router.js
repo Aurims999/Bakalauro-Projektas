@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const schemas = require("../models/schemas");
 
 const exampleData = {
   users: [
@@ -175,9 +176,27 @@ router.get("/memories", (req, res) => {
   res.send(memories);
 });
 
-router.post("/newMemory", (req, res) => {
-  console.log(req.body);
-  res.send("Thanks for your data yeahhhh :D");
+router.post("/newMemory", async (req, res) => {
+  const { title, description, tags, category, image } = req.body;
+
+  const postData = {
+    id: "TestID",
+    author: "User123",
+    image: "URL",
+    title: title,
+    description: description,
+    category: category,
+    tags: tags,
+    comments: [],
+    isSuspended: false,
+  };
+  const newPost = new schemas.Memories(postData);
+  const savePost = await newPost.save();
+  if (savePost) {
+    res.send("New post was added successfully!");
+  }
+
+  res.end();
 });
 
 module.exports = router;
