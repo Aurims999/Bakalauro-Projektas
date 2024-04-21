@@ -84,8 +84,100 @@ const exampleData = {
   ],
 };
 
+const memories = {
+  memories: [
+    {
+      id: "Snvhx0ER12523",
+      uploadDate: "2023-03-15",
+      author: "A2s15GQa1",
+      image: "./images/memories/example__memory-1.jpg",
+      title: "Sunny Flight to Honduras",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+    {
+      id: "dsand2345sad45AasdfF",
+      uploadDate: "2023-12-15",
+      author: "A2sdsaFGZXCGQa1",
+      image: "./images/memories/example__memory-2.jpg",
+      title: "Strength of Mountains",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+    {
+      id: "DXzxED21923",
+      uploadDate: "2024-01-25",
+      author: "A2s15asdGQa1",
+      image: "./images/memories/example__memory-3.jpg",
+      title: "Beauty of Kaunas",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+    {
+      id: "VxnbahsS1246+",
+      uploadDate: "2024-03-15",
+      author: "A2s15GQa1",
+      image: "./images/memories/example__memory-4.jpg",
+      title: "Sunset glory",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+    {
+      id: "AsnkjkjcxhzASD3145",
+      uploadDate: "2024-01-05",
+      author: "asdSDVGsadnlkdjhsa",
+      image: "./images/memories/example__memory-5.jpg",
+      title: "Gorgeous Malta",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+    {
+      id: "safnjkXVZasbfjldas",
+      uploadDate: "2023-03-15",
+      author: "sadCXVhkwsadh",
+      image: "./images/memories/example__memory-6.jpg",
+      title: "Cold Mountains",
+      description: "",
+      category: "",
+      tags: [],
+      amountOfLikes: 0,
+      comments: [],
+      isSuspended: false,
+    },
+  ],
+};
+
 router.get("/users", (req, res) => {
   res.send(exampleData);
+});
+
+router.get("/memories", (req, res) => {
+  res.send(memories);
+});
+
+router.post("/newMemory", (req, res) => {
+  console.log(req.body);
+  res.send("Thanks for your data yeahhhh :D");
 });
 
 module.exports = router;

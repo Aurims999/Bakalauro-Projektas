@@ -1,7 +1,19 @@
+import { useState, useEffect } from "react";
+
 import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 
 export default function MainPage() {
+  const [memories, setMemory] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/memories")
+      .then((response) => response.json())
+      .then((memory) => {
+        setMemory(memory);
+      });
+  }, []);
+
   return (
     <main>
       <h1>Memories</h1>
@@ -10,7 +22,7 @@ export default function MainPage() {
         innerText={"Share your memory"}
         link={"new-memory"}
       />
-      <MemoriesContainer />
+      <MemoriesContainer data={memories} />
     </main>
   );
 }

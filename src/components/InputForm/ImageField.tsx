@@ -1,6 +1,11 @@
 import "./inputFormFields.css";
 
-export default function ImageField() {
+export default function ImageField({ setImage }) {
+  const handleImageUpload = (event) => {
+    const image = event.target.files[0];
+    setImage(image);
+  };
+
   return (
     <div className="imageInputField">
       <label htmlFor="img-upload" className="input-imageField">
@@ -15,6 +20,7 @@ export default function ImageField() {
         name="imageUploadField"
         id="img-upload"
         className="input-imageField"
+        onClick={handleImageUpload}
       />
     </div>
   );
