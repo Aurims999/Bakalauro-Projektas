@@ -1,13 +1,16 @@
 import "./inputForm.css";
 import "./../Others/Button/button.css";
 
+import "./inputForm.css";
+import "./../Others/Button/button.css";
+
 export default function SubmitButton({ icon, text }) {
   return (
     <div className="submitButton">
-      <input type="submit" value="Submit" />
-      <label htmlFor="Submit" className="styledButton">
+      <label className="styledButton">
+        <input type="submit" value={text} />
         <img src={icon} alt="icon" />
-        <p>{text}</p>
+        <span>{text}</span>
       </label>
     </div>
   );

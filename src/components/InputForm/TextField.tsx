@@ -1,6 +1,12 @@
 import "./inputForm.css";
 
-export default function TextField({ title, id, name, placeHolder }) {
+export default function TextField({
+  title,
+  id,
+  name,
+  placeHolder,
+  onChangeMethod,
+}) {
   return (
     <>
       <label htmlFor={id}>{title}</label>
@@ -10,6 +16,7 @@ export default function TextField({ title, id, name, placeHolder }) {
         name={name}
         className="input-textField"
         placeholder={placeHolder}
+        onChange={onChangeMethod}
       />
     </>
   );
