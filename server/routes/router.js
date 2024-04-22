@@ -192,7 +192,7 @@ router.post("/newMemory", async (req, res) => {
   const newPost = new schemas.Memories(postData);
   const savePost = await newPost.save();
   if (savePost) {
-    res.send("New post was added successfully!");
+    res.json({ message: "New post was added successfully!" });
   }
 
   res.end();

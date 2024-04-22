@@ -1,6 +1,3 @@
-import { useState } from "react";
-import backgroundImage from "../../assets/inputPage__background.png";
-
 import "./inputFormFields.css";
 
 export default function ImageField({ setImage }) {
@@ -13,7 +10,6 @@ export default function ImageField({ setImage }) {
     }
 
     reader.onload = () => {
-      console.log("Hello");
       setImage(reader.result); // Set the image data URL as state
     };
   };

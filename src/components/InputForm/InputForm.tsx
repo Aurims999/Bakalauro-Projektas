@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../Others/Button/Button";
 import TextField from "./TextField";
@@ -12,6 +13,8 @@ export default function InputForm(image) {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
+
+  const navigate = useNavigate();
 
   const categories = {
     dataType: "categories",
@@ -65,11 +68,10 @@ export default function InputForm(image) {
       .then((response) => response.json())
       .then((data) => {
         console.log("Form submitted successfully", data);
-        // Handle response from server if needed
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
-        // Handle error
       });
   };
 
