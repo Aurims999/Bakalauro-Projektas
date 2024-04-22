@@ -81,6 +81,7 @@ export default function InputForm(image) {
         name={"postTitle"}
         placeHolder={"Choose title for your memory"}
         onChangeMethod={handleTitleChange}
+        required={true}
       />
       <TextField
         title={"Description"}

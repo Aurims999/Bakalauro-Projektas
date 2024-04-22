@@ -180,7 +180,6 @@ router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
 
   const postData = {
-    id: "TestID",
     author: "User123",
     image: "URL",
     title: title,
