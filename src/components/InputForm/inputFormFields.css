@@ -58,6 +58,25 @@ input.input-imageField {
   display: none;
 }
 
+.input-textField {
+  height: 50px;
+  width: 100%;
+
+  margin-bottom: 10px;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--main__black);
+
+  font-family: inherit;
+  font-size: 1.15rem;
+
+  &:focus {
+    border-bottom: 1px solid var(--main__black);
+  }
+}
+
 .input-radioField {
   width: 100%;
   display: flex;
