@@ -9,6 +9,19 @@ import "./postUploadPage.css";
 
 export default function PostUploadPage() {
   const [image, setImage] = useState(backgroundImage);
+  const [showImageField, setShowImageField] = useState(true);
+  const [componentMounted, setComponentMounted] = useState(false);
+
+  useEffect(() => {
+    setComponentMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Trigger only when image changes and component is mounted
+    if (componentMounted && image !== backgroundImage) {
+      setShowImageField(false);
+    }
+  }, [image, componentMounted]);
 
   return (
     <div className="uploadPageContainer">
@@ -18,7 +31,7 @@ export default function PostUploadPage() {
           backgroundImage: `url(${image})`,
         }}
       >
-        <ImageField setImage={setImage} />
+        {showImageField && <ImageField setImage={setImage} />}
       </section>
       <section className="postDetailsForm">
         <div className="contentContainer">
