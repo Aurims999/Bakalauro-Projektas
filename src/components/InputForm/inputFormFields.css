@@ -66,6 +66,8 @@ input.input-imageField {
 
   margin: 20px 0px;
 
+  transition: transform 0.15s ease-in, background-color 1s ease-in;
+
   & input {
     display: none;
   }
@@ -88,9 +90,6 @@ input.input-imageField {
     text-transform: capitalize;
     cursor: pointer;
 
-    & .selected {
-    }
-
     & img {
       width: 70%;
       aspect-ratio: 1/1;
@@ -99,11 +98,19 @@ input.input-imageField {
   }
 
   &:hover {
-    filter: brightness(200%);
     transform: scale(1.05);
   }
 
   &:active {
     background-color: rgb(227, 227, 227);
+    transform: translateY(-5px);
+  }
+
+  & input:checked + label {
+    border: none;
+    background-color: var(--main__orange);
+    color: var(--light__white);
+
+    box-shadow: 6px 7px 9px var(--dropShadow_gray);
   }
 }
