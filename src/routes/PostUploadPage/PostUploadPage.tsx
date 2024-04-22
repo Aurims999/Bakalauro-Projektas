@@ -3,14 +3,21 @@ import { useState, useEffect } from "react";
 import ImageField from "../../components/InputForm/ImageField";
 import InputForm from "../../components/InputForm/InputForm";
 
+import backgroundImage from "../../assets/inputPage__background.png";
+
 import "./postUploadPage.css";
 
 export default function PostUploadPage() {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(backgroundImage);
 
   return (
     <div className="uploadPageContainer">
-      <section className="imageUploadField">
+      <section
+        className="imageUploadField"
+        style={{
+          backgroundImage: `url(${image})`,
+        }}
+      >
         <ImageField setImage={setImage} />
       </section>
       <section className="postDetailsForm">
