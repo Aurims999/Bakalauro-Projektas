@@ -1,6 +1,14 @@
+import { useState, useEffect } from "react";
 import "./memory.css";
 
-export default function Memory({ image, title, author, authorImage }) {
+export default function Memory({ image, title, author }) {
+  const [authorNickname, setNickname] = useState("");
+  const [authorImage, setImage] = useState(
+    "./images/users/default__profile.png"
+  );
+
+  useEffect(() => {}, [author]);
+
   return (
     <div className="memory">
       <img
@@ -17,7 +25,7 @@ export default function Memory({ image, title, author, authorImage }) {
           />
           <div className="textBlock">
             <h2 className="title">{title}</h2>
-            <p>{author}</p>
+            <p>{authorNickname}</p>
           </div>
         </div>
         <button>

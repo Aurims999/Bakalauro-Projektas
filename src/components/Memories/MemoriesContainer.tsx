@@ -21,7 +21,6 @@ export default function MemoriesContainer({ data }) {
             image={memory.image}
             title={memory.title}
             author={memory.author}
-            authorImage={"./images/users/example__profilePic-1.jpg"}
           />
         );
       })}
