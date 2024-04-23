@@ -7,7 +7,14 @@ export default function Memory({ image, title, author }) {
     "./images/users/default__profile.png"
   );
 
-  useEffect(() => {}, [author]);
+  useEffect(() => {
+    fetch(`http://localhost:4000/user/${author}`)
+      .then((response) => response.json())
+      .then((user) => {
+        setNickname(user.nickname);
+        setImage(user.image);
+      });
+  }, [author]);
 
   return (
     <div className="memory">
@@ -20,7 +27,7 @@ export default function Memory({ image, title, author }) {
         <div className="memoryDescription">
           <img
             className="authorProfilePic"
-            src={authorImage}
+            src={`./images/users/${authorImage}`}
             alt="Author's profile image"
           />
           <div className="textBlock">
