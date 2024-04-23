@@ -8,7 +8,7 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm(image) {
+export default function InputForm({ image }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);

@@ -17,11 +17,11 @@ const memorySchema = new Schema({
   author: { type: String, required: true },
   image: { type: String, required: true },
   title: { type: String, required: true },
-  description: { type: String },
-  category: { type: String },
-  tags: { type: Array },
+  description: { type: String, default: "" },
+  category: { type: String, default: "" },
+  tags: { type: Array, default: [] },
   amountOfLikes: { type: Number, default: 0 },
-  comments: { type: Array },
+  comments: { type: Array, default: [] },
   isSuspended: { type: Boolean, required: true },
 });
 
