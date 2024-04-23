@@ -7,6 +7,7 @@ import "./container.css";
 export default function MemoriesContainer({ data }) {
   const [memories, setMemories] = useState(data.memories ?? []);
   useEffect(() => {
+    console.log(data);
     if (data && data.memories) {
       setMemories(data.memories);
     }
@@ -20,7 +21,6 @@ export default function MemoriesContainer({ data }) {
             image={memory.image}
             title={memory.title}
             author={memory.author}
-            authorImage={"./images/users/example__profilePic-1.jpg"}
           />
         );
       })}
