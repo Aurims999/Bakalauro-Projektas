@@ -172,12 +172,20 @@ const memories = {
   ],
 };
 
-router.get("/users", (req, res) => {
-  res.send(exampleData);
-});
+router.get("/memories", async (req, res) => {
+  try {
+    const memories = schemas.Memories;
 
-router.get("/memories", (req, res) => {
-  res.send(memories);
+    const allMemories = await memories.find({}).exec();
+    if (allMemories) {
+      res.json({ memories: allMemories });
+    } else {
+      res.status(404).json({ error: "No memories found" });
+    }
+  } catch (error) {
+    console.error("Error fetching memories:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 router.post("/newMemory", async (req, res) => {

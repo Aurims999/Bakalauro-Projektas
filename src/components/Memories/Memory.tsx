@@ -3,7 +3,11 @@ import "./memory.css";
 export default function Memory({ image, title, author, authorImage }) {
   return (
     <div className="memory">
-      <img className="postImage" src={image} alt="Image of the memory" />
+      <img
+        className="postImage"
+        src={`./images/memories/${image}`}
+        alt="Image of the memory"
+      />
       <section className="postInfoContainer">
         <div className="memoryDescription">
           <img

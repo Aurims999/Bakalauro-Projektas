@@ -7,6 +7,7 @@ import "./container.css";
 export default function MemoriesContainer({ data }) {
   const [memories, setMemories] = useState(data.memories ?? []);
   useEffect(() => {
+    console.log(data);
     if (data && data.memories) {
       setMemories(data.memories);
     }
