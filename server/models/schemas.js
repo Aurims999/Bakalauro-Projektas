@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  id: { type: String, required: true },
   role: { type: String, required: true },
   nickname: { type: String, required: true },
   password: { type: String, required: true },
@@ -14,21 +13,19 @@ const userSchema = new Schema({
 });
 
 const memorySchema = new Schema({
-  id: { type: String, required: true },
   uploadDate: { type: Date, default: Date.now, required: true },
   author: { type: String, required: true },
   image: { type: String, required: true },
   title: { type: String, required: true },
-  description: { type: String },
-  category: { type: String },
-  tags: { type: Array },
+  description: { type: String, default: "" },
+  category: { type: String, default: "" },
+  tags: { type: Array, default: [] },
   amountOfLikes: { type: Number, default: 0 },
-  comments: { type: Array },
+  comments: { type: Array, default: [] },
   isSuspended: { type: Boolean, required: true },
 });
 
 const commentSchema = new Schema({
-  id: { type: String, required: true },
   uploadDate: { type: Date, default: Date.now, required: true },
   author: { type: String, required: true },
   text: { type: String, required: true },
@@ -37,7 +34,6 @@ const commentSchema = new Schema({
 });
 
 const messageSchema = new Schema({
-  id: { type: String, required: true },
   createDate: { type: Date, default: Date.now, required: true },
   text: { type: String, required: true },
   messageType: { type: String, required: true },

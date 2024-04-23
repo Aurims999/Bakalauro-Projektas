@@ -6,6 +6,7 @@ export default function TextField({
   name,
   placeHolder,
   onChangeMethod,
+  required = false,
 }) {
   return (
     <>
@@ -17,6 +18,7 @@ export default function TextField({
         className="input-textField"
         placeholder={placeHolder}
         onChange={onChangeMethod}
+        {...(required ? { required: "required" } : {})}
       />
     </>
   );

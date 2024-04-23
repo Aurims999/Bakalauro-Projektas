@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const schemas = require("../models/schemas");
 
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
+const fs = require("fs");
+
 const exampleData = {
   users: [
     {
@@ -179,24 +183,48 @@ router.get("/memories", (req, res) => {
 router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
 
-  const postData = {
-    id: "TestID",
-    author: "User123",
-    image: "URL",
-    title: title,
-    description: description,
-    category: category,
-    tags: tags,
-    comments: [],
-    isSuspended: false,
-  };
-  const newPost = new schemas.Memories(postData);
-  const savePost = await newPost.save();
-  if (savePost) {
-    res.send("New post was added successfully!");
-  }
+  //Decoding the image that was imported
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const buffer = Buffer.from(base64Data, "base64");
 
-  res.end();
+  //Generating an ID for the image (which will be use for image naming in local storage)
+  const randomId = uuidv4();
+  const imageName = `${randomId}.png`;
+
+  const imagePath = path.join(
+    __dirname,
+    "../../public/images/memories",
+    imageName
+  );
+
+  try {
+    //Saving image to local storage
+    fs.writeFileSync(imagePath, buffer);
+
+    // New post's data
+    const postData = {
+      author: "6627cd702a16495ae9260b8c",
+      image: imageName,
+      title: title,
+      description: description,
+      category: category,
+      tags: tags,
+      comments: [],
+      isSuspended: false,
+    };
+
+    const newPost = new schemas.Memories(postData);
+    const savePost = await newPost.save();
+
+    if (savePost) {
+      res.json({ message: "New post was added successfully!" });
+    } else {
+      res.status(500).json({ error: "Failed to save post." });
+    }
+  } catch (error) {
+    console.error("Error saving image:", error);
+    res.status(500).json({ error: "Failed to save image." });
+  }
 });
 
 module.exports = router;

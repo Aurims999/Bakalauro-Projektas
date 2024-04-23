@@ -17,20 +17,6 @@ form {
     margin: 0.75rem 0px;
   }
 
-  & input.input-textField {
-    height: 50px;
-    width: 100%;
-
-    margin-bottom: 10px;
-
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid var(--main__black);
-
-    font-family: inherit;
-    font-size: 1.15rem;
-  }
-
   & .buttons {
     display: flex;
     justify-content: start;

@@ -2,8 +2,16 @@ import "./inputFormFields.css";
 
 export default function ImageField({ setImage }) {
   const handleImageUpload = (event) => {
-    const image = event.target.files[0];
-    setImage(image);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    if (file) {
+      reader.readAsDataURL(file); // Read the file as data URL
+    }
+
+    reader.onload = () => {
+      setImage(reader.result); // Set the image data URL as state
+    };
   };
 
   return (
@@ -20,7 +28,7 @@ export default function ImageField({ setImage }) {
         name="imageUploadField"
         id="img-upload"
         className="input-imageField"
-        onClick={handleImageUpload}
+        onChange={handleImageUpload}
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../Others/Button/Button";
 import TextField from "./TextField";
@@ -7,11 +8,13 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm(image) {
+export default function InputForm({ image }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
+
+  const navigate = useNavigate();
 
   const categories = {
     dataType: "categories",
@@ -65,11 +68,10 @@ export default function InputForm(image) {
       .then((response) => response.json())
       .then((data) => {
         console.log("Form submitted successfully", data);
-        // Handle response from server if needed
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
-        // Handle error
       });
   };
 
@@ -81,6 +83,7 @@ export default function InputForm(image) {
         name={"postTitle"}
         placeHolder={"Choose title for your memory"}
         onChangeMethod={handleTitleChange}
+        required={true}
       />
       <TextField
         title={"Description"}

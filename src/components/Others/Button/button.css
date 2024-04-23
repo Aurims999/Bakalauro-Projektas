@@ -14,7 +14,7 @@
   border: none;
   border-radius: 10px;
 
-  filter: drop-shadow(6px 4px 6px #8c8c8c);
+  filter: drop-shadow(6px 4px 6px var(--dropShadow__gray));
   transition: background-color 0.2s ease-out;
   cursor: pointer;
 

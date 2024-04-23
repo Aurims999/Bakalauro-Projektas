@@ -58,13 +58,34 @@ input.input-imageField {
   display: none;
 }
 
+.input-textField {
+  height: 50px;
+  width: 100%;
+
+  margin-bottom: 10px;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--main__black);
+
+  font-family: inherit;
+  font-size: 1.15rem;
+
+  &:focus {
+    border-bottom: 1px solid var(--main__black);
+  }
+}
+
 .input-radioField {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  margin: 20px 10px;
+  margin: 20px 0px;
+
+  transition: transform 0.15s ease-in, background-color 1s ease-in;
 
   & input {
     display: none;
@@ -88,10 +109,6 @@ input.input-imageField {
     text-transform: capitalize;
     cursor: pointer;
 
-    & .selected{
-      
-    }
-
     & img {
       width: 70%;
       aspect-ratio: 1/1;
@@ -100,11 +117,19 @@ input.input-imageField {
   }
 
   &:hover {
-    filter: brightness(200%);
     transform: scale(1.05);
   }
 
   &:active {
     background-color: rgb(227, 227, 227);
+    transform: translateY(-5px);
+  }
+
+  & input:checked + label {
+    border: none;
+    background-color: var(--main__orange);
+    color: var(--light__white);
+
+    box-shadow: 6px 7px 9px var(--dropShadow_gray);
   }
 }
