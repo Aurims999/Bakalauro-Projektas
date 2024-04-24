@@ -8,9 +8,7 @@ dialog.memoryModal {
   transform: translate(-50%, -50%);
 
   border: none;
-  border-radius: 10px;
-
-  background-color: aquamarine;
+  border-radius: 30px;
 
   animation-name: fadeIn;
   animation-duration: 0.5s;
@@ -23,7 +21,6 @@ dialog.memoryModal {
     margin: 0;
 
     height: 100%;
-    background-color: brown;
 
     & .imageDisplay {
       width: 35%;
@@ -48,17 +45,17 @@ dialog.memoryModal {
       height: 90%;
 
       margin-right: 40px;
-      background-color: wheat;
+      font-family: var(--mainFont);
 
       & section.header {
-        background-color: cornflowerblue;
         height: 25%;
         display: flex;
         justify-content: space-between;
         align-items: center;
 
+        border-bottom: 1px solid #33323254;
+
         & .info {
-          background-color: aquamarine;
           height: 100%;
           width: 100%;
           & .title {
@@ -80,13 +77,15 @@ dialog.memoryModal {
       }
 
       & section.description {
-        background-color: rgb(214, 100, 237);
         height: 25%;
 
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: start;
+
+        font-weight: 500;
+        font-size: 1.25rem;
 
         & .tags {
           display: flex;
@@ -97,16 +96,37 @@ dialog.memoryModal {
       }
 
       & section.comments {
-        background-color: rgb(202, 151, 12);
         height: 50%;
       }
     }
   }
 
   & button.exit {
+    width: 75px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
-    top: 5%;
-    left: 5%;
+    top: 2%;
+    left: 1.5%;
+
+    background-color: var(--main__purple);
+    box-shadow: 5px 5px 10px var(--dropShadow__gray);
+    cursor: pointer;
+
+    & img {
+      height: 50%;
+      aspect-ratio: 1/1;
+    }
+
+    &:hover {
+      filter: brightness(90%);
+    }
   }
 
   &::backdrop {

@@ -1,0 +1,10 @@
+.tag {
+  padding: 8px 20px;
+  border-radius: 20px;
+
+  background-color: var(--main__orange);
+
+  font-family: var(-mainFont);
+  font-weight: bold;
+  color: white;
+}

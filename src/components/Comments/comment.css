@@ -3,10 +3,11 @@
   justify-content: start;
   align-items: center;
   height: fit-content;
-  background-color: aqua;
 
   margin-bottom: 10px;
   gap: 10px;
+
+  font-size: 1.15rem;
 
   & .image {
     height: 100%;

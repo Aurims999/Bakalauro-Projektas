@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 
 import UserImage from "../../Others/UserImage/UserImage";
-import Like from "../../Others/Like/Like";
 import CommentsContainer from "../../Comments/CommentsContainer";
 import CommentInput from "../../Comments/CommentInput";
+
+import Like from "../../Others/Like/Like";
+import Tag from "../../Others/Tag/Tag";
 
 import "./memoryModal.css";
 
@@ -47,8 +49,8 @@ export default function MemoryModal({ openModal, closeModal }) {
               saepe velit maiores? Molestiae.
             </p>
             <div className="tags">
-              <p>Holidays</p>
-              <p>Shops</p>
+              <Tag>Mall</Tag>
+              <Tag>Shops</Tag>
             </div>
           </section>
 
@@ -60,7 +62,7 @@ export default function MemoryModal({ openModal, closeModal }) {
         </section>
       </div>
       <button className="exit" onClick={closeModal}>
-        Close
+        <img src="./icons/arrow-white.png" alt="Modal exit button" />
       </button>
     </dialog>
   );
