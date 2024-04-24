@@ -1,0 +1,9 @@
+img.authorProfilePic {
+  height: 60%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+
+  border: 5px solid var(--main__orange);
+  border-radius: 50%;
+}

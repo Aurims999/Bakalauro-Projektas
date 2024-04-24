@@ -1,7 +1,6 @@
 dialog.memoryModal {
   width: 80vw;
-  height: 70vh;
-  padding: 20px 30px;
+  height: 90vh;
 
   position: fixed;
   top: 50%;
@@ -11,9 +10,109 @@ dialog.memoryModal {
   border: none;
   border-radius: 10px;
 
+  background-color: aquamarine;
+
   animation-name: fadeIn;
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  & .modal-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+
+    height: 100%;
+    background-color: brown;
+
+    & .imageDisplay {
+      width: 35%;
+      height: 90%;
+
+      margin: 0px 40px;
+
+      border-radius: 25px;
+
+      background-color: violet;
+
+      & img {
+        width: 100%;
+        height: 100%;
+
+        border-radius: inherit;
+      }
+    }
+
+    & section.content {
+      width: 60%;
+      height: 90%;
+
+      margin-right: 40px;
+      background-color: wheat;
+
+      & section.header {
+        background-color: cornflowerblue;
+        height: 25%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & .info {
+          background-color: aquamarine;
+          height: 100%;
+          width: 100%;
+          & .title {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 25px;
+          }
+        }
+
+        & .category {
+          height: 100%;
+          aspect-ratio: 1/1;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      & section.description {
+        background-color: rgb(214, 100, 237);
+        height: 25%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: start;
+
+        & .tags {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+
+      & section.comments {
+        background-color: rgb(202, 151, 12);
+        height: 50%;
+      }
+    }
+  }
+
+  & button.exit {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+  }
+
+  &::backdrop {
+    background-color: var(--main__purple);
+    opacity: 0.4;
+  }
 }
 
 @keyframes fadeIn {

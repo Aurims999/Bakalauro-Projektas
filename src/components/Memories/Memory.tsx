@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+
+import UserImage from "../Others/UserImage/UserImage";
+import Like from "../Others/Like/Like";
+
 import "./memory.css";
 
 export default function Memory({ image, title, author }) {
@@ -25,19 +29,13 @@ export default function Memory({ image, title, author }) {
       />
       <section className="postInfoContainer">
         <div className="memoryDescription">
-          <img
-            className="authorProfilePic"
-            src={`./images/users/${authorImage}`}
-            alt="Author's profile image"
-          />
+          <UserImage userImage={`./images/users/${authorImage}`} />
           <div className="textBlock">
             <h2 className="title">{title}</h2>
             <p>{authorNickname}</p>
           </div>
         </div>
-        <button>
-          <img src="./icons/heart-empty.png" alt="Like button" />
-        </button>
+        <Like />
       </section>
     </div>
   );
