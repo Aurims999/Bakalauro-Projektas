@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 
 import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
+import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
 export default function MainPage() {
   const [memories, setMemory] = useState([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:4000/memories")
@@ -23,6 +25,8 @@ export default function MainPage() {
         link={"new-memory"}
       />
       <MemoriesContainer data={memories} />
+      <button onClick={() => setModal(true)}>Open modal</button>
+      <MemoryModal openModal={modal} closeModal={() => setModal(false)} />
     </main>
   );
 }
