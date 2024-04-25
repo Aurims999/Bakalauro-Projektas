@@ -24,6 +24,37 @@ router.get("/memories", async (req, res) => {
   }
 });
 
+router.get("/memory/:id", async (req, res) => {
+  const memories = schemas.Memories;
+  const users = schemas.Users;
+
+  try {
+    const selectedMemory = await memories.findById(req.params.id);
+    const selectedUser = await users.findById(selectedMemory.author);
+
+    if (selectedMemory) {
+      const response = {
+        image: selectedMemory.image,
+        title: selectedMemory.title,
+        profilePic: selectedUser.profileImage,
+        username: selectedUser.nickname,
+        description: selectedMemory.description,
+        category: selectedMemory.category,
+        tags: selectedMemory.tags,
+        likes: selectedMemory.amountOfLikes,
+        comments: selectedMemory.comments,
+        suspended: selectedMemory.isSuspended,
+      };
+      res.json(response);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log("Error retrieving user's data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
+
 router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
 
