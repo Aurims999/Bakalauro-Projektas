@@ -8,3 +8,8 @@ h1 {
 
   color: var(--main__black);
 }
+
+input {
+  border: none;
+  outline: none;
+}

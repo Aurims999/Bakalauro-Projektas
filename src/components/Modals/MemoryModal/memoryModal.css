@@ -81,7 +81,8 @@ dialog.memoryModal {
 
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: center;
+        gap: 25px;
         align-items: start;
 
         font-weight: 500;

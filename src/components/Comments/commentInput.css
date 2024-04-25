@@ -1,9 +1,54 @@
-input.addComment {
-  width: 80%;
-  height: 13%;
-}
+.commentInputSection {
+  width: 100%;
+  height: 22%;
 
-.postComment {
-  width: 20%;
-  height: 13%;
+  display: flex;
+  justify-content: end;
+
+  & input.addComment {
+    width: 80%;
+    height: 65%;
+
+    padding-left: 10px;
+
+    border: none;
+    border-bottom: 1px solid #33323254;
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    &::placeholder {
+      opacity: 0.5;
+      font-family: inherit;
+    }
+  }
+
+  & button.postComment {
+    width: 20%;
+    height: 65%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #33323254;
+
+    & p {
+      color: var(--main__purple);
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    & img {
+      height: 25px;
+    }
+
+    &:hover {
+      filter: brightness(80%);
+      cursor: pointer;
+    }
+  }
 }
