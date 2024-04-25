@@ -6,6 +6,7 @@ import CommentInput from "../../Comments/CommentInput";
 
 import Like from "../../Others/Like/Like";
 import Tag from "../../Others/Tag/Tag";
+import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
@@ -38,10 +39,9 @@ export default function MemoryModal({ openModal, closeModal }) {
               </div>
             </div>
             <div className="category">
-              <p>Category Bubble</p>
+              <Category>accommodation</Category>
             </div>
           </section>
-
           <section className="description">
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -53,7 +53,6 @@ export default function MemoryModal({ openModal, closeModal }) {
               <Tag>Shops</Tag>
             </div>
           </section>
-
           <section className="comments">
             <h2>Comments</h2>
             <CommentsContainer />
