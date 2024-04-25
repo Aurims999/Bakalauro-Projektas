@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import UserImage from "../../Others/UserImage/UserImage";
 import CommentsContainer from "../../Comments/CommentsContainer";
@@ -10,8 +10,21 @@ import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
-export default function MemoryModal({ openModal, closeModal }) {
+export default function MemoryModal({ memoryId, openModal, closeModal }) {
   const ref = useRef();
+
+  const [img, setImage] = useState("./images/memories/default__image.png");
+  const [memoryTitle, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [username, setUsername] = useState("");
+  const [userImage, setUserImage] = useState(
+    "./images/users/default__profile.png"
+  );
+  const [tags, setTags] = useState([]);
+  const [description, setDescription] = useState("");
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {}, [memoryId]);
 
   useEffect(() => {
     if (openModal) {
@@ -25,32 +38,29 @@ export default function MemoryModal({ openModal, closeModal }) {
     <dialog ref={ref} onCancel={closeModal} className="memoryModal">
       <div className="modal-container">
         <div className="imageDisplay">
-          <img src="./images/memories/default__image.png" alt="Memory Image" />
+          <img src={img} alt="Memory Image" />
         </div>
         <section className="content">
           <section className="header">
             <div className="info">
               <div className="title">
-                <h1>Title</h1>
+                <h1>{memoryTitle}</h1>
                 <Like />
               </div>
               <div className="userInfo">
-                <UserImage size="60px" />
+                <UserImage size="60px" userImage={userImage} />
+                <p>{username}</p>
               </div>
             </div>
             <div className="category">
-              <Category>accommodation</Category>
+              <Category>{category}</Category>
             </div>
           </section>
           <section className="description">
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Exercitationem, rerum? Reiciendis tenetur eius eaque quos modi
-              saepe velit maiores? Molestiae.
-            </p>
+            <p>{description}</p>
             <div className="tags">
-              <Tag>Mall</Tag>
-              <Tag>Shops</Tag>
+              <Tag>Example tag 1</Tag>
+              <Tag>Example tag 2</Tag>
             </div>
           </section>
           <section className="comments">

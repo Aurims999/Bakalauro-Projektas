@@ -64,6 +64,18 @@ dialog.memoryModal {
             align-items: center;
             gap: 25px;
           }
+
+          & .userInfo {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 20px;
+
+            & p {
+              font-size: 1.15rem;
+              font-weight: bold;
+            }
+          }
         }
 
         & .category {

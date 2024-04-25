@@ -25,7 +25,6 @@ export default function MainPage() {
         link={"new-memory"}
       />
       <MemoriesContainer data={memories} setModal={setModal} />
-      <button onClick={() => setModal(true)}>Open modal</button>
       <MemoryModal openModal={modal} closeModal={() => setModal(false)} />
     </main>
   );
