@@ -37,6 +37,8 @@ dialog.memoryModal {
         height: 100%;
 
         border-radius: inherit;
+        object-fit: cover;
+        object-position: center;
       }
     }
 

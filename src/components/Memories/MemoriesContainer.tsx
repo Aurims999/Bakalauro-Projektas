@@ -4,10 +4,13 @@ import Memory from "./Memory";
 
 import "./container.css";
 
-export default function MemoriesContainer({ data, setModal }) {
+export default function MemoriesContainer({
+  data,
+  setModal,
+  setMemorySelection,
+}) {
   const [memories, setMemories] = useState(data.memories ?? []);
   useEffect(() => {
-    console.log(data);
     if (data && data.memories) {
       setMemories(data.memories);
     }
@@ -18,10 +21,12 @@ export default function MemoriesContainer({ data, setModal }) {
       {memories.map((memory) => {
         return (
           <Memory
+            id={memory._id}
             image={memory.image}
             title={memory.title}
             author={memory.author}
             setModal={setModal}
+            setSelection={setMemorySelection}
           />
         );
       })}

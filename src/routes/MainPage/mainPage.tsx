@@ -7,6 +7,7 @@ import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 export default function MainPage() {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
+  const [selectedMemoryID, setID] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:4000/memories")
@@ -24,8 +25,16 @@ export default function MainPage() {
         innerText={"Share your memory"}
         link={"new-memory"}
       />
-      <MemoriesContainer data={memories} setModal={setModal} />
-      <MemoryModal openModal={modal} closeModal={() => setModal(false)} />
+      <MemoriesContainer
+        data={memories}
+        setModal={setModal}
+        setMemorySelection={setID}
+      />
+      <MemoryModal
+        memoryId={selectedMemoryID}
+        openModal={modal}
+        closeModal={() => setModal(false)}
+      />
     </main>
   );
 }

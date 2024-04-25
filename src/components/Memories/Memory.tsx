@@ -5,7 +5,15 @@ import Like from "../Others/Like/Like";
 
 import "./memory.css";
 
-export default function Memory({ image, title, author, setModal }) {
+export default function Memory({
+  id,
+  image,
+  title,
+  author,
+  setModal,
+  setSelection,
+}) {
+  const [memoryId, setID] = useState(id);
   const [authorNickname, setNickname] = useState("");
   const [authorImage, setImage] = useState(
     "./images/users/default__profile.png"
@@ -26,7 +34,11 @@ export default function Memory({ image, title, author, setModal }) {
         className="postImage"
         src={`./images/memories/${image}`}
         alt="Image of the memory"
-        onClick={() => setModal(true)}
+        onClick={() => {
+          setModal(true);
+          setSelection(memoryId);
+          console.log(memoryId);
+        }}
       />
       <section className="postInfoContainer">
         <div className="memoryDescription">

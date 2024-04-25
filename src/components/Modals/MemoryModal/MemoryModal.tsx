@@ -10,7 +10,11 @@ import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
-export default function MemoryModal({ memoryId, openModal, closeModal }) {
+export default function MemoryModal({
+  memoryId = "6627b910c2987c458cdebcb2",
+  openModal,
+  closeModal,
+}) {
   const ref = useRef();
 
   const [img, setImage] = useState("./images/memories/default__image.png");
@@ -22,9 +26,24 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
   );
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
+  const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {}, [memoryId]);
+  useEffect(() => {
+    fetch(`http://localhost:4000/memory/${memoryId}`)
+      .then((response) => response.json())
+      .then((memory) => {
+        setImage(memory.image);
+        setTitle(memory.title);
+        setUserImage(memory.profilePic);
+        setUsername(memory.username);
+        setDescription(memory.description);
+        setCategory(memory.category);
+        setTags(memory.tags);
+        setLikes(memory.likes);
+        setComments(memory.comments);
+      });
+  }, [memoryId]);
 
   useEffect(() => {
     if (openModal) {
@@ -38,7 +57,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
     <dialog ref={ref} onCancel={closeModal} className="memoryModal">
       <div className="modal-container">
         <div className="imageDisplay">
-          <img src={img} alt="Memory Image" />
+          <img src={`./images/memories/${img}`} alt="Memory Image" />
         </div>
         <section className="content">
           <section className="header">
@@ -48,7 +67,10 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
                 <Like />
               </div>
               <div className="userInfo">
-                <UserImage size="60px" userImage={userImage} />
+                <UserImage
+                  size="60px"
+                  userImage={`./images/users/${userImage}`}
+                />
                 <p>{username}</p>
               </div>
             </div>
