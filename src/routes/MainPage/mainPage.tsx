@@ -24,7 +24,7 @@ export default function MainPage() {
         innerText={"Share your memory"}
         link={"new-memory"}
       />
-      <MemoriesContainer data={memories} />
+      <MemoriesContainer data={memories} setModal={setModal} />
       <button onClick={() => setModal(true)}>Open modal</button>
       <MemoryModal openModal={modal} closeModal={() => setModal(false)} />
     </main>

@@ -4,7 +4,7 @@ import Memory from "./Memory";
 
 import "./container.css";
 
-export default function MemoriesContainer({ data }) {
+export default function MemoriesContainer({ data, setModal }) {
   const [memories, setMemories] = useState(data.memories ?? []);
   useEffect(() => {
     console.log(data);
@@ -21,6 +21,7 @@ export default function MemoriesContainer({ data }) {
             image={memory.image}
             title={memory.title}
             author={memory.author}
+            setModal={setModal}
           />
         );
       })}

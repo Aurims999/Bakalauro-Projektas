@@ -5,7 +5,7 @@ import Like from "../Others/Like/Like";
 
 import "./memory.css";
 
-export default function Memory({ image, title, author }) {
+export default function Memory({ image, title, author, setModal }) {
   const [authorNickname, setNickname] = useState("");
   const [authorImage, setImage] = useState(
     "./images/users/default__profile.png"
@@ -26,6 +26,7 @@ export default function Memory({ image, title, author }) {
         className="postImage"
         src={`./images/memories/${image}`}
         alt="Image of the memory"
+        onClick={() => setModal(true)}
       />
       <section className="postInfoContainer">
         <div className="memoryDescription">

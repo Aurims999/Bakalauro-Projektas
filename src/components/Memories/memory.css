@@ -16,6 +16,13 @@
 
     object-fit: cover;
     object-position: center;
+    cursor: pointer;
+
+    transition: transform 0.15s ease-in;
+
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 
   & .postInfoContainer {
