@@ -24,6 +24,23 @@ router.get("/memories", async (req, res) => {
   }
 });
 
+router.get("/memories/:userId", async (req, res) => {
+  try {
+    const memories = schemas.Memories;
+
+    const userMemories = await memories.find({author: req.params.userId}).exec();
+    if (userMemories) {
+      res.json({ memories: userMemories });
+    } else {
+      res.status(404).json({ error: "No memories found" });
+    }
+  } catch (error) {
+    console.error("Error fetching memories:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 router.get("/memory/:id", async (req, res) => {
   const memories = schemas.Memories;
   const users = schemas.Users;
@@ -104,6 +121,7 @@ router.post("/newMemory", async (req, res) => {
 
 router.get("/user/:id", async (req, res) => {
   const users = schemas.Users;
+
   try {
     const selectedUser = await users.findById(req.params.id);
 
