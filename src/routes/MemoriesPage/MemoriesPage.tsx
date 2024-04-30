@@ -10,7 +10,7 @@ export default function MemoriesPage({id}) {
   const [selectedMemoryID, setID] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:4000/memories")
+    fetch(`http://localhost:4000/memories/${id}`)
       .then((response) => response.json())
       .then((memory) => {
         setMemory(memory);
