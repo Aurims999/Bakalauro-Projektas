@@ -1,0 +1,18 @@
+.noData-InfoBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+
+  & img {
+    width: 30%;
+    aspect-ratio: 1/1;
+  }
+
+  & p {
+    font-weight: bold;
+    color: var(--main__purple);
+  }
+}

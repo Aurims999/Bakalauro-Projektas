@@ -13,3 +13,8 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.noComments {
+  justify-content: center;
+  align-items: center;
+}

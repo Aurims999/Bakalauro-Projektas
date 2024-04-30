@@ -17,7 +17,10 @@ function App() {
         <Route path="/" element={<Sidebar />}>
           <Route index element={<MainPage />} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="memories" element={<MemoriesPage id={"123"}/>} />
+          <Route
+            path="memories"
+            element={<MemoriesPage id={"6627cd702a16495ae9260b8c"} />}
+          />
           <Route path="comments" element={<CommentsPage />} />
         </Route>
         <Route path="new-memory" element={<PostUploadPage />}></Route>

@@ -10,11 +10,7 @@ import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
-export default function MemoryModal({
-  memoryId = "6627b910c2987c458cdebcb2",
-  openModal,
-  closeModal,
-}) {
+export default function MemoryModal({ memoryId, openModal, closeModal }) {
   const ref = useRef();
 
   const [img, setImage] = useState("./images/memories/default__image.png");

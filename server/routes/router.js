@@ -28,7 +28,9 @@ router.get("/memories/:userId", async (req, res) => {
   try {
     const memories = schemas.Memories;
 
-    const userMemories = await memories.find({author: req.params.userId}).exec();
+    const userMemories = await memories
+      .find({ author: req.params.userId })
+      .exec();
     if (userMemories) {
       res.json({ memories: userMemories });
     } else {
@@ -39,7 +41,6 @@ router.get("/memories/:userId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 router.get("/memory/:id", async (req, res) => {
   const memories = schemas.Memories;
@@ -71,6 +72,29 @@ router.get("/memory/:id", async (req, res) => {
     res.status(500).json({ error: "Server error occured" });
   }
 });
+
+router.get("/user/:id", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.id);
+
+    if (selectedUser) {
+      const response = {
+        nickname: selectedUser.nickname,
+        image: selectedUser.profileImage,
+      };
+      res.json(response);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log("Error retrieving user's data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
+
+module.exports = router;
 
 router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
@@ -119,25 +143,4 @@ router.post("/newMemory", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
-  const users = schemas.Users;
-
-  try {
-    const selectedUser = await users.findById(req.params.id);
-
-    if (selectedUser) {
-      const response = {
-        nickname: selectedUser.nickname,
-        image: selectedUser.profileImage,
-      };
-      res.json(response);
-    } else {
-      res.status(404).json({ error: "User not found" });
-    }
-  } catch (error) {
-    console.log("Error retrieving user's data: ", error);
-    res.status(500).json({ error: "Server error occured" });
-  }
-});
-
-module.exports = router;
+router.post("/newComment", async (req, res) => {});
