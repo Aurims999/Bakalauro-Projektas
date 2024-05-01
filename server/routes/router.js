@@ -45,10 +45,12 @@ router.get("/memories/:userId", async (req, res) => {
 router.get("/memory/:id", async (req, res) => {
   const memories = schemas.Memories;
   const users = schemas.Users;
+  const comments = schemas.Comments;
 
   try {
     const selectedMemory = await memories.findById(req.params.id);
     const selectedUser = await users.findById(selectedMemory.author);
+    const memoryComments = await comments.findById(selectedMemory.comments);
 
     if (selectedMemory) {
       const response = {
@@ -60,7 +62,7 @@ router.get("/memory/:id", async (req, res) => {
         category: selectedMemory.category,
         tags: selectedMemory.tags,
         likes: selectedMemory.amountOfLikes,
-        comments: selectedMemory.comments,
+        comments: [],
         suspended: selectedMemory.isSuspended,
       };
       res.json(response);
@@ -93,8 +95,6 @@ router.get("/user/:id", async (req, res) => {
     res.status(500).json({ error: "Server error occured" });
   }
 });
-
-module.exports = router;
 
 router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
@@ -143,4 +143,30 @@ router.post("/newMemory", async (req, res) => {
   }
 });
 
-router.post("/newComment", async (req, res) => {});
+router.post("/newComment", async (req, res) => {
+  const { postId, authorId, commentText } = req.body;
+
+  try {
+    const commentData = {
+      post: postId,
+      author: authorId,
+      text: commentText,
+      category: "Positive",
+      isSuspended: false,
+    };
+
+    const newComment = new schemas.Comments(commentData);
+    const saveComment = await newComment.save();
+
+    if (saveComment) {
+      res.json({ message: "Comment was added successfully!" });
+    } else {
+      res.status(500).json({ error: "Failed to add comment." });
+    }
+  } catch (error) {
+    console.error("Error saving memory:", error);
+    res.status(500).json({ error: "Failed to save comment." });
+  }
+});
+
+module.exports = router;

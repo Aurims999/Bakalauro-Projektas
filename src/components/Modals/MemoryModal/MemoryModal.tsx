@@ -26,19 +26,21 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/memory/${memoryId}`)
-      .then((response) => response.json())
-      .then((memory) => {
-        setImage(memory.image);
-        setTitle(memory.title);
-        setUserImage(memory.profilePic);
-        setUsername(memory.username);
-        setDescription(memory.description);
-        setCategory(memory.category);
-        setTags(memory.tags);
-        setLikes(memory.likes);
-        setComments(memory.comments);
-      });
+    if (memoryId) {
+      fetch(`http://localhost:4000/memory/${memoryId}`)
+        .then((response) => response.json())
+        .then((memory) => {
+          setImage(memory.image);
+          setTitle(memory.title);
+          setUserImage(memory.profilePic);
+          setUsername(memory.username);
+          setDescription(memory.description);
+          setCategory(memory.category);
+          setTags(memory.tags);
+          setLikes(memory.likes);
+          setComments(memory.comments);
+        });
+    }
   }, [memoryId]);
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           </section>
           <section className="comments">
             <h2>Comments</h2>
-            <CommentsContainer />
+            <CommentsContainer comments={comments} />
             <CommentInput />
           </section>
         </section>

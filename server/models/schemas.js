@@ -28,6 +28,7 @@ const memorySchema = new Schema({
 const commentSchema = new Schema({
   uploadDate: { type: Date, default: Date.now, required: true },
   author: { type: String, required: true },
+  post: { type: String, required: true },
   text: { type: String, required: true },
   category: { type: String },
   isSuspended: { type: Boolean, required: true },
