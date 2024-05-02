@@ -1,17 +1,26 @@
 import Comment from "./Comment";
-
+import NoData from "../Others/Error-Handling/NoData/NoData";
 import "./commentsContainer.css";
 
-export default function CommentsContainer() {
+export default function CommentsContainer({ comments }) {
   return (
-    <div className="allComments">
-      <Comment>Wonderful post. Keep up the great work</Comment>
-      <Comment>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione
-        corrupti labore ullam ipsum eaq? Minus consequuntur velit accusantium
-        sint impedit commodi!
-      </Comment>
-      <Comment>Hello there. Glad to see you again :D</Comment>
+    <div
+      className={`allComments ${
+        !comments || comments.length === 0 ? "noComments" : ""
+      }`}
+    >
+      {comments && comments.length > 0 ? (
+        comments.map((comment, index) => (
+          <Comment key={index} userId={comment.author}>
+            {comment.text}
+          </Comment>
+        ))
+      ) : (
+        <NoData
+          icon={"./icons/noComments-purple.png"}
+          text={"Be the first to comment under this memory!"}
+        />
+      )}
     </div>
   );
 }

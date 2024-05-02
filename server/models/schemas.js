@@ -28,6 +28,7 @@ const memorySchema = new Schema({
 const commentSchema = new Schema({
   uploadDate: { type: Date, default: Date.now, required: true },
   author: { type: String, required: true },
+  post: { type: String, required: true },
   text: { type: String, required: true },
   category: { type: String },
   isSuspended: { type: Boolean, required: true },
@@ -35,6 +36,7 @@ const commentSchema = new Schema({
 
 const messageSchema = new Schema({
   createDate: { type: Date, default: Date.now, required: true },
+  post: { type: String, required: true },
   text: { type: String, required: true },
   messageType: { type: String, required: true },
   isRead: { type: Boolean, required: true },

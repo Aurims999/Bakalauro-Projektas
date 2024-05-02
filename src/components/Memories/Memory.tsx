@@ -37,7 +37,6 @@ export default function Memory({
         onClick={() => {
           setModal(true);
           setSelection(memoryId);
-          console.log(memoryId);
         }}
       />
       <section className="postInfoContainer">

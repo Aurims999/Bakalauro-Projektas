@@ -10,11 +10,7 @@ import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
-export default function MemoryModal({
-  memoryId = "6627b910c2987c458cdebcb2",
-  openModal,
-  closeModal,
-}) {
+export default function MemoryModal({ memoryId, openModal, closeModal }) {
   const ref = useRef();
 
   const [img, setImage] = useState("./images/memories/default__image.png");
@@ -30,19 +26,22 @@ export default function MemoryModal({
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/memory/${memoryId}`)
-      .then((response) => response.json())
-      .then((memory) => {
-        setImage(memory.image);
-        setTitle(memory.title);
-        setUserImage(memory.profilePic);
-        setUsername(memory.username);
-        setDescription(memory.description);
-        setCategory(memory.category);
-        setTags(memory.tags);
-        setLikes(memory.likes);
-        setComments(memory.comments);
-      });
+    if (memoryId) {
+      fetch(`http://localhost:4000/memory/${memoryId}`)
+        .then((response) => response.json())
+        .then((memory) => {
+          setImage(memory.image);
+          setTitle(memory.title);
+          setUserImage(memory.profilePic);
+          setUsername(memory.username);
+          setDescription(memory.description);
+          setCategory(memory.category);
+          setTags(memory.tags);
+          setLikes(memory.likes);
+          setComments(memory.comments);
+          console.log(comments);
+        });
+    }
   }, [memoryId]);
 
   useEffect(() => {
@@ -87,8 +86,8 @@ export default function MemoryModal({
           </section>
           <section className="comments">
             <h2>Comments</h2>
-            <CommentsContainer />
-            <CommentInput />
+            <CommentsContainer comments={comments} />
+            <CommentInput memoryId={memoryId} setComments={setComments} />
           </section>
         </section>
       </div>

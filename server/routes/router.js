@@ -28,7 +28,9 @@ router.get("/memories/:userId", async (req, res) => {
   try {
     const memories = schemas.Memories;
 
-    const userMemories = await memories.find({author: req.params.userId}).exec();
+    const userMemories = await memories
+      .find({ author: req.params.userId })
+      .exec();
     if (userMemories) {
       res.json({ memories: userMemories });
     } else {
@@ -40,14 +42,15 @@ router.get("/memories/:userId", async (req, res) => {
   }
 });
 
-
 router.get("/memory/:id", async (req, res) => {
   const memories = schemas.Memories;
   const users = schemas.Users;
+  const comments = schemas.Comments;
 
   try {
     const selectedMemory = await memories.findById(req.params.id);
     const selectedUser = await users.findById(selectedMemory.author);
+    const memoryComments = await comments.find({ post: selectedMemory._id });
 
     if (selectedMemory) {
       const response = {
@@ -59,8 +62,29 @@ router.get("/memory/:id", async (req, res) => {
         category: selectedMemory.category,
         tags: selectedMemory.tags,
         likes: selectedMemory.amountOfLikes,
-        comments: selectedMemory.comments,
+        comments: memoryComments,
         suspended: selectedMemory.isSuspended,
+      };
+      res.json(response);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log("Error retrieving user's data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
+
+router.get("/user/:id", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.id);
+
+    if (selectedUser) {
+      const response = {
+        nickname: selectedUser.nickname,
+        image: selectedUser.profileImage,
       };
       res.json(response);
     } else {
@@ -119,24 +143,32 @@ router.post("/newMemory", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
-  const users = schemas.Users;
+router.post("/newComment", async (req, res) => {
+  console.log("Received a request to create new comment");
+  const { postId, author, text } = req.body;
 
   try {
-    const selectedUser = await users.findById(req.params.id);
+    const commentData = {
+      author: author,
+      post: postId,
+      text: text,
+      category: "Positive",
+      isSuspended: false,
+    };
+    console.log(commentData);
 
-    if (selectedUser) {
-      const response = {
-        nickname: selectedUser.nickname,
-        image: selectedUser.profileImage,
-      };
-      res.json(response);
+    const newComment = new schemas.Comments(commentData);
+    const saveComment = await newComment.save();
+
+    if (saveComment) {
+      console.log("Comment was added successfully!");
+      res.json({ message: "Comment was added successfully!" });
     } else {
-      res.status(404).json({ error: "User not found" });
+      res.status(500).json({ error: "Failed to add comment." });
     }
   } catch (error) {
-    console.log("Error retrieving user's data: ", error);
-    res.status(500).json({ error: "Server error occured" });
+    console.error("Error saving memory:", error);
+    res.status(500).json({ error: "Failed to save comment." });
   }
 });
 
