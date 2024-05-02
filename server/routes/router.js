@@ -145,11 +145,11 @@ router.post("/newMemory", async (req, res) => {
 
 router.post("/newComment", async (req, res) => {
   console.log("Received a request to create new comment");
-  const { postId, authorId, text } = req.body;
+  const { postId, author, text } = req.body;
 
   try {
     const commentData = {
-      author: authorId,
+      author: author,
       post: postId,
       text: text,
       category: "Positive",

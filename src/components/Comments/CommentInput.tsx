@@ -21,7 +21,7 @@ export default function CommentInput({ setComments, memoryId }) {
 
     const commentData = {
       postId: memoryId,
-      authorId: commentAuthor,
+      author: commentAuthor,
       text: comment,
     };
 
