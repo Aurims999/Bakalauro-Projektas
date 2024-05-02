@@ -144,16 +144,18 @@ router.post("/newMemory", async (req, res) => {
 });
 
 router.post("/newComment", async (req, res) => {
+  console.log("Received a request to create new comment");
   const { postId, authorId, commentText } = req.body;
 
   try {
     const commentData = {
-      post: postId,
       author: authorId,
+      post: postId,
       text: commentText,
       category: "Positive",
       isSuspended: false,
     };
+    console.log(commentData);
 
     const newComment = new schemas.Comments(commentData);
     const saveComment = await newComment.save();

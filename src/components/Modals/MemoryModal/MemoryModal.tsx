@@ -86,7 +86,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           <section className="comments">
             <h2>Comments</h2>
             <CommentsContainer comments={comments} />
-            <CommentInput />
+            <CommentInput memoryId={memoryId} />
           </section>
         </section>
       </div>
