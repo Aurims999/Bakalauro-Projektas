@@ -11,7 +11,7 @@ export default function CommentsContainer({ comments }) {
     >
       {comments && comments.length > 0 ? (
         comments.map((comment, index) => (
-          <Comment key={index}>{comment}</Comment>
+          <Comment key={index}>{comment.text}</Comment>
         ))
       ) : (
         <NoData

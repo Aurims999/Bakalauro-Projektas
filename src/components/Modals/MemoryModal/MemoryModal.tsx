@@ -39,6 +39,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           setTags(memory.tags);
           setLikes(memory.likes);
           setComments(memory.comments);
+          console.log(comments);
         });
     }
   }, [memoryId]);

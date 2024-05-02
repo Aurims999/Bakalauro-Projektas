@@ -50,7 +50,7 @@ router.get("/memory/:id", async (req, res) => {
   try {
     const selectedMemory = await memories.findById(req.params.id);
     const selectedUser = await users.findById(selectedMemory.author);
-    const memoryComments = await comments.findById(selectedMemory.comments);
+    const memoryComments = await comments.find({ post: selectedMemory._id });
 
     if (selectedMemory) {
       const response = {
@@ -62,7 +62,7 @@ router.get("/memory/:id", async (req, res) => {
         category: selectedMemory.category,
         tags: selectedMemory.tags,
         likes: selectedMemory.amountOfLikes,
-        comments: [],
+        comments: memoryComments,
         suspended: selectedMemory.isSuspended,
       };
       res.json(response);
@@ -161,6 +161,7 @@ router.post("/newComment", async (req, res) => {
     const saveComment = await newComment.save();
 
     if (saveComment) {
+      console.log("Comment was added successfully!");
       res.json({ message: "Comment was added successfully!" });
     } else {
       res.status(500).json({ error: "Failed to add comment." });
