@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
+import GuestPage from "./routes/GuestPage/GuestPage";
+
 import Sidebar from "./routes/Sidebar/Sidebar";
 import MainPage from "./routes/MainPage/mainPage";
 import MessagesPage from "./routes/MessagesPage/MessagesPage";
@@ -14,6 +16,7 @@ function App() {
   return (
     <div className="appContainer">
       <Routes>
+        <Route path="guestpage" element={<GuestPage />} />
         <Route path="/" element={<Sidebar />}>
           <Route index element={<MainPage />} />
           <Route path="messages" element={<MessagesPage />} />

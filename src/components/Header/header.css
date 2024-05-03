@@ -1,0 +1,20 @@
+.header {
+  height: fit-content;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 4rem;
+
+  background-color: var(--main__white);
+  box-shadow: 0px 5px 40px var(--dropShadow__gray);
+
+  & img {
+    height: 100px;
+  }
+
+  & button {
+    padding: 1rem 6rem;
+  }
+}
