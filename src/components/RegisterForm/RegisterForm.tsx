@@ -1,14 +1,20 @@
-import "./loginForm.css";
-import { Link } from "react-router-dom";
-
 import TextField from "../InputForm/TextField";
 import SubmitButton from "../InputForm/SubmitButton";
 import Button from "../Others/Button/Button";
 
-export default function LoginForm() {
+import "./registerForm.css";
+
+export default function RegisterForm() {
   return (
-    <div className="loginContainer">
-      <h1>Login</h1>
+    <div className="registerForm">
+      <h1>Register New Account</h1>
+      <TextField
+        title={"Email"}
+        id={"email"}
+        name={"email"}
+        placeHolder={"Enter your e-mail"}
+        required={true}
+      />
       <TextField
         title={"Username"}
         id={"username"}
@@ -24,17 +30,19 @@ export default function LoginForm() {
         placeHolder={"Enter your password"}
         required={true}
       />
-      <p className="register-message">
-        Dont have an account yet?{" "}
-        <Link to={"register"} className="link">
-          Make a new account by clicking here!
-        </Link>
-      </p>
+      <TextField
+        title={"Repeat Password"}
+        id={"re-password"}
+        name={"re-password"}
+        type={"password"}
+        placeHolder={"Repeat your password"}
+        required={true}
+      />
       <div className="buttons">
-        <SubmitButton text={"Login"} />
+        <SubmitButton text={"Create new Account"} />
         <Button
-          innerText={"Cancel"}
-          link={"/guestpage"}
+          innerText={"Go Back"}
+          link={".."}
           buttonColor={"var(--light__purple)"}
           textColor={"var(--main__black)"}
         />

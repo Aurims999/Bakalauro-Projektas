@@ -67,12 +67,17 @@ input.input-imageField {
   background-color: transparent;
   border-bottom: 1px solid var(--main__black);
 
-  font-family: inherit;
+  font-family: var(--mainFont);
   font-size: 1.15rem;
 
-  &:focus {
+  & &:focus {
     border-bottom: 1px solid var(--main__black);
   }
+}
+
+.label-textField {
+  font-family: var(--headlineFont);
+  font-weight: bold;
 }
 
 .input-radioField {

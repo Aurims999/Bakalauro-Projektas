@@ -4,6 +4,7 @@ export default function TextField({
   title,
   id,
   name,
+  type = "text",
   placeHolder,
   onChangeMethod,
   required = false,
@@ -14,7 +15,7 @@ export default function TextField({
         {title}
       </label>
       <input
-        type="text"
+        type={type}
         id={id}
         name={name}
         className="input-textField"
