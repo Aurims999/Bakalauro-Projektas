@@ -1,11 +1,11 @@
 .header {
-  height: fit-content;
+  height: 15%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 1rem 4rem;
+  padding: 1rem 7rem;
 
   background-color: var(--main__white);
   box-shadow: 0px 5px 40px var(--dropShadow__gray);
