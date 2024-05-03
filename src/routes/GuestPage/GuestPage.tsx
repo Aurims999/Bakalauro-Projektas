@@ -19,7 +19,7 @@ export default function MessagesPage() {
             Share your trip experience with your friends and find some
             inspiration for your next trip!
           </h2>
-          <Button innerText={"Try it Out"} />
+          <Button innerText={"Try it Out"} link={"/login"} />
         </section>
         <section className="visuals">
           <img

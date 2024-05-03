@@ -1,11 +1,11 @@
 import "./loginpage.css";
 
-import Button from "../../../components/Others/Button/Button";
+import LoginForm from "../../../components/Login/LoginForm";
 
 export default function LoginPage() {
   return (
-    <section className="login">
-      <h1>Login component</h1>
+    <section className="login-container">
+      <LoginForm />
     </section>
   );
 }

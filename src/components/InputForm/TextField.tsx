@@ -10,7 +10,9 @@ export default function TextField({
 }) {
   return (
     <>
-      <label htmlFor={id}>{title}</label>
+      <label htmlFor={id} className="label-textField">
+        {title}
+      </label>
       <input
         type="text"
         id={id}

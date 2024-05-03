@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <section className="header">
       <img src="./icons/logo-full.png" alt="logo" />
-      <Button innerText={"Login"} />
+      <Button innerText={"Login"} link={"/login"} />
     </section>
   );
 }
