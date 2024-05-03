@@ -1,7 +1,8 @@
-import "./guestPage.css";
-
 import Header from "../../components/Header/Header";
 import Button from "../../components/Others/Button/Button";
+
+import "./guestPage.css";
+import "../../assets/animations/animations.css";
 
 export default function MessagesPage() {
   return (
