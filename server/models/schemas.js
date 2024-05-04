@@ -5,11 +5,14 @@ const userSchema = new Schema({
   role: { type: String, required: true },
   nickname: { type: String, required: true },
   password: { type: String, required: true },
-  profileImage: { type: String },
+  profileImage: {
+    type: String,
+    default: "./images/users/default__profile.png",
+  },
   posts: { type: Array },
   comments: { type: Array },
   messages: { type: Array },
-  isSuspended: { type: Boolean, required: true },
+  isSuspended: { type: Boolean, default: false, required: true },
 });
 
 const memorySchema = new Schema({

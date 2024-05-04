@@ -17,7 +17,6 @@ export default function PostUploadPage() {
   }, []);
 
   useEffect(() => {
-    // Trigger only when image changes and component is mounted
     if (componentMounted && image !== backgroundImage) {
       setShowImageField(false);
     }

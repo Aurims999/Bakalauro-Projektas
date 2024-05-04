@@ -5,9 +5,12 @@ const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const fs = require("fs");
 
+const argon2 = require("argon2");
+
 const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
 
+// #region === Memories ===
 router.get("/memories", async (req, res) => {
   try {
     const memories = schemas.Memories;
@@ -75,27 +78,6 @@ router.get("/memory/:id", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
-  const users = schemas.Users;
-
-  try {
-    const selectedUser = await users.findById(req.params.id);
-
-    if (selectedUser) {
-      const response = {
-        nickname: selectedUser.nickname,
-        image: selectedUser.profileImage,
-      };
-      res.json(response);
-    } else {
-      res.status(404).json({ error: "User not found" });
-    }
-  } catch (error) {
-    console.log("Error retrieving user's data: ", error);
-    res.status(500).json({ error: "Server error occured" });
-  }
-});
-
 router.post("/newMemory", async (req, res) => {
   const { title, description, tags, category, image } = req.body;
 
@@ -142,7 +124,67 @@ router.post("/newMemory", async (req, res) => {
     res.status(500).json({ error: "Failed to save image." });
   }
 });
+// #endregion ================
 
+// #region === User Management ===
+router.get("/user/:id", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.id);
+
+    if (selectedUser) {
+      const response = {
+        nickname: selectedUser.nickname,
+        image: selectedUser.profileImage,
+      };
+      res.json(response);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log("Error retrieving user's data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
+
+router.post("/register", async (req, res) => {
+  const users = schemas.Users;
+  const { username, password } = req.body;
+
+  try {
+    const existingUsers = await users.find({ nickname: username });
+    if (existingUsers.length > 0) {
+      res.status(400).json({ message: "Username already taken" });
+    } else {
+      const hashedPassword = await argon2.hash(password);
+      const newUserData = {
+        role: "USER",
+        nickname: username,
+        password: hashedPassword,
+      };
+      console.log(newUserData);
+
+      const newUser = new schemas.Users(newUserData);
+      const savedUserData = await newUser.save();
+
+      if (savedUserData) {
+        console.log("New user was registered successfully!");
+        res
+          .status(200)
+          .json({ message: "New user was registered successfully!" });
+      } else {
+        res.status(500).json({ error: "Failed to register new user" });
+      }
+    }
+  } catch (error) {
+    console.error("Error registering new user:", error);
+    res.status(500).json({ error: "Failed to save comment." });
+  }
+});
+// #endregion ================
+
+// #region === Comments ===
 router.post("/newComment", async (req, res) => {
   console.log("Received a request to create new comment");
   const { postId, author, text } = req.body;
@@ -171,5 +213,6 @@ router.post("/newComment", async (req, res) => {
     res.status(500).json({ error: "Failed to save comment." });
   }
 });
+// #endregion ================
 
 module.exports = router;
