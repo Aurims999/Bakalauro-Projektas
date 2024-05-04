@@ -49,7 +49,7 @@ dialog.memoryModal {
       margin-right: 40px;
       font-family: var(--mainFont);
 
-      & section.header {
+      & .modal-header {
         height: 25%;
         display: flex;
         justify-content: space-between;

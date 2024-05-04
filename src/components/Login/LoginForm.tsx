@@ -7,7 +7,7 @@ import Button from "../Others/Button/Button";
 
 import "./loginForm.css";
 
-export default function LoginForm() {
+export default function LoginForm({ setErrorMessage }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -54,40 +54,42 @@ export default function LoginForm() {
   };
 
   return (
-    <form className="loginContainer" onSubmit={handleFormSubmit}>
-      <h1>Login</h1>
-      <TextField
-        title={"Username"}
-        id={"username"}
-        name={"username"}
-        placeHolder={"Enter your username"}
-        onChangeMethod={handleUsernameChange}
-        required={true}
-      />
-      <TextField
-        title={"Password"}
-        id={"password"}
-        name={"password"}
-        type={"password"}
-        placeHolder={"Enter your password"}
-        onChangeMethod={handlePasswordChange}
-        required={true}
-      />
-      <p className="register-message">
-        Dont have an account yet?{" "}
-        <Link to={"register"} className="link">
-          Make a new account by clicking here!
-        </Link>
-      </p>
-      <div className="buttons">
-        <SubmitButton text={"Login"} />
-        <Button
-          innerText={"Cancel"}
-          link={"/guestpage"}
-          buttonColor={"var(--light__purple)"}
-          textColor={"var(--main__black)"}
+    <>
+      <form className="loginContainer" onSubmit={handleFormSubmit}>
+        <h1>Login</h1>
+        <TextField
+          title={"Username"}
+          id={"username"}
+          name={"username"}
+          placeHolder={"Enter your username"}
+          onChangeMethod={handleUsernameChange}
+          required={true}
         />
-      </div>
-    </form>
+        <TextField
+          title={"Password"}
+          id={"password"}
+          name={"password"}
+          type={"password"}
+          placeHolder={"Enter your password"}
+          onChangeMethod={handlePasswordChange}
+          required={true}
+        />
+        <p className="register-message">
+          Dont have an account yet?{" "}
+          <Link to={"register"} className="link">
+            Make a new account by clicking here!
+          </Link>
+        </p>
+        <div className="buttons">
+          <SubmitButton text={"Login"} />
+          <Button
+            innerText={"Cancel"}
+            link={"/guestpage"}
+            buttonColor={"var(--light__purple)"}
+            textColor={"var(--main__black)"}
+          />
+        </div>
+      </form>
+    </>
   );
 }
