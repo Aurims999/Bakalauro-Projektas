@@ -155,7 +155,7 @@ router.post("/register", async (req, res) => {
   try {
     const existingUsers = await users.find({ nickname: username });
     if (existingUsers.length > 0) {
-      res.status(400).json({ message: "Username already taken" });
+      res.status(400).json({ error: "Username already taken" });
     } else {
       const hashedPassword = await argon2.hash(password);
       const newUserData = {
@@ -190,7 +190,7 @@ router.post("/login", async (req, res) => {
   try {
     const user = await users.findOne({ nickname: username });
     if (user === null) {
-      res.status(400).json({ message: "User not found" });
+      res.status(400).json({ error: "User not found" });
     } else if (await argon2.verify(user.password, password)) {
       console.log("Login data correct");
       res

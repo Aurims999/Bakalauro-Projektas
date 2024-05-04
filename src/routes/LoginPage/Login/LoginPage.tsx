@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import LoginForm from "../../../components/Login/LoginForm";
 
 import ErrorModal from "../../../components/Modals/ErrorModal/ErrorModal";
@@ -6,21 +6,23 @@ import ErrorModal from "../../../components/Modals/ErrorModal/ErrorModal";
 import "./loginpage.css";
 
 export default function LoginPage() {
-  const [errorMessage, setErrorMessage] = useState(
-    "Test Message can be posted here"
-  );
+  const [errorMessage, setErrorMessage] = useState("");
   const [errorVisible, setErrorVisibility] = useState(false);
 
-  useEffect(() => {
+  const triggerErrorModal = (errorMessage) => {
+    setErrorMessage(errorMessage);
     if (errorMessage != "") {
       setErrorVisibility(true);
+      setTimeout(() => {
+        setErrorVisibility(false);
+      }, 5000);
     }
-  }, [errorMessage]);
+  };
 
   return (
     <>
       <section className="login-container">
-        <LoginForm setErrorMessage={setErrorMessage} />
+        <LoginForm setErrorMessage={triggerErrorModal} />
       </section>
       <ErrorModal errorMessage={errorMessage} visible={errorVisible} />
     </>

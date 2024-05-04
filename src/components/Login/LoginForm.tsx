@@ -20,7 +20,7 @@ export default function LoginForm({ setErrorMessage }) {
     setPassword(event.target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     const formData = {
@@ -28,29 +28,30 @@ export default function LoginForm({ setErrorMessage }) {
       password,
     };
 
-    fetch("http://localhost:4000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else if (response.status === 400) {
-          throw new Error("Validation error");
-        } else {
-          throw new Error("Server error");
-        }
-      })
-      .then((data) => {
-        console.log("User logged in successfully", data);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
+    try {
+      const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      const responseBody = await response.json();
+
+      if (response.status === 200) {
+        console.log("User logged in successfully", responseBody);
+        navigate("/");
+      } else if (response.status === 400) {
+        setErrorMessage(responseBody.error);
+        throw new Error("Validation error");
+      } else {
+        setErrorMessage(responseBody.error);
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
