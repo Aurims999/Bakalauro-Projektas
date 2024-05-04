@@ -45,7 +45,7 @@ body {
   justify-content: start;
   align-items: start;
 
-  overflow: hidden;
+  overflow-x: hidden;
 
   & main {
     width: 100%;

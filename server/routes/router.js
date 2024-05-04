@@ -182,6 +182,28 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: "Failed to save comment." });
   }
 });
+
+router.post("/login", async (req, res) => {
+  const users = schemas.Users;
+  const { username, password } = req.body;
+
+  try {
+    const user = await users.findOne({ nickname: username });
+    if (user === null) {
+      res.status(400).json({ message: "User not found" });
+    } else if (await argon2.verify(user.password, password)) {
+      console.log("Login data correct");
+      res
+        .status(200)
+        .json({ message: `${user.nickname} logged in successfully!` });
+    } else {
+      res.status(400).json({ error: "Incorrect password" });
+    }
+  } catch (error) {
+    console.error("Error while logging in:", error);
+    res.status(500).json({ error: "Failed to loggin." });
+  }
+});
 // #endregion ================
 
 // #region === Comments ===
