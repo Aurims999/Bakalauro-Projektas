@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 
 import "./sidebar.css";
 
-export default function Sidebar() {
+export default function Sidebar({ setUserId }) {
   const [userImage, setUserImage] = useState(
     "./images/users/default__profile.png"
   );
@@ -33,6 +33,8 @@ export default function Sidebar() {
     sessionStorage.removeItem("user-role");
     sessionStorage.removeItem("user-nickname");
     sessionStorage.removeItem("user-image");
+
+    setUserId("");
   };
 
   return (
@@ -42,11 +44,15 @@ export default function Sidebar() {
           <Link to="/">
             <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
           </Link>
-          <img className="profilePicture" src={userImage} alt="Profile Image" />
+          <img
+            className="profilePicture"
+            src={`./images/users/${userImage}`}
+            alt="Profile Image"
+          />
           <div className="userDescription">
             <h2>{username}</h2>
             <p>
-              {userRole === "USER" ? "Standart User" : "System Administrator"}
+              {userRole === "USER" ? "Standard User" : "System Administrator"}
             </p>
           </div>
           <ul>

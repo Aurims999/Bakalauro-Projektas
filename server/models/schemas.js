@@ -7,7 +7,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   profileImage: {
     type: String,
-    default: "./images/users/default__profile.png",
+    default: "default__profile.png",
   },
   posts: { type: Array },
   comments: { type: Array },

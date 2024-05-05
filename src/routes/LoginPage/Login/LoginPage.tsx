@@ -5,7 +5,7 @@ import ErrorModal from "../../../components/Modals/ErrorModal/ErrorModal";
 
 import "./loginpage.css";
 
-export default function LoginPage() {
+export default function LoginPage({ setUserId }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorVisible, setErrorVisibility] = useState(false);
 
@@ -22,7 +22,7 @@ export default function LoginPage() {
   return (
     <>
       <section className="login-container">
-        <LoginForm setErrorMessage={triggerErrorModal} />
+        <LoginForm setErrorMessage={triggerErrorModal} setUserId={setUserId} />
       </section>
       <ErrorModal errorMessage={errorMessage} visible={errorVisible} />
     </>
