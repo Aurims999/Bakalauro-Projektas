@@ -1,8 +1,33 @@
+import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 
 import "./sidebar.css";
 
 export default function Sidebar() {
+  const [userImage, setUserImage] = useState(
+    "./images/users/default__profile.png"
+  );
+  const [username, setUsername] = useState("");
+  const [userRole, setRole] = useState("USER");
+
+  useEffect(() => {
+    const sessionImage = sessionStorage.getItem("user-image");
+    const sessionUsername = sessionStorage.getItem("user-nickname");
+    const sessionRole = sessionStorage.getItem("user-role");
+
+    if (sessionImage) {
+      setUserImage(sessionImage);
+    }
+
+    if (sessionUsername) {
+      setUsername(sessionUsername);
+    }
+
+    if (sessionRole && sessionRole === "ADMIN") {
+      setRole("ADMIN");
+    }
+  }, []);
+
   const resetSession = () => {
     sessionStorage.removeItem("user-id");
     sessionStorage.removeItem("user-role");
@@ -17,14 +42,12 @@ export default function Sidebar() {
           <Link to="/">
             <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
           </Link>
-          <img
-            className="profilePicture"
-            src="./images/users/example__profilePic-2.jpg"
-            alt="Profile Image"
-          />
+          <img className="profilePicture" src={userImage} alt="Profile Image" />
           <div className="userDescription">
-            <h2>{"Mountains Lover <3"}</h2>
-            <p>Standard User</p>
+            <h2>{username}</h2>
+            <p>
+              {userRole === "USER" ? "Standart User" : "System Administrator"}
+            </p>
           </div>
           <ul>
             <li>
