@@ -7,7 +7,7 @@ import Button from "../Others/Button/Button";
 
 import "./loginForm.css";
 
-export default function LoginForm({ setErrorMessage }) {
+export default function LoginForm({ setErrorMessage, setUserId }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +40,16 @@ export default function LoginForm({ setErrorMessage }) {
       const responseBody = await response.json();
 
       if (response.status === 200) {
+        const { userId, role, nickname, img, isSuspended } =
+          responseBody.userData;
+
+        sessionStorage.setItem("user-id", userId);
+        sessionStorage.setItem("user-role", role);
+        sessionStorage.setItem("user-nickname", nickname);
+        sessionStorage.setItem("user-image", img);
+        sessionStorage.setItem("user-suspended", isSuspended);
+        setUserId(userId);
+
         console.log("User logged in successfully", responseBody);
         navigate("/");
       } else if (response.status === 400) {

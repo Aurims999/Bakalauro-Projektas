@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./registerForm.css";
 
-export default function RegisterForm({ setErrorMessage }) {
+export default function RegisterForm({ setErrorMessage, setUserId }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -48,8 +48,16 @@ export default function RegisterForm({ setErrorMessage }) {
       });
 
       const responseBody = await response.json();
+      const { userId, role, nickname, img, isSuspended } = responseBody.newUser;
 
       if (response.status === 200) {
+        sessionStorage.setItem("user-id", userId);
+        sessionStorage.setItem("user-role", role);
+        sessionStorage.setItem("user-nickname", nickname);
+        sessionStorage.setItem("user-image", img);
+        sessionStorage.setItem("user-suspended", isSuspended);
+        setUserId(userId);
+
         console.log("User registered successfully", responseBody);
         navigate("/");
       } else if (response.status === 400) {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import GuestPage from "./routes/GuestPage/GuestPage";
@@ -16,21 +17,23 @@ import PostUploadPage from "./routes/PostUploadPage/PostUploadPage";
 import "./App.css";
 
 function App() {
+  const [userId, setUserId] = useState("");
+
   return (
     <div className="appContainer">
       <Routes>
         <Route path="guestpage" element={<GuestPage />} />
         <Route path="login" element={<SideVisuals />}>
-          <Route index element={<LoginPage />} />
-          <Route path="register" element={<RegistrationPage />} />
+          <Route index element={<LoginPage setUserId={setUserId} />} />
+          <Route
+            path="register"
+            element={<RegistrationPage setUserId={setUserId} />}
+          />
         </Route>
-        <Route path="/" element={<Sidebar />}>
+        <Route path="/" element={<Sidebar setUserId={setUserId} />}>
           <Route index element={<MainPage />} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route
-            path="memories"
-            element={<MemoriesPage id={"6627cd702a16495ae9260b8c"} />}
-          />
+          <Route path="memories" element={<MemoriesPage id={userId} />} />
           <Route path="comments" element={<CommentsPage />} />
         </Route>
         <Route path="new-memory" element={<PostUploadPage />}></Route>

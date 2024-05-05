@@ -3,7 +3,9 @@ import "./commentInput.css";
 
 export default function CommentInput({ setComments, memoryId }) {
   const [comment, setComment] = useState("");
-  const [commentAuthor, setAuthor] = useState("6627cd702a16495ae9260b8c");
+  const [commentAuthor, setAuthor] = useState(
+    sessionStorage.getItem("user-id")
+  );
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import Button from "../../components/Others/Button/Button";
+import { useNavigate } from "react-router-dom";
 
+import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
-export default function MemoriesPage({id}) {
+export default function MemoriesPage({ id }) {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
@@ -16,6 +17,15 @@ export default function MemoriesPage({id}) {
         setMemory(memory);
       });
   }, []);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userRole = sessionStorage.getItem("user-role");
+    if (!userRole) {
+      navigate("/guestpage");
+    }
+  }, [navigate]);
 
   return (
     <main>
