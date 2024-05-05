@@ -67,12 +67,17 @@ input.input-imageField {
   background-color: transparent;
   border-bottom: 1px solid var(--main__black);
 
-  font-family: inherit;
+  font-family: var(--mainFont);
   font-size: 1.15rem;
 
-  &:focus {
+  & &:focus {
     border-bottom: 1px solid var(--main__black);
   }
+}
+
+.label-textField {
+  font-family: var(--headlineFont);
+  font-weight: bold;
 }
 
 .input-radioField {
@@ -129,5 +134,35 @@ input.input-imageField {
     color: var(--light__white);
 
     box-shadow: 6px 7px 9px var(--dropShadow_gray);
+  }
+}
+
+& .submitButton {
+  font-size: 1.125rem;
+
+  & [type="submit"] {
+    display: none;
+  }
+
+  & label {
+    width: fit-content;
+    height: auto;
+    padding: 15px 30px;
+    margin: 10px 0px;
+
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    gap: 20px;
+
+    font-family: var(--headlineFont);
+    font-weight: bold;
+
+    cursor: pointer;
+
+    & img {
+      height: 30px;
+      aspect-ratio: 1/1;
+    }
   }
 }

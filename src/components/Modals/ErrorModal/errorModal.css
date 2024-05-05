@@ -1,0 +1,35 @@
+.error-modal-container {
+  width: fit-content;
+  height: fit-content;
+  padding: 1rem 2.5rem;
+
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 25px;
+
+  z-index: 100;
+
+  background-color: var(--light__yellow);
+  border-radius: 20px;
+
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  & p {
+    font-family: var(--mainFont);
+    color: var(--main__orange);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  & img {
+    width: 75px;
+    aspect-ratio: 1/1;
+  }
+}

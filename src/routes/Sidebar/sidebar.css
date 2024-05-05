@@ -52,7 +52,7 @@ header {
       list-style: none;
       font-weight: bold;
 
-      & li .navButton{
+      & li .navButton {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -64,8 +64,8 @@ header {
 
         transition: background-color 0.2s ease-out;
         cursor: pointer;
-        
-        & p{
+
+        & p {
           text-decoration: none;
         }
 
@@ -87,7 +87,7 @@ header {
       width: 40px;
     }
 
-    & button {
+    & .logout {
       width: 100%;
       padding: 1rem 2rem;
       margin: 1rem 0rem;

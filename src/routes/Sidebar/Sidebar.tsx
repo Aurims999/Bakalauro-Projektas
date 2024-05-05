@@ -53,14 +53,14 @@ export default function Sidebar() {
           </ul>
         </div>
         <div className="logoutArea">
-          <button className="logout">
+          <Link to={"/guestpage"} className="logout">
             <img
               src="./icons/exit-black.png"
               alt="Logout icon"
               className="icon"
             />
             <p>Logout</p>
-          </button>
+          </Link>
           <p>@TripShare</p>
         </div>
       </header>

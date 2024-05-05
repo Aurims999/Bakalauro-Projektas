@@ -59,7 +59,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           <img src={`./images/memories/${img}`} alt="Memory Image" />
         </div>
         <section className="content">
-          <section className="header">
+          <section className="modal-header">
             <div className="info">
               <div className="title">
                 <h1>{memoryTitle}</h1>
