@@ -25,6 +25,8 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
 
+  const userRole = sessionStorage.getItem("user-role");
+
   useEffect(() => {
     if (memoryId) {
       fetch(`http://localhost:4000/memory/${memoryId}`)
@@ -63,7 +65,7 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
             <div className="info">
               <div className="title">
                 <h1>{memoryTitle}</h1>
-                <Like />
+                {userRole === "USER" && <Like />}
               </div>
               <div className="userInfo">
                 <UserImage
@@ -87,7 +89,9 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           <section className="comments">
             <h2>Comments</h2>
             <CommentsContainer comments={comments} />
-            <CommentInput memoryId={memoryId} setComments={setComments} />
+            {userRole === "USER" && (
+              <CommentInput memoryId={memoryId} setComments={setComments} />
+            )}
           </section>
         </section>
       </div>

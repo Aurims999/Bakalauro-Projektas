@@ -33,6 +33,7 @@ export default function Sidebar({ setUserId }) {
     sessionStorage.removeItem("user-role");
     sessionStorage.removeItem("user-nickname");
     sessionStorage.removeItem("user-image");
+    sessionStorage.removeItem("user-suspended");
 
     setUserId("");
   };
@@ -56,36 +57,40 @@ export default function Sidebar({ setUserId }) {
             </p>
           </div>
           <ul>
-            <li>
-              <Link to={"messages"} className="navButton">
-                <img
-                  src="./icons/email-black.png"
-                  alt="Messages' icon"
-                  className="icon"
-                />
-                <p>Messages</p>
-              </Link>
-            </li>
-            <li>
-              <Link to={"memories"} className="navButton">
-                <img
-                  src="./icons/posts-black.png"
-                  alt="Memories' icon"
-                  className="icon"
-                />
-                <p>Memories</p>
-              </Link>
-            </li>
-            <li>
-              <Link to={"comments"} className="navButton">
-                <img
-                  src="./icons/comments-black.png"
-                  alt="Comments' icon"
-                  className="icon"
-                />
-                <p>Comments</p>
-              </Link>
-            </li>
+            {userRole === "USER" && (
+              <>
+                <li>
+                  <Link to={"messages"} className="navButton">
+                    <img
+                      src="./icons/email-black.png"
+                      alt="Messages' icon"
+                      className="icon"
+                    />
+                    <p>Messages</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"memories"} className="navButton">
+                    <img
+                      src="./icons/posts-black.png"
+                      alt="Memories' icon"
+                      className="icon"
+                    />
+                    <p>Memories</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"comments"} className="navButton">
+                    <img
+                      src="./icons/comments-black.png"
+                      alt="Comments' icon"
+                      className="icon"
+                    />
+                    <p>Comments</p>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <div className="logoutArea">

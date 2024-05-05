@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
@@ -8,6 +9,7 @@ export default function MainPage() {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
+  const userRole = sessionStorage.getItem("user-role");
 
   useEffect(() => {
     fetch("http://localhost:4000/memories")
@@ -17,14 +19,25 @@ export default function MainPage() {
       });
   }, []);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userRole) {
+      navigate("/guestpage");
+    }
+  }, [navigate]);
+
   return (
     <main>
       <h1>Memories</h1>
-      <Button
-        icon={"./icons/plus-white.png"}
-        innerText={"Share your memory"}
-        link={"new-memory"}
-      />
+      {userRole === "USER" && (
+        <Button
+          icon={"./icons/plus-white.png"}
+          innerText={"Share your memory"}
+          link={"new-memory"}
+        />
+      )}
+
       <MemoriesContainer
         data={memories}
         setModal={setModal}

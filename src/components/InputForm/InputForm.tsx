@@ -13,6 +13,7 @@ export default function InputForm({ image }) {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
+  const userId = sessionStorage.getItem("user-id");
 
   const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ export default function InputForm({ image }) {
     const formData = {
       title,
       description,
+      userId,
       tags,
       category,
       image,

@@ -25,7 +25,10 @@ function App() {
         <Route path="guestpage" element={<GuestPage />} />
         <Route path="login" element={<SideVisuals />}>
           <Route index element={<LoginPage setUserId={setUserId} />} />
-          <Route path="register" element={<RegistrationPage />} />
+          <Route
+            path="register"
+            element={<RegistrationPage setUserId={setUserId} />}
+          />
         </Route>
         <Route path="/" element={<Sidebar setUserId={setUserId} />}>
           <Route index element={<MainPage />} />

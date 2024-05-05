@@ -79,7 +79,7 @@ router.get("/memory/:id", async (req, res) => {
 });
 
 router.post("/newMemory", async (req, res) => {
-  const { title, description, tags, category, image } = req.body;
+  const { title, description, userId, tags, category, image } = req.body;
 
   //Decoding the image that was imported
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
@@ -101,7 +101,7 @@ router.post("/newMemory", async (req, res) => {
 
     // New post's data
     const postData = {
-      author: "6627cd702a16495ae9260b8c",
+      author: userId,
       image: imageName,
       title: title,
       description: description,
@@ -177,6 +177,7 @@ router.post("/register", async (req, res) => {
             role: savedUserData.role,
             nickname: savedUserData.nickname,
             img: savedUserData.profileImage,
+            isSuspended: savedUserData.isSuspended,
           },
         });
       } else {
@@ -206,6 +207,7 @@ router.post("/login", async (req, res) => {
           role: user.role,
           nickname: user.nickname,
           img: user.profileImage,
+          isSuspended: user.isSuspended,
         },
       });
     } else {

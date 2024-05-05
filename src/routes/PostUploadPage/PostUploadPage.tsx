@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ImageField from "../../components/InputForm/ImageField";
 import InputForm from "../../components/InputForm/InputForm";
@@ -21,6 +22,15 @@ export default function PostUploadPage() {
       setShowImageField(false);
     }
   }, [image, componentMounted]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userRole = sessionStorage.getItem("user-role");
+    if (!userRole) {
+      navigate("/guestpage");
+    }
+  }, [navigate]);
 
   return (
     <div className="uploadPageContainer">

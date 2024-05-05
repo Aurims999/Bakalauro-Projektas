@@ -19,6 +19,8 @@ export default function Memory({
     "./images/users/default__profile.png"
   );
 
+  const userRole = sessionStorage.getItem("user-role");
+
   useEffect(() => {
     fetch(`http://localhost:4000/user/${author}`)
       .then((response) => response.json())
@@ -47,7 +49,7 @@ export default function Memory({
             <p>{authorNickname}</p>
           </div>
         </div>
-        <Like />
+        {userRole === "USER" && <Like />}
       </section>
     </div>
   );

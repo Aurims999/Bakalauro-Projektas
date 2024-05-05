@@ -38,13 +38,16 @@ export default function LoginForm({ setErrorMessage, setUserId }) {
       });
 
       const responseBody = await response.json();
-      const { userId, role, nickname, img } = responseBody.userData;
 
       if (response.status === 200) {
+        const { userId, role, nickname, img, isSuspended } =
+          responseBody.userData;
+
         sessionStorage.setItem("user-id", userId);
         sessionStorage.setItem("user-role", role);
         sessionStorage.setItem("user-nickname", nickname);
         sessionStorage.setItem("user-image", img);
+        sessionStorage.setItem("user-suspended", isSuspended);
         setUserId(userId);
 
         console.log("User logged in successfully", responseBody);
