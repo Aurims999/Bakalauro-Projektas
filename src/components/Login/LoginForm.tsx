@@ -40,6 +40,10 @@ export default function LoginForm({ setErrorMessage }) {
       const responseBody = await response.json();
 
       if (response.status === 200) {
+        sessionStorage.setItem("user-id", responseBody.userData.userId);
+        sessionStorage.setItem("user-role", responseBody.userData.role);
+        sessionStorage.setItem("user-nickname", responseBody.userData.nickname);
+        sessionStorage.setItem("user-image", responseBody.userData.img);
         console.log("User logged in successfully", responseBody);
         navigate("/");
       } else if (response.status === 400) {

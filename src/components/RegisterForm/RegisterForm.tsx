@@ -50,6 +50,10 @@ export default function RegisterForm({ setErrorMessage }) {
       const responseBody = await response.json();
 
       if (response.status === 200) {
+        sessionStorage.setItem("user-id", responseBody.newUser.userId);
+        sessionStorage.setItem("user-role", responseBody.newUser.role);
+        sessionStorage.setItem("user-nickname", responseBody.newUser.nickname);
+        sessionStorage.setItem("user-image", responseBody.newUser.img);
         console.log("User registered successfully", responseBody);
         navigate("/");
       } else if (response.status === 400) {

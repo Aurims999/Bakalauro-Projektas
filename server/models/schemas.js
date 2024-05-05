@@ -12,6 +12,7 @@ const userSchema = new Schema({
   posts: { type: Array },
   comments: { type: Array },
   messages: { type: Array },
+  amountOfSuspiciousActivity: { type: Number, default: 0, required: true },
   isSuspended: { type: Boolean, default: false, required: true },
 });
 

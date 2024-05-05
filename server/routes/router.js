@@ -170,9 +170,15 @@ router.post("/register", async (req, res) => {
 
       if (savedUserData) {
         console.log("New user was registered successfully!");
-        res
-          .status(200)
-          .json({ message: "New user was registered successfully!" });
+        res.status(200).json({
+          message: "New user was registered successfully!",
+          newUser: {
+            userId: savedUserData._id,
+            role: savedUserData.role,
+            nickname: savedUserData.nickname,
+            img: savedUserData.profileImage,
+          },
+        });
       } else {
         res.status(500).json({ error: "Failed to register new user" });
       }
@@ -193,9 +199,15 @@ router.post("/login", async (req, res) => {
       res.status(400).json({ error: "User not found" });
     } else if (await argon2.verify(user.password, password)) {
       console.log("Login data correct");
-      res
-        .status(200)
-        .json({ message: `${user.nickname} logged in successfully!` });
+      res.status(200).json({
+        message: `${user.nickname} logged in successfully!`,
+        userData: {
+          userId: user._id,
+          role: user.role,
+          nickname: user.nickname,
+          img: user.profileImage,
+        },
+      });
     } else {
       res.status(400).json({ error: "Incorrect password" });
     }

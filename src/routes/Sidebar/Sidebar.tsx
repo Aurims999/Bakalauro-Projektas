@@ -3,6 +3,13 @@ import { Outlet, Link } from "react-router-dom";
 import "./sidebar.css";
 
 export default function Sidebar() {
+  const resetSession = () => {
+    sessionStorage.removeItem("user-id");
+    sessionStorage.removeItem("user-role");
+    sessionStorage.removeItem("user-nickname");
+    sessionStorage.removeItem("user-image");
+  };
+
   return (
     <>
       <header>
@@ -53,7 +60,7 @@ export default function Sidebar() {
           </ul>
         </div>
         <div className="logoutArea">
-          <Link to={"/guestpage"} className="logout">
+          <Link to={"/guestpage"} className="logout" onClick={resetSession}>
             <img
               src="./icons/exit-black.png"
               alt="Logout icon"
