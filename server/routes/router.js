@@ -229,11 +229,12 @@ router.get("/comments/:userId", async (req, res) => {
     if (userComments.length > 0) {
       const responseData = await Promise.all(
         userComments.map(async (comment) => {
-          const { post, text, isSuspended } = comment;
+          const { _id, post, text, isSuspended } = comment;
           const memory = await memories.findById(post);
 
           if (memory) {
             return {
+              id: _id,
               postId: post,
               postImage: memory.image,
               postTitle: memory.title,
