@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 
+import ProfileImage from "../../components/InputForm/ProfileImage";
+
 import "./sidebar.css";
 
 export default function Sidebar({ setUserId }) {
@@ -45,11 +47,7 @@ export default function Sidebar({ setUserId }) {
           <Link to="/">
             <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
           </Link>
-          <img
-            className="profilePicture"
-            src={`./images/users/${userImage}`}
-            alt="Profile Image"
-          />
+          <ProfileImage userImage={`./images/users/${userImage}`} />
           <div className="userDescription">
             <h2>{username}</h2>
             <p>

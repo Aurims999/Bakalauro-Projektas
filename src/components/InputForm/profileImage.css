@@ -1,0 +1,19 @@
+img.profilePicture {
+  height: 20vh;
+  aspect-ratio: 1/1;
+
+  border-radius: 50%;
+  border: 15px solid var(--main__orange);
+
+  object-fit: cover;
+  object-position: center;
+
+  cursor: pointer;
+
+  transition: all 0.35s;
+
+  &:hover {
+    filter: brightness(90%);
+    transform: translateY(-5px);
+  }
+}
