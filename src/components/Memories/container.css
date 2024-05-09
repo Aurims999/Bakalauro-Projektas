@@ -11,3 +11,18 @@
     grid-column: span 2;
   }
 }
+
+.container.noData {
+  height: 60vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: var(--mainFont);
+  font-size: 1.5rem;
+
+  & p {
+    margin: 2.5rem;
+  }
+}

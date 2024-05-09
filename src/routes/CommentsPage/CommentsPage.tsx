@@ -1,11 +1,25 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Table from "../../components/Others/Table/Table";
 import Button from "../../components/Others/Button/Button";
+import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
 export default function CommentsPage() {
+  const [comments, setComments] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedMemoryID, setID] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const id = sessionStorage.getItem("user-id");
+    fetch(`http://localhost:4000/comments/${id}`)
+      .then((response) => response.json())
+      .then((memory) => {
+        setComments(memory);
+      });
+  }, []);
 
   useEffect(() => {
     const userRole = sessionStorage.getItem("user-role");
@@ -15,10 +29,17 @@ export default function CommentsPage() {
   }, [navigate]);
 
   return (
-    <main>
-      <h1>My Comments</h1>
-      <Button innerText={"Back to Main Page"} link={"/"} />
-      <Table />
-    </main>
+    <>
+      <main>
+        <h1>My Comments</h1>
+        <Button innerText={"Back to Main Page"} link={"/"} />
+        <Table data={comments} setModal={setModal} setMemorySelection={setID} />
+      </main>
+      <MemoryModal
+        memoryId={selectedMemoryID}
+        openModal={modal}
+        closeModal={() => setModal(false)}
+      />
+    </>
   );
 }
