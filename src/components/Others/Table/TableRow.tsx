@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import StatusBlock from "../StatusBlock/StatusBlock";
+
 export default function TableRow({ data }) {
   const [commentId, setCommentId] = useState(0);
   const [comment, setComment] = useState(data.comment);
@@ -21,7 +23,7 @@ export default function TableRow({ data }) {
         <p>"{comment}"</p>
       </div>
       <div className="table-row-block">
-        <div className="statusBlock">{commentStatus}</div>
+        <StatusBlock suspended={commentStatus} />
       </div>
     </div>
   );

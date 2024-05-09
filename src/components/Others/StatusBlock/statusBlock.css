@@ -1,0 +1,11 @@
+.statusBlock {
+  padding: 10px 30px;
+  border-radius: 10px;
+
+  background-color: var(--main__purple);
+  color: var(--main__white);
+}
+
+& .suspended {
+  background-color: var(--warning__red);
+}
