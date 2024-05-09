@@ -16,10 +16,24 @@ folder_path = "examples"
 # Load your model
 fakeImagesModel = load_model('./models/Images/AI-Images/AI-Image-Detection.h5')
 imageClassificationModel = load_model('./models/Images/Image-Categorize/image_classification.h5')
+deepFakes = load_model('./models/Images/Deepfake/DeepFakeDetector.h5')
 
 @app.route('/')
-def hello():
+def base():
     return 'AI BE is working!'
+
+def processImage(request):
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image found in the request'}), 400
+
+    image_file = request.files['image']
+
+    userInput = Image.open(image_file)
+
+    cl_img = userInput.resize((256,256))
+    cl_img_array = img_to_array(cl_img)
+    cl_img_processed = cl_img_array.reshape((1,) + cl_img_array.shape)
+    return cl_img_processed
 
 @app.route('/evaluateImage', methods=['POST'])
 def evaluate_image():
@@ -52,6 +66,12 @@ def evaluate_image():
     predicted_label = categories[predicted_label_index]
 
     return jsonify({'probability_of_fake': float(fakeImage[0][0]), 'classification' : predicted_label})
+
+@app.route('/evaluateProfilePic', methods=['POST'])
+def evaluate_profilePic():
+    img = processImage(request)
+    probDeepFake = deepFakes.predict(img)
+    return jsonify({'probability_of_fake': float(probDeepFake[0][0])})
 
 if __name__ == '__main__':
     app.run(debug=True)
