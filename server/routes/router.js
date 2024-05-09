@@ -217,6 +217,50 @@ router.post("/login", async (req, res) => {
 // #endregion ================
 
 // #region === Comments ===
+router.get("/comments/:userId", async (req, res) => {
+  try {
+    const comments = schemas.Comments;
+    const memories = schemas.Memories;
+
+    const userComments = await comments
+      .find({ author: req.params.userId })
+      .exec();
+
+    if (userComments.length > 0) {
+      const responseData = await Promise.all(
+        userComments.map(async (comment) => {
+          const { post, text, isSuspended } = comment;
+          const memory = await memories.findById(post);
+
+          if (memory) {
+            return {
+              postId: post,
+              postImage: memory.image,
+              postTitle: memory.title,
+              comment: text,
+              status: isSuspended,
+            };
+          } else {
+            return {
+              postId: post,
+              comment: text,
+              status: isSuspended,
+              error: "Memory details not found",
+            };
+          }
+        })
+      );
+
+      res.json({ comments: responseData });
+    } else {
+      res.status(404).json({ error: "User hasn't posted any comments" });
+    }
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.post("/newComment", async (req, res) => {
   console.log("Received a request to create new comment");
   const { postId, author, text } = req.body;
