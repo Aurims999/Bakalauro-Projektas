@@ -1,6 +1,13 @@
 import "./inputFormFields.css";
 
-export default function RadioField({ id, name, value, icon, onChangeMethod }) {
+export default function RadioField({
+  id,
+  name,
+  value,
+  icon,
+  onChangeMethod,
+  checked,
+}) {
   return (
     <div className="input-radioField" id={id}>
       <input
@@ -9,6 +16,7 @@ export default function RadioField({ id, name, value, icon, onChangeMethod }) {
         name={name}
         value={value}
         onChange={onChangeMethod}
+        checked={checked}
       />
       <label htmlFor={`${name} ${value}`}>
         <img src={icon} alt={`icon of ${value}`} />
