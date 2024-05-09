@@ -81,11 +81,9 @@ router.get("/memory/:id", async (req, res) => {
 router.post("/newMemory", async (req, res) => {
   const { title, description, userId, tags, category, image } = req.body;
 
-  //Decoding the image that was imported
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
 
-  //Generating an ID for the image (which will be use for image naming in local storage)
   const randomId = uuidv4();
   const imageName = `${randomId}.png`;
 
@@ -96,10 +94,8 @@ router.post("/newMemory", async (req, res) => {
   );
 
   try {
-    //Saving image to local storage
     fs.writeFileSync(imagePath, buffer);
 
-    // New post's data
     const postData = {
       author: userId,
       image: imageName,

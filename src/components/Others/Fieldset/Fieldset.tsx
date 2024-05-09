@@ -2,7 +2,7 @@ import RadioField from "../../InputForm/RadioField";
 
 import "./fieldset.css";
 
-export default function Fieldset({ data, onChangeMethod }) {
+export default function Fieldset({ data, onChangeMethod, checkValue }) {
   return (
     <fieldset className="customFieldSet">
       {data.data.map((entry) => {
@@ -13,6 +13,7 @@ export default function Fieldset({ data, onChangeMethod }) {
             value={entry.value}
             icon={entry.icon}
             onChangeMethod={onChangeMethod}
+            checked={entry.value === checkValue}
           />
         );
       })}

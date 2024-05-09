@@ -8,7 +8,7 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm({ image }) {
+export default function InputForm({ image, predictedCategory }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
@@ -30,6 +30,12 @@ export default function InputForm({ image }) {
       },
     ],
   };
+
+  useEffect(() => {
+    if (predictedCategory != "") {
+      setCategory(predictedCategory);
+    }
+  }, [predictedCategory]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -104,7 +110,11 @@ export default function InputForm({ image }) {
 
       <section className="categories" style={{ margin: "15px 0px" }}>
         <h2>Category</h2>
-        <Fieldset data={categories} onChangeMethod={handleCategoryChange} />
+        <Fieldset
+          data={categories}
+          onChangeMethod={handleCategoryChange}
+          checkValue={category}
+        />
       </section>
 
       <div className="buttons">

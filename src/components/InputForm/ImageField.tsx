@@ -1,17 +1,29 @@
 import "./inputFormFields.css";
 
-export default function ImageField({ setImage }) {
+export default function ImageField({ setImage, setUrl }) {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     if (file) {
-      reader.readAsDataURL(file); // Read the file as data URL
+      reader.readAsArrayBuffer(file);
     }
 
     reader.onload = () => {
-      setImage(reader.result); // Set the image data URL as state
+      const base64Image = arrayBufferToBase64(reader.result);
+      setImage(reader.result);
+      setUrl(base64Image);
     };
+  };
+
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = "";
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return "data:image/png;base64," + window.btoa(binary);
   };
 
   return (
