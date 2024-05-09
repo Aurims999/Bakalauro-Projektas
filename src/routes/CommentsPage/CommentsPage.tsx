@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import Table from "../../components/Others/Table/Table";
 import Button from "../../components/Others/Button/Button";
+import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
 export default function CommentsPage() {
   const [comments, setComments] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedMemoryID, setID] = useState("");
 
   const navigate = useNavigate();
 
@@ -26,10 +29,17 @@ export default function CommentsPage() {
   }, [navigate]);
 
   return (
-    <main>
-      <h1>My Comments</h1>
-      <Button innerText={"Back to Main Page"} link={"/"} />
-      <Table data={comments} />
-    </main>
+    <>
+      <main>
+        <h1>My Comments</h1>
+        <Button innerText={"Back to Main Page"} link={"/"} />
+        <Table data={comments} setModal={setModal} setMemorySelection={setID} />
+      </main>
+      <MemoryModal
+        memoryId={selectedMemoryID}
+        openModal={modal}
+        closeModal={() => setModal(false)}
+      />
+    </>
   );
 }

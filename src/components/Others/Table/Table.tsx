@@ -5,7 +5,7 @@ import NoData from "../Error-Handling/NoData/NoData";
 
 import "./table.css";
 
-export default function Table({ data }) {
+export default function Table({ data, setModal, setMemorySelection }) {
   const [tableData, setData] = useState(data.comments ?? []);
 
   useEffect(() => {
@@ -32,7 +32,13 @@ export default function Table({ data }) {
             </div>
             <div className="table-content">
               {tableData.map((comment) => {
-                return <TableRow data={comment} />;
+                return (
+                  <TableRow
+                    data={comment}
+                    setModal={setModal}
+                    setSelection={setMemorySelection}
+                  />
+                );
               })}
             </div>
           </>
