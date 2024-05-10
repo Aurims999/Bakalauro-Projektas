@@ -30,6 +30,10 @@ export default function Sidebar({ setUserId }) {
     }
   }, []);
 
+  const handleNewProfilePicUpload = (image, imageUrl) => {
+    setUserImage(imageUrl);
+  };
+
   const resetSession = () => {
     sessionStorage.removeItem("user-id");
     sessionStorage.removeItem("user-role");
@@ -47,7 +51,10 @@ export default function Sidebar({ setUserId }) {
           <Link to="/">
             <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
           </Link>
-          <ProfileImage userImage={`./images/users/${userImage}`} />
+          <ProfileImage
+            userImage={`./images/users/${userImage}`}
+            handleNewImage={handleNewProfilePicUpload}
+          />
           <div className="userDescription">
             <h2>{username}</h2>
             <p>
