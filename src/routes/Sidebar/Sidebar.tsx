@@ -62,6 +62,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
       const inputData = {
         userId: sessionStorage.getItem("user-id"),
         image,
+        currentProfilePic: sessionStorage.getItem("user-image"),
         probOfDeepFake: prediction,
       };
 

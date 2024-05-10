@@ -222,7 +222,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.put("/newProfilePic", async (req, res) => {
-  const { userId, image, probOfDeepFake } = req.body;
+  const { userId, image, currentProfilePic, probOfDeepFake } = req.body;
 
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
@@ -238,6 +238,20 @@ router.put("/newProfilePic", async (req, res) => {
 
   try {
     fs.writeFileSync(imagePath, buffer);
+    if (currentProfilePic != "default__profile.png") {
+      const currentImagePath = path.join(
+        __dirname,
+        "../../public/images/users",
+        currentProfilePic
+      );
+
+      try {
+        fs.unlinkSync(currentImagePath);
+        console.log(`Deleted ${currentProfilePic}`);
+      } catch (error) {
+        console.error(`Error deleting ${currentProfilePic}:`, error);
+      }
+    }
 
     let putData = {};
     if (probOfDeepFake >= 0.75) {
