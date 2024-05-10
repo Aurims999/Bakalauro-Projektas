@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./registerForm.css";
 
-export default function RegisterForm({ setErrorMessage, setUserId }) {
+export default function RegisterForm({ setMessage, setUserId }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +30,7 @@ export default function RegisterForm({ setErrorMessage, setUserId }) {
     event.preventDefault();
 
     if (password !== repeatPassword) {
-      setErrorMessage("Passwords do not match!");
+      setMessage("WARNING", "Passwords do not match!");
       return;
     }
     const formData = {
@@ -38,37 +38,34 @@ export default function RegisterForm({ setErrorMessage, setUserId }) {
       password,
     };
 
-    try {
-      const response = await fetch("http://localhost:4000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const response = await fetch("http://localhost:4000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-      const responseBody = await response.json();
+    const responseBody = await response.json();
+
+    if (response.status === 200) {
       const { userId, role, nickname, img, isSuspended } = responseBody.newUser;
+      sessionStorage.setItem("user-id", userId);
+      sessionStorage.setItem("user-role", role);
+      sessionStorage.setItem("user-nickname", nickname);
+      sessionStorage.setItem("user-image", img);
+      sessionStorage.setItem("user-suspended", isSuspended);
+      setUserId(userId);
 
-      if (response.status === 200) {
-        sessionStorage.setItem("user-id", userId);
-        sessionStorage.setItem("user-role", role);
-        sessionStorage.setItem("user-nickname", nickname);
-        sessionStorage.setItem("user-image", img);
-        sessionStorage.setItem("user-suspended", isSuspended);
-        setUserId(userId);
-
-        console.log("User registered successfully", responseBody);
-        navigate("/");
-      } else if (response.status === 400) {
-        setErrorMessage(responseBody.error);
-        throw new Error("Validation error");
-      } else {
-        setErrorMessage(responseBody.error);
-        throw new Error("Server error");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      console.log("User registered successfully", responseBody);
+      setMessage("SUCCESS", responseBody.message);
+      navigate("/");
+    } else if (response.status === 400) {
+      setMessage("WARNING", responseBody.error);
+      throw new Error("Validation error");
+    } else {
+      setMessage("ERROR", responseBody.error);
+      throw new Error("Server error");
     }
   };
 

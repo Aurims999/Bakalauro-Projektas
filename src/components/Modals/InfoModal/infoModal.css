@@ -1,4 +1,4 @@
-.error-modal-container {
+.info-modal-container {
   width: fit-content;
   height: fit-content;
   padding: 1rem 2.5rem;
@@ -14,9 +14,8 @@
   gap: 25px;
 
   z-index: 100;
-
-  background-color: var(--light__yellow);
   border-radius: 20px;
+  box-shadow: 10px 10px 15px var(--dropShadow__gray);
 
   animation-name: fadeIn;
   animation-duration: 1s;
@@ -24,12 +23,29 @@
 
   & p {
     font-family: var(--mainFont);
-    color: var(--main__orange);
     font-weight: bold;
     font-size: 1.5rem;
   }
   & img {
     width: 75px;
     aspect-ratio: 1/1;
+  }
+
+  &.INFO {
+    background-color: var(--info__blue__back);
+    color: var(--info__blue__main);
+  }
+
+  &.SUCCESS {
+    background-color: var(--success__green__back);
+    color: var(--success__green__main);
+  }
+  &.WARNING {
+    background-color: var(--warning__orange__back);
+    color: var(--warning__orange__main);
+  }
+  &.ERROR {
+    background-color: var(--failure__red__back);
+    color: var(--failure__red__main);
   }
 }

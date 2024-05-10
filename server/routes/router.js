@@ -276,7 +276,7 @@ router.put("/newProfilePic", async (req, res) => {
       await users.findOneAndUpdate(filter, { isBlocked: true });
       return res.status(200).json({
         message:
-          "Suspicious content detected. Based on your previous activity, this profile will be blocked till our team review",
+          "Suspicious content detected. Based on your previous activity, this profile will be blocked till our administrators review your content",
         status: "BLOCKED",
         user: updatedUser,
       });
@@ -285,7 +285,7 @@ router.put("/newProfilePic", async (req, res) => {
     if (probOfDeepFake >= 0.75) {
       return res.status(200).json({
         message:
-          "Deepfake content detected. Due to suspicious activity, this profile will be reviewed by our admins.",
+          "Deepfake content detected. Due to suspicious activity, this profile was blocked and will be reviewed by our administrators",
         status: "BLOCKED",
         user: updatedUser,
       });
