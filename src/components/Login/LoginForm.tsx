@@ -39,6 +39,11 @@ export default function LoginForm({ setMessage, setUserId }) {
     const responseBody = await response.json();
     console.log(responseBody);
 
+    if (response.status === 403) {
+      setMessage("ERROR", responseBody.message, 8000);
+      return;
+    }
+
     if (response.ok) {
       const { userId, role, nickname, img, isSuspended } =
         responseBody.userData;

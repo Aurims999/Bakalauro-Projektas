@@ -196,17 +196,22 @@ router.post("/login", async (req, res) => {
       res.status(400).json({ error: "User not found" });
     } else if (await argon2.verify(user.password, password)) {
       console.log("Login data correct");
-      res.status(200).json({
-        message: `${user.nickname} logged in successfully!`,
-        userData: {
-          userId: user._id,
-          role: user.role,
-          nickname: user.nickname,
-          img: user.profileImage,
-          isSuspended: user.isSuspended,
-          isBlocked: user.isBlocked,
-        },
-      });
+      if (user.isBlocked) {
+        res.status(403).json({
+          message: `This account is blocked and requires administrator approval for access. Contact customer service for more details`,
+        });
+      } else {
+        res.status(200).json({
+          message: `${user.nickname} logged in successfully!`,
+          userData: {
+            userId: user._id,
+            role: user.role,
+            nickname: user.nickname,
+            img: user.profileImage,
+            isSuspended: user.isSuspended,
+          },
+        });
+      }
     } else {
       res.status(400).json({ error: "Incorrect password" });
     }

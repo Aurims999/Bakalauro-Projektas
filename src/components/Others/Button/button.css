@@ -38,3 +38,16 @@
     filter: brightness(95%);
   }
 }
+
+button:disabled,
+button[disabled] {
+  filter: opacity(0.5) brightness(0.7);
+
+  &:active {
+    filter: opacity(0.5) brightness(0.7);
+  }
+}
+
+.disabledLink {
+  pointer-events: none;
+}

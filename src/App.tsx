@@ -20,6 +20,8 @@ import "./App.css";
 
 function App() {
   const [userId, setUserId] = useState("");
+  const [userSuspended, setSuspension] = useState(false);
+
   const [popup_message, setMessage] = useState("");
   const [popup_type, setType] = useState("");
   const [popup_visible, setVisibility] = useState(false);
@@ -34,6 +36,10 @@ function App() {
       }, duration);
     }
   };
+
+  useEffect(() => {
+    setSuspension(sessionStorage.getItem("user-suspended") === "true");
+  }, [userId]);
 
   return (
     <div className="appContainer">
@@ -62,10 +68,22 @@ function App() {
         <Route
           path="/"
           element={
-            <Sidebar setMessage={handlePopupDisplay} setUserId={setUserId} />
+            <Sidebar
+              setMessage={handlePopupDisplay}
+              setUserId={setUserId}
+              suspendUser={setSuspension}
+            />
           }
         >
-          <Route index element={<MainPage />} />
+          <Route
+            index
+            element={
+              <MainPage
+                setMessage={handlePopupDisplay}
+                suspended={userSuspended}
+              />
+            }
+          />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="memories" element={<MemoriesPage id={userId} />} />
           <Route path="comments" element={<CommentsPage />} />

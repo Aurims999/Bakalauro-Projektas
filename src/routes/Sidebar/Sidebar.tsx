@@ -5,7 +5,7 @@ import ProfileImage from "../../components/InputForm/ProfileImage";
 
 import "./sidebar.css";
 
-export default function Sidebar({ setUserId, setMessage }) {
+export default function Sidebar({ setUserId, setMessage, suspendUser }) {
   const [userImage, setUserImage] = useState("default__profile.png");
   const [username, setUsername] = useState("");
   const [userRole, setRole] = useState("USER");
@@ -81,6 +81,8 @@ export default function Sidebar({ setUserId, setMessage }) {
             setMessage("SUCCESS", data.message);
           } else if (data.status === "SUSPENDED") {
             setUserImage("default__profile.png");
+            sessionStorage.setItem("user-suspended", "true");
+            suspendUser("true");
             setMessage("WARNING", data.message, 8000);
           } else {
             resetSession();
