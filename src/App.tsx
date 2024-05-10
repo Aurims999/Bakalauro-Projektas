@@ -44,14 +44,19 @@ function App() {
             index
             element={
               <LoginPage
-                handleMessages={handlePopupDisplay}
+                setMessage={handlePopupDisplay}
                 setUserId={setUserId}
               />
             }
           />
           <Route
             path="register"
-            element={<RegistrationPage setUserId={setUserId} />}
+            element={
+              <RegistrationPage
+                setMessage={handlePopupDisplay}
+                setUserId={setUserId}
+              />
+            }
           />
         </Route>
         <Route path="/" element={<Sidebar setUserId={setUserId} />}>

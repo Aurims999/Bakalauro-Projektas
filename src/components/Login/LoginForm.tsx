@@ -28,40 +28,37 @@ export default function LoginForm({ setMessage, setUserId }) {
       password,
     };
 
-    try {
-      const response = await fetch("http://localhost:4000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const response = await fetch("http://localhost:4000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-      const responseBody = await response.json();
+    const responseBody = await response.json();
+    console.log(responseBody);
 
-      if (response.status === 200) {
-        const { userId, role, nickname, img, isSuspended } =
-          responseBody.userData;
+    if (response.ok) {
+      const { userId, role, nickname, img, isSuspended } =
+        responseBody.userData;
 
-        sessionStorage.setItem("user-id", userId);
-        sessionStorage.setItem("user-role", role);
-        sessionStorage.setItem("user-nickname", nickname);
-        sessionStorage.setItem("user-image", img);
-        sessionStorage.setItem("user-suspended", isSuspended);
-        setUserId(userId);
+      sessionStorage.setItem("user-id", userId);
+      sessionStorage.setItem("user-role", role);
+      sessionStorage.setItem("user-nickname", nickname);
+      sessionStorage.setItem("user-image", img);
+      sessionStorage.setItem("user-suspended", isSuspended);
+      setUserId(userId);
 
-        console.log("User logged in successfully", responseBody);
-        navigate("/");
-      } else if (response.status === 400) {
-        setMessage("ERROR", responseBody.error);
-        throw new Error("Validation error");
-      } else {
-        setMessage("ERROR", responseBody.error);
-        throw new Error("Server error");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setMessage("ERROR", error);
+      console.log("User logged in successfully", responseBody);
+      setMessage("SUCCESS", responseBody.message);
+      navigate("/");
+    } else if (responseBody.error) {
+      setMessage("WARNING", responseBody.error);
+      throw new Error("Validation error");
+    } else {
+      setMessage("ERROR", responseBody.error);
+      throw new Error("Server error");
     }
   };
 
