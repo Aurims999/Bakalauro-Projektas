@@ -11,6 +11,7 @@ const userSchema = new Schema({
   },
   suspendedProfileImage: {
     type: String,
+    default: "default__profile.png",
   },
   posts: { type: Array },
   comments: { type: Array },

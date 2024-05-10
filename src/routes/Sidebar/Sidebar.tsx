@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 import ProfileImage from "../../components/InputForm/ProfileImage";
 
 import "./sidebar.css";
 
 export default function Sidebar({ setUserId }) {
-  const [userImage, setUserImage] = useState(
-    "./images/users/default__profile.png"
-  );
+  const [userImage, setUserImage] = useState("default__profile.png");
   const [username, setUsername] = useState("");
   const [userRole, setRole] = useState("USER");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const sessionImage = sessionStorage.getItem("user-image");
@@ -30,8 +30,66 @@ export default function Sidebar({ setUserId }) {
     }
   }, []);
 
-  const handleNewProfilePicUpload = (image, imageUrl) => {
-    setUserImage(imageUrl);
+  const handleNewProfilePicUpload = async (image, imageUrl) => {
+    const evaluateImage = async () => {
+      try {
+        const blob = new Blob([image]);
+        const formData = new FormData();
+        formData.append("image", blob);
+
+        const response = await fetch(
+          "http://127.0.0.1:5000/evaluateProfilePic",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
+
+        const data = await response.json();
+        return data.probability_of_fake;
+      } catch (error) {
+        console.error("Error evaluating new profile pic:", error);
+      }
+    };
+
+    const updateProfilePic = async (image, prediction) => {
+      const inputData = {
+        userId: sessionStorage.getItem("user-id"),
+        image,
+        probOfDeepFake: prediction,
+      };
+
+      fetch("http://localhost:4000/newProfilePic", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Profile pic updated successfully", data);
+          if (data.status === "SAFE") {
+            setUserImage(data.user.newProfilePic);
+            sessionStorage.setItem("user-image", data.user.newProfilePic);
+          } else if (data.status === "SUSPENDED") {
+            setUserImage("default__profile.png");
+          } else {
+            resetSession();
+            navigate("/guestpage");
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating user profile pic:", error);
+        });
+    };
+
+    const prediction = await evaluateImage();
+    updateProfilePic(imageUrl, prediction);
   };
 
   const resetSession = () => {
@@ -52,7 +110,7 @@ export default function Sidebar({ setUserId }) {
             <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
           </Link>
           <ProfileImage
-            userImage={`./images/users/${userImage}`}
+            userImage={userImage}
             handleNewImage={handleNewProfilePicUpload}
           />
           <div className="userDescription">

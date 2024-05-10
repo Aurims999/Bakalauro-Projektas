@@ -8,12 +8,8 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-# Define the folder path where images are stored
-folder_path = "examples"
-
-# Load your model
 fakeImagesModel = load_model('./models/Images/AI-Images/AI-Image-Detection.h5')
 imageClassificationModel = load_model('./models/Images/Image-Categorize/image_classification.h5')
 deepFakes = load_model('./models/Images/Deepfake/DeepFakeDetector.h5')
@@ -40,7 +36,6 @@ def evaluate_image():
     if 'image' not in request.files:
         return jsonify({'error': 'No image found in the request'}), 400
 
-    # Get the image file from the request
     image_file = request.files['image']
 
     userInput = Image.open(image_file)
@@ -71,7 +66,8 @@ def evaluate_image():
 def evaluate_profilePic():
     img = processImage(request)
     probDeepFake = deepFakes.predict(img)
-    return jsonify({'probability_of_fake': float(probDeepFake[0][0])})
+    probDeepFake = float(probDeepFake[0][0])
+    return jsonify({'probability_of_fake': probDeepFake})
 
 if __name__ == '__main__':
     app.run(debug=True)

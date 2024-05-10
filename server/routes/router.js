@@ -204,6 +204,7 @@ router.post("/login", async (req, res) => {
           nickname: user.nickname,
           img: user.profileImage,
           isSuspended: user.isSuspended,
+          isBlocked: user.isBlocked,
         },
       });
     } else {
@@ -226,7 +227,7 @@ router.put("/newProfilePic", async (req, res) => {
 
   const imagePath = path.join(
     __dirname,
-    "../../public/images/memories",
+    "../../public/images/users",
     imageName
   );
 
@@ -257,7 +258,7 @@ router.put("/newProfilePic", async (req, res) => {
     const users = schemas.Users;
     const filter = { _id: userId };
 
-    const updatedUser = await users.findOneAndUpdate(filter, putData, {
+    let updatedUser = await users.findOneAndUpdate(filter, putData, {
       new: true,
     });
 
@@ -265,7 +266,13 @@ router.put("/newProfilePic", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (updatedUser.amountOfSuspiciousActivity >= 3) {
+    const amountOfSuspiciousActivity = updatedUser.amountOfSuspiciousActivity;
+    updatedUser = {
+      newProfilePic: updatedUser.profileImage,
+      suspendedImage: updatedUser.suspendedProfileImage,
+    };
+
+    if (amountOfSuspiciousActivity >= 3) {
       await users.findOneAndUpdate(filter, { isBlocked: true });
       return res.status(200).json({
         message:

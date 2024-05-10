@@ -36,7 +36,11 @@ export default function ProfileImage({ userImage, handleNewImage }) {
         style={{ display: "none" }}
         onChange={handleImageUpload}
       />
-      <img className="profilePicture" src={userImage} alt="Profile Image" />
+      <img
+        className="profilePicture"
+        src={`./images/users/${userImage}`}
+        alt="Profile Image"
+      />
     </label>
   );
 }
