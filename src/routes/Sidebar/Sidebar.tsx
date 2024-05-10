@@ -96,6 +96,16 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
         });
     };
 
+    if (sessionStorage.getItem("user-suspended") === "true") {
+      setMessage(
+        "ERROR",
+        "Your profile picture is waiting for administrator approval. Till then, you can't change your user image",
+        8000
+      );
+
+      return;
+    }
+
     const prediction = await evaluateImage();
     updateProfilePic(imageUrl, prediction);
   };
