@@ -10,7 +10,12 @@ import Category from "../../Others/Category/Category";
 
 import "./memoryModal.css";
 
-export default function MemoryModal({ memoryId, openModal, closeModal }) {
+export default function MemoryModal({
+  memoryId,
+  openModal,
+  closeModal,
+  suspended,
+}) {
   const ref = useRef();
 
   const [img, setImage] = useState("./images/memories/default__image.png");
@@ -89,10 +94,9 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           <section className="comments">
             <h2>Comments</h2>
             <CommentsContainer comments={comments} />
-            {userRole === "USER" &&
-              sessionStorage.getItem("user-suspended") != true && (
-                <CommentInput memoryId={memoryId} setComments={setComments} />
-              )}
+            {userRole === "USER" && !suspended && (
+              <CommentInput memoryId={memoryId} setComments={setComments} />
+            )}
           </section>
         </section>
       </div>
