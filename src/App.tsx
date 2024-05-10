@@ -65,7 +65,7 @@ function App() {
             <Sidebar setMessage={handlePopupDisplay} setUserId={setUserId} />
           }
         >
-          <Route index element={<MainPage />} />
+          <Route index element={<MainPage setMessage={handlePopupDisplay} />} />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="memories" element={<MemoriesPage id={userId} />} />
           <Route path="comments" element={<CommentsPage />} />

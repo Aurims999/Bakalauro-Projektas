@@ -5,7 +5,7 @@ import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
-export default function MainPage() {
+export default function MainPage({ setMessage }) {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
@@ -35,6 +35,8 @@ export default function MainPage() {
           icon={"./icons/plus-white.png"}
           innerText={"Share your memory"}
           link={"new-memory"}
+          setMessage={setMessage}
+          disabled={sessionStorage.getItem("user-suspended") === true}
         />
       )}
 

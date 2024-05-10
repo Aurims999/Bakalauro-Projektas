@@ -89,9 +89,10 @@ export default function MemoryModal({ memoryId, openModal, closeModal }) {
           <section className="comments">
             <h2>Comments</h2>
             <CommentsContainer comments={comments} />
-            {userRole === "USER" && (
-              <CommentInput memoryId={memoryId} setComments={setComments} />
-            )}
+            {userRole === "USER" &&
+              sessionStorage.getItem("user-suspended") != true && (
+                <CommentInput memoryId={memoryId} setComments={setComments} />
+              )}
           </section>
         </section>
       </div>
