@@ -5,7 +5,7 @@ import ProfileImage from "../../components/InputForm/ProfileImage";
 
 import "./sidebar.css";
 
-export default function Sidebar({ setUserId }) {
+export default function Sidebar({ setUserId, setMessage }) {
   const [userImage, setUserImage] = useState("default__profile.png");
   const [username, setUsername] = useState("");
   const [userRole, setRole] = useState("USER");
@@ -46,6 +46,7 @@ export default function Sidebar({ setUserId }) {
         );
 
         if (!response.ok) {
+          setMessage("ERROR", "Failed to upload image");
           throw new Error("Failed to upload image");
         }
 
@@ -53,6 +54,7 @@ export default function Sidebar({ setUserId }) {
         return data.probability_of_fake;
       } catch (error) {
         console.error("Error evaluating new profile pic:", error);
+        setMessage("ERROR", error);
       }
     };
 
@@ -76,10 +78,13 @@ export default function Sidebar({ setUserId }) {
           if (data.status === "SAFE") {
             setUserImage(data.user.newProfilePic);
             sessionStorage.setItem("user-image", data.user.newProfilePic);
+            setMessage("SUCCESS", data.message);
           } else if (data.status === "SUSPENDED") {
             setUserImage("default__profile.png");
+            setMessage("WARNING", data.message, 8000);
           } else {
             resetSession();
+            setMessage("ERROR", data.message, 8000);
             navigate("/guestpage");
           }
         })

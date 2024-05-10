@@ -24,14 +24,14 @@ function App() {
   const [popup_type, setType] = useState("");
   const [popup_visible, setVisibility] = useState(false);
 
-  const handlePopupDisplay = (type, message) => {
+  const handlePopupDisplay = (type, message, duration = 2500) => {
     setType(type);
     setMessage(message);
     if (popup_message != "") {
       setVisibility(true);
       setTimeout(() => {
         setVisibility(false);
-      }, 2500);
+      }, duration);
     }
   };
 
