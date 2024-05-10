@@ -120,6 +120,27 @@ router.post("/newMemory", async (req, res) => {
     res.status(500).json({ error: "Failed to save image." });
   }
 });
+
+router.delete("/deleteMemory/:memoryId", async (req, res) => {
+  const memories = schemas.Memories;
+  const comments = schemas.Comments;
+
+  try {
+    const selectedMemory = await memories.findById(req.params.memoryId);
+    if (!selectedMemory) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    await comments.deleteMany({ post: selectedMemory._id });
+    await selectedMemory.remove();
+    res
+      .status(204)
+      .json({ message: "Selected memory was deleted successfully!" });
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
 // #endregion ================
 
 // #region === User Management ===
