@@ -1,6 +1,6 @@
 import { useState } from "react";
 import RegisterForm from "../../../components/RegisterForm/RegisterForm";
-import ErrorModal from "../../../components/Modals/ErrorModal/ErrorModal";
+import ErrorModal from "../../../components/Modals/InfoModal/InfoModal";
 
 import "./registrationPage.css";
 

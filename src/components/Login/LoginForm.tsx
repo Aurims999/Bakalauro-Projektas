@@ -7,7 +7,7 @@ import Button from "../Others/Button/Button";
 
 import "./loginForm.css";
 
-export default function LoginForm({ setErrorMessage, setUserId }) {
+export default function LoginForm({ setMessage, setUserId }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -53,14 +53,15 @@ export default function LoginForm({ setErrorMessage, setUserId }) {
         console.log("User logged in successfully", responseBody);
         navigate("/");
       } else if (response.status === 400) {
-        setErrorMessage(responseBody.error);
+        setMessage("ERROR", responseBody.error);
         throw new Error("Validation error");
       } else {
-        setErrorMessage(responseBody.error);
+        setMessage("ERROR", responseBody.error);
         throw new Error("Server error");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setMessage("ERROR", error);
     }
   };
 

@@ -12,7 +12,14 @@
   --light__white: #fff9f9;
   --light__yellow: #ffe1b4;
 
-  --warning__red: #ff7474;
+  --info__blue__main: #5b8a8f;
+  --info__blue__back: #cce6e7;
+  --success__green__main: #699a74;
+  --success__green__back: #e6faeb;
+  --warning__orange__main: #f59b12;
+  --warning__orange__back: #ffe1b4;
+  --failure__red__main: #933f51;
+  --failure__red__back: #ffc3cd;
 
   --focus__lighter__purple: #a476ff;
 
