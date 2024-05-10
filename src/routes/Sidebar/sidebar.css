@@ -26,19 +26,6 @@ header {
       width: auto;
     }
 
-    & img.profilePicture {
-      height: 20vh;
-      aspect-ratio: 1/1;
-
-      border-radius: 50%;
-      border: 15px solid var(--main__orange);
-
-      object-fit: cover;
-      object-position: center;
-
-      background-color: rgb(185, 226, 151);
-    }
-
     & .userDescription {
       margin: 1rem 0rem;
 

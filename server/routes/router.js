@@ -204,6 +204,7 @@ router.post("/login", async (req, res) => {
           nickname: user.nickname,
           img: user.profileImage,
           isSuspended: user.isSuspended,
+          isBlocked: user.isBlocked,
         },
       });
     } else {
@@ -212,6 +213,99 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Error while logging in:", error);
     res.status(500).json({ error: "Failed to loggin." });
+  }
+});
+
+router.put("/newProfilePic", async (req, res) => {
+  const { userId, image, probOfDeepFake } = req.body;
+
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const buffer = Buffer.from(base64Data, "base64");
+
+  const randomId = uuidv4();
+  const imageName = `${randomId}.png`;
+
+  const imagePath = path.join(
+    __dirname,
+    "../../public/images/users",
+    imageName
+  );
+
+  try {
+    fs.writeFileSync(imagePath, buffer);
+
+    let putData = {};
+    if (probOfDeepFake >= 0.75) {
+      putData = {
+        profileImage: "default__profile.png",
+        suspendedProfileImage: imageName,
+        isBlocked: true,
+        $inc: { amountOfSuspiciousActivity: 1 },
+      };
+    } else if (probOfDeepFake >= 0.5) {
+      putData = {
+        profileImage: "default__profile.png",
+        suspendedProfileImage: imageName,
+        isSuspended: true,
+        $inc: { amountOfSuspiciousActivity: 1 },
+      };
+    } else {
+      putData = {
+        profileImage: imageName,
+      };
+    }
+
+    const users = schemas.Users;
+    const filter = { _id: userId };
+
+    let updatedUser = await users.findOneAndUpdate(filter, putData, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const amountOfSuspiciousActivity = updatedUser.amountOfSuspiciousActivity;
+    updatedUser = {
+      newProfilePic: updatedUser.profileImage,
+      suspendedImage: updatedUser.suspendedProfileImage,
+    };
+
+    if (amountOfSuspiciousActivity >= 3) {
+      await users.findOneAndUpdate(filter, { isBlocked: true });
+      return res.status(200).json({
+        message:
+          "Suspicious content detected. Based on your previous activity, this profile will be blocked till our team review",
+        status: "BLOCKED",
+        user: updatedUser,
+      });
+    }
+
+    if (probOfDeepFake >= 0.75) {
+      return res.status(200).json({
+        message:
+          "Deepfake content detected. Due to suspicious activity, this profile will be reviewed by our admins.",
+        status: "BLOCKED",
+        user: updatedUser,
+      });
+    } else if (probOfDeepFake >= 0.5) {
+      return res.status(200).json({
+        message:
+          "Pottential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
+        status: "SUSPENDED",
+        user: updatedUser,
+      });
+    } else {
+      return res.status(200).json({
+        message: "Profile picture updated successfully!",
+        status: "SAFE",
+        user: updatedUser,
+      });
+    }
+  } catch (error) {
+    console.error("Error saving new profile image:", error);
+    res.status(500).json({ error: "Failed to save image." });
   }
 });
 // #endregion ================

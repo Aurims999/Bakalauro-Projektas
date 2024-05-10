@@ -9,11 +9,16 @@ const userSchema = new Schema({
     type: String,
     default: "default__profile.png",
   },
+  suspendedProfileImage: {
+    type: String,
+    default: "default__profile.png",
+  },
   posts: { type: Array },
   comments: { type: Array },
   messages: { type: Array },
   amountOfSuspiciousActivity: { type: Number, default: 0, required: true },
   isSuspended: { type: Boolean, default: false, required: true },
+  isBlocked: { type: Boolean, default: false, required: true },
 });
 
 const memorySchema = new Schema({
@@ -24,7 +29,6 @@ const memorySchema = new Schema({
   description: { type: String, default: "" },
   category: { type: String, default: "" },
   tags: { type: Array, default: [] },
-  amountOfLikes: { type: Number, default: 0 },
   comments: { type: Array, default: [] },
   isSuspended: { type: Boolean, required: true },
 });
