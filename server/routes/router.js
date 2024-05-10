@@ -11,7 +11,7 @@ const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
 
 // #region === Memories ===
-router.get("/memories", async (req, res) => {
+router.get("/allmemories", async (req, res) => {
   try {
     const memories = schemas.Memories;
 

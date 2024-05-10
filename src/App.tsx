@@ -39,7 +39,8 @@ function App() {
 
   useEffect(() => {
     setSuspension(sessionStorage.getItem("user-suspended") === "true");
-  }, [userId]);
+    setUserId(sessionStorage.getItem("user-id"));
+  }, []);
 
   return (
     <div className="appContainer">

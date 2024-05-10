@@ -5,13 +5,18 @@ import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
-export default function MemoriesPage({ id }) {
+export default function MemoriesPage({ id = "" }) {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/memories/${id}`)
+    let userID = id;
+    if (id === "") {
+      userID = sessionStorage.getItem("user-id");
+    }
+
+    fetch(`http://localhost:4000/memories/${userID}`)
       .then((response) => response.json())
       .then((memory) => {
         setMemory(memory);
