@@ -31,7 +31,7 @@ function App() {
       setVisibility(true);
       setTimeout(() => {
         setVisibility(false);
-      }, 5000);
+      }, 2500);
     }
   };
 
@@ -59,13 +59,21 @@ function App() {
             }
           />
         </Route>
-        <Route path="/" element={<Sidebar setUserId={setUserId} />}>
+        <Route
+          path="/"
+          element={
+            <Sidebar setMessage={handlePopupDisplay} setUserId={setUserId} />
+          }
+        >
           <Route index element={<MainPage />} />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="memories" element={<MemoriesPage id={userId} />} />
           <Route path="comments" element={<CommentsPage />} />
         </Route>
-        <Route path="new-memory" element={<PostUploadPage />}></Route>
+        <Route
+          path="new-memory"
+          element={<PostUploadPage setMessage={handlePopupDisplay} />}
+        ></Route>
       </Routes>
       <InfoModal
         type={popup_type}

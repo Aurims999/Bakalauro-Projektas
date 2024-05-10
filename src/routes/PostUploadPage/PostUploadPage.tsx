@@ -8,7 +8,7 @@ import backgroundImage from "../../assets/inputPage__background.png";
 
 import "./postUploadPage.css";
 
-export default function PostUploadPage() {
+export default function PostUploadPage({ setMessage }) {
   const [image, setImage] = useState(backgroundImage);
   const [imageUrl, setImageUrl] = useState(backgroundImage);
   const [showImageField, setShowImageField] = useState(true);
@@ -37,11 +37,13 @@ export default function PostUploadPage() {
           });
 
           if (!response.ok) {
+            setMessage("ERROR", "Failed to upload image");
             throw new Error("Failed to upload image");
           }
 
           const data = await response.json();
           setPredictedCategory(data.classification);
+          setMessage("INFO", "AI Predicted values added to the form");
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -75,7 +77,11 @@ export default function PostUploadPage() {
       <section className="postDetailsForm">
         <div className="contentContainer">
           <h1>Share your new memory!</h1>
-          <InputForm image={imageUrl} predictedCategory={predictedCategory} />
+          <InputForm
+            image={imageUrl}
+            predictedCategory={predictedCategory}
+            setMessage={setMessage}
+          />
         </div>
       </section>
     </div>

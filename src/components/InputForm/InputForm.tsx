@@ -8,7 +8,7 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm({ image, predictedCategory }) {
+export default function InputForm({ image, predictedCategory, setMessage }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
@@ -76,10 +76,12 @@ export default function InputForm({ image, predictedCategory }) {
       .then((response) => response.json())
       .then((data) => {
         console.log("Form submitted successfully", data);
+        setMessage("SUCCESS", data.message);
         navigate("/");
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
+        setMessage("ERROR", error);
       });
   };
 
