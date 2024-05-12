@@ -86,7 +86,12 @@ function App() {
             }
           />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="memories" element={<MemoriesPage id={userId} />} />
+          <Route
+            path="memories"
+            element={
+              <MemoriesPage id={userId} setMessage={handlePopupDisplay} />
+            }
+          />
           <Route path="comments" element={<CommentsPage />} />
         </Route>
         <Route

@@ -5,7 +5,7 @@ import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
-export default function MemoriesPage({ id = "" }) {
+export default function MemoriesPage({ id = "", setMessage }) {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
@@ -40,6 +40,7 @@ export default function MemoriesPage({ id = "" }) {
         data={memories}
         setModal={setModal}
         setMemorySelection={setID}
+        setMessage={setMessage}
       />
       <MemoryModal
         memoryId={selectedMemoryID}

@@ -44,6 +44,7 @@ export default function MainPage({ setMessage, suspended }) {
         data={memories}
         setModal={setModal}
         setMemorySelection={setID}
+        setMessage={setMessage}
       />
       <MemoryModal
         memoryId={selectedMemoryID}

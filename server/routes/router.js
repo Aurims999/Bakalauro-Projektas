@@ -132,10 +132,10 @@ router.delete("/deleteMemory/:memoryId", async (req, res) => {
     }
 
     await comments.deleteMany({ post: selectedMemory._id });
-    await selectedMemory.remove();
-    res
-      .status(204)
-      .json({ message: "Selected memory was deleted successfully!" });
+    console.log("Comments from memory removed successfully");
+    await selectedMemory.deleteOne();
+    console.log("Memory removed successfully");
+    res.status(204).send();
   } catch (error) {
     console.log("Error retrieving data: ", error);
     res.status(500).json({ error: "Server error occured" });
