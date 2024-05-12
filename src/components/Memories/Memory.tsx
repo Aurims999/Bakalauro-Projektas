@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import UserImage from "../Others/UserImage/UserImage";
 import Like from "../Others/Like/Like";
+import TrashBin from "../Others/TrashBin/TrashBin";
 
 import "./memory.css";
 
@@ -12,16 +13,20 @@ export default function Memory({
   author,
   setModal,
   setSelection,
+  setMessage,
+  removeMemory,
 }) {
   const [memoryId, setID] = useState(id);
   const [authorNickname, setNickname] = useState("");
   const [authorImage, setImage] = useState(
     "./images/users/default__profile.png"
   );
+  const [userId, setUserId] = useState("");
 
   const userRole = sessionStorage.getItem("user-role");
 
   useEffect(() => {
+    setUserId(sessionStorage.getItem("user-id"));
     fetch(`http://localhost:4000/user/${author}`)
       .then((response) => response.json())
       .then((user) => {
@@ -29,6 +34,32 @@ export default function Memory({
         setImage(user.image);
       });
   }, [author]);
+
+  const deleteMemory = async () => {
+    try {
+      console.log("Deleting memory");
+      const response = await fetch(
+        `http://localhost:4000/deleteMemory/${memoryId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 204) {
+        console.log("Memory removed successfully");
+        removeMemory(memoryId);
+        setMessage("SUCCESS", "Selected memory was deleted successfully!");
+      } else {
+        const responseBody = await response.json();
+        setMessage("ERROR", responseBody.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="memory">
@@ -49,7 +80,10 @@ export default function Memory({
             <p>{authorNickname}</p>
           </div>
         </div>
-        {userRole === "USER" && <Like />}
+        {userRole === "USER" && userId != author && <Like />}
+        {(userRole === "ADMIN" || userId === author) && (
+          <TrashBin deleteMemory={deleteMemory} />
+        )}
       </section>
     </div>
   );

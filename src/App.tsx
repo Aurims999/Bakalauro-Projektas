@@ -39,7 +39,8 @@ function App() {
 
   useEffect(() => {
     setSuspension(sessionStorage.getItem("user-suspended") === "true");
-  }, [userId]);
+    setUserId(sessionStorage.getItem("user-id"));
+  }, []);
 
   return (
     <div className="appContainer">
@@ -85,7 +86,12 @@ function App() {
             }
           />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="memories" element={<MemoriesPage id={userId} />} />
+          <Route
+            path="memories"
+            element={
+              <MemoriesPage id={userId} setMessage={handlePopupDisplay} />
+            }
+          />
           <Route path="comments" element={<CommentsPage />} />
         </Route>
         <Route

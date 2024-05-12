@@ -9,13 +9,21 @@ export default function MemoriesContainer({
   data,
   setModal,
   setMemorySelection,
+  setMessage,
 }) {
   const [memories, setMemories] = useState(data.memories ?? []);
+
   useEffect(() => {
     if (data && data.memories) {
       setMemories(data.memories);
     }
   }, [data]);
+
+  const removeMemoryFromList = (memoryId) => {
+    setMemories((prevMemories) =>
+      prevMemories.filter((memory) => memory._id !== memoryId)
+    );
+  };
 
   return (
     <div
@@ -31,6 +39,8 @@ export default function MemoriesContainer({
               author={memory.author}
               setModal={setModal}
               setSelection={setMemorySelection}
+              setMessage={setMessage}
+              removeMemory={removeMemoryFromList}
             />
           );
         })

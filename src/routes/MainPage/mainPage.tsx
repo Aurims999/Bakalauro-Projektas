@@ -12,7 +12,7 @@ export default function MainPage({ setMessage, suspended }) {
   const userRole = sessionStorage.getItem("user-role");
 
   useEffect(() => {
-    fetch("http://localhost:4000/memories")
+    fetch("http://localhost:4000/allmemories")
       .then((response) => response.json())
       .then((memory) => {
         setMemory(memory);
@@ -44,6 +44,7 @@ export default function MainPage({ setMessage, suspended }) {
         data={memories}
         setModal={setModal}
         setMemorySelection={setID}
+        setMessage={setMessage}
       />
       <MemoryModal
         memoryId={selectedMemoryID}

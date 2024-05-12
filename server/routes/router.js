@@ -11,7 +11,7 @@ const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
 
 // #region === Memories ===
-router.get("/memories", async (req, res) => {
+router.get("/allmemories", async (req, res) => {
   try {
     const memories = schemas.Memories;
 
@@ -120,6 +120,27 @@ router.post("/newMemory", async (req, res) => {
     res.status(500).json({ error: "Failed to save image." });
   }
 });
+
+router.delete("/deleteMemory/:memoryId", async (req, res) => {
+  const memories = schemas.Memories;
+  const comments = schemas.Comments;
+
+  try {
+    const selectedMemory = await memories.findById(req.params.memoryId);
+    if (!selectedMemory) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    await comments.deleteMany({ post: selectedMemory._id });
+    console.log("Comments from memory removed successfully");
+    await selectedMemory.deleteOne();
+    console.log("Memory removed successfully");
+    res.status(204).send();
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
 // #endregion ================
 
 // #region === User Management ===
@@ -222,7 +243,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.put("/newProfilePic", async (req, res) => {
-  const { userId, image, probOfDeepFake } = req.body;
+  const { userId, image, currentProfilePic, probOfDeepFake } = req.body;
 
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
@@ -238,6 +259,20 @@ router.put("/newProfilePic", async (req, res) => {
 
   try {
     fs.writeFileSync(imagePath, buffer);
+    if (currentProfilePic != "default__profile.png") {
+      const currentImagePath = path.join(
+        __dirname,
+        "../../public/images/users",
+        currentProfilePic
+      );
+
+      try {
+        fs.unlinkSync(currentImagePath);
+        console.log(`Deleted ${currentProfilePic}`);
+      } catch (error) {
+        console.error(`Error deleting ${currentProfilePic}:`, error);
+      }
+    }
 
     let putData = {};
     if (probOfDeepFake >= 0.75) {

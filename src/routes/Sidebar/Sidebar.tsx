@@ -62,6 +62,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
       const inputData = {
         userId: sessionStorage.getItem("user-id"),
         image,
+        currentProfilePic: sessionStorage.getItem("user-image"),
         probOfDeepFake: prediction,
       };
 
@@ -94,6 +95,16 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
           console.error("Error updating user profile pic:", error);
         });
     };
+
+    if (sessionStorage.getItem("user-suspended") === "true") {
+      setMessage(
+        "ERROR",
+        "Your profile picture is waiting for administrator approval. Till then, you can't change your user image",
+        8000
+      );
+
+      return;
+    }
 
     const prediction = await evaluateImage();
     updateProfilePic(imageUrl, prediction);

@@ -28,6 +28,10 @@ def processImage(request):
 
     cl_img = userInput.resize((256,256))
     cl_img_array = img_to_array(cl_img)
+
+    if cl_img_array.shape[-1] != 3:
+        cl_img_array = np.concatenate([cl_img_array] * 3, axis=-1)
+
     cl_img_processed = cl_img_array.reshape((1,) + cl_img_array.shape)
     return cl_img_processed
 

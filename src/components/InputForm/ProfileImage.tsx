@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./profileImage.css";
 
 export default function ProfileImage({ userImage, handleNewImage }) {
