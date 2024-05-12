@@ -38,15 +38,12 @@ export default function Memory({
   const deleteMemory = async () => {
     try {
       console.log("Deleting memory");
-      const response = await fetch(
-        `http://localhost:4000/deleteMemory/${memoryId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:4000/deleteMemory/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.status === 204) {
         console.log("Memory removed successfully");

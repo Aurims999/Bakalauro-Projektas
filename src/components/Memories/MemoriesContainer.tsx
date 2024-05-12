@@ -19,6 +19,10 @@ export default function MemoriesContainer({
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log(memories);
+  }, [memories]);
+
   const removeMemoryFromList = (memoryId) => {
     setMemories((prevMemories) =>
       prevMemories.filter((memory) => memory._id !== memoryId)
