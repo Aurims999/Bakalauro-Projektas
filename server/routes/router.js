@@ -135,6 +135,8 @@ router.delete("/deleteMemory/:memoryId", async (req, res) => {
     console.log("Comments from memory removed successfully");
     await selectedMemory.deleteOne();
     console.log("Memory removed successfully");
+    fs.unlinkSync(`../public/images/memories/${selectedMemory.image}`);
+    console.log(`Deleted ${selectedMemory.image} from local storage`);
     res.status(204).send();
   } catch (error) {
     console.log("Error retrieving data: ", error);
