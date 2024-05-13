@@ -428,4 +428,65 @@ router.post("/newComment", async (req, res) => {
 });
 // #endregion ================
 
+// #region === Admin ===
+router.get("/suspendedMemories", async (req, res) => {
+  const memories = schemas.Memories;
+
+  try {
+    const suspendedMemories = await memories.find({ isSuspended: true }).exec();
+    res.status(200).json({
+      message: "A list of all suspended memories",
+      memories: suspendedMemories,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error:
+        "Server Error. Unable to retrieve a list of all suspended memories",
+    });
+  }
+});
+
+router.get("/suspendedComments", async (req, res) => {
+  const comments = schemas.Comments;
+  const memories = schemas.Memories;
+
+  try {
+    const suspendedComments = await comments.find({ isSuspended: true }).exec();
+    if (suspendedComments.length > 0) {
+      const responseData = await Promise.all(
+        suspendedComments.map(async (comment) => {
+          const { _id, post, text, isSuspended } = comment;
+          const memory = await memories.findById(post);
+
+          if (memory) {
+            return {
+              id: _id,
+              postId: post,
+              postImage: memory.image,
+              postTitle: memory.title,
+              comment: text,
+              status: isSuspended,
+            };
+          } else {
+            return {
+              postId: post,
+              comment: text,
+              status: isSuspended,
+              error: "Memory details not found",
+            };
+          }
+        })
+      );
+      res.status(200).json({ comments: responseData });
+    } else {
+      res.status(200).json({ comments: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+// #endregion
+
 module.exports = router;

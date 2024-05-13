@@ -172,6 +172,49 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 </li>
               </>
             )}
+
+            {userRole === "ADMIN" && (
+              <>
+                <li>
+                  <Link to={"/"} className="navButton">
+                    <img
+                      src="./icons/posts-black.png"
+                      alt="Memories' icon"
+                      className="icon"
+                    />
+                    <p>Memories</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"contentManagement"} className="navButton">
+                    <img
+                      src="./icons/ban-black.png"
+                      alt="Content Management' icon"
+                      className="icon"
+                    />
+                    <p>
+                      Content
+                      <br />
+                      Restrictions
+                    </p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"users"} className="navButton">
+                    <img
+                      src="./icons/users-black.png"
+                      alt="Users' icon"
+                      className="icon"
+                    />
+                    <p>
+                      User
+                      <br />
+                      Control
+                    </p>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <div className="logoutArea">

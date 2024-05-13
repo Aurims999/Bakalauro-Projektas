@@ -15,7 +15,7 @@
   border-radius: 10px;
 
   filter: drop-shadow(6px 4px 6px var(--dropShadow__gray));
-  transition: background-color 0.2s ease-out;
+  transition: all 0.2s ease-out;
   cursor: pointer;
 
   & img {
@@ -32,6 +32,7 @@
 
   &:hover {
     background-color: var(--focus__lighter__purple);
+    transform: translateY(-5px);
   }
 
   &:active {

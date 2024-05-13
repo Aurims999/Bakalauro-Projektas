@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../../components/Others/Table/Table";
+import CommentsTable from "../../components/Others/Table/CommentsTable";
 import Button from "../../components/Others/Button/Button";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
@@ -9,6 +9,10 @@ export default function CommentsPage() {
   const [comments, setComments] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
+
+  useEffect(() => {
+    console.log(selectedMemoryID);
+  }, [selectedMemoryID]);
 
   const navigate = useNavigate();
 
@@ -33,7 +37,11 @@ export default function CommentsPage() {
       <main>
         <h1>My Comments</h1>
         <Button innerText={"Back to Main Page"} link={"/"} />
-        <Table data={comments} setModal={setModal} setMemorySelection={setID} />
+        <CommentsTable
+          data={comments}
+          setModal={setModal}
+          setMemorySelection={setID}
+        />
       </main>
       <MemoryModal
         memoryId={selectedMemoryID}

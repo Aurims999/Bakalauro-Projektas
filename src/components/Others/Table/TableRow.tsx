@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import StatusBlock from "../StatusBlock/StatusBlock";
+import ButtonEvent from "../Button/ButtonEvent";
 
-export default function TableRow({ data, setModal, setSelection }) {
+export default function TableRow({ data, type, setModal, setSelection }) {
   const [comment, setComment] = useState(data.comment);
   const [commentStatus, setStatus] = useState(data.status);
 
@@ -23,6 +24,7 @@ export default function TableRow({ data, setModal, setSelection }) {
       <div className="table-row-block">
         <p>{title}</p>
       </div>
+
       <div className="table-row-block">
         <p>"{comment}"</p>
       </div>

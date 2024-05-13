@@ -11,6 +11,8 @@ import MainPage from "./routes/MainPage/mainPage";
 import MessagesPage from "./routes/MessagesPage/MessagesPage";
 import MemoriesPage from "./routes/MemoriesPage/MemoriesPage";
 import CommentsPage from "./routes/CommentsPage/CommentsPage";
+import ContentManagement from "./routes/ContentManagement/ContentManagement";
+import UsersPage from "./routes/UsersPage/UsersPage";
 
 import PostUploadPage from "./routes/PostUploadPage/PostUploadPage";
 
@@ -93,6 +95,8 @@ function App() {
             }
           />
           <Route path="comments" element={<CommentsPage />} />
+          <Route path="contentManagement" element={<ContentManagement />} />
+          <Route path="users" element={<UsersPage />} />
         </Route>
         <Route
           path="new-memory"
