@@ -2,7 +2,13 @@ import "./profilePics.css";
 
 import ButtonEvent from "../Others/Button/ButtonEvent";
 
-export default function ProfilePicsRow({ userId, nickname, image }) {
+export default function ProfilePicsRow({
+  userId,
+  nickname,
+  image,
+  blockProfile,
+  revokeProfile,
+}) {
   return (
     <div className="profilePics-row">
       <img
@@ -15,10 +21,12 @@ export default function ProfilePicsRow({ userId, nickname, image }) {
           <ButtonEvent
             innerText={"Block User"}
             buttonColor={"var(--failure__red__main)"}
+            handleClick={() => blockProfile(userId)}
           />
           <ButtonEvent
             innerText={"Permit New Profile Pic"}
             buttonColor={"var(--success__green__main)"}
+            handleClick={() => revokeProfile(userId)}
           />
         </div>
       </div>

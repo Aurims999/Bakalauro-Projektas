@@ -6,7 +6,6 @@ export default function ButtonEvent({
   buttonColor,
   textColor,
   handleClick,
-  setMessage,
   disabled = false,
 }) {
   return (

@@ -46,7 +46,7 @@ export default function MainPage({ setMessage, suspended }) {
           innerText={"Share your memory"}
           link={"new-memory"}
           setMessage={setMessage}
-          disabled={suspended}
+          disabled={sessionStorage.getItem("user-suspended") === "true"}
         />
       )}
 

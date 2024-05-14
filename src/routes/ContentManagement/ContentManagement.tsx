@@ -67,6 +67,12 @@ export default function ContentManagement({ setMessage }) {
     );
   };
 
+  const removeProfileFromList = (userId) => {
+    setProfiles((previousData) =>
+      previousData.filter((profile) => profile.userId !== userId)
+    );
+  };
+
   useEffect(() => {
     const userRole = sessionStorage.getItem("user-role");
     if (userRole != "ADMIN") {
@@ -102,7 +108,11 @@ export default function ContentManagement({ setMessage }) {
           setMemorySelection={setID}
         />
         <h2 className="tableTitle">Suspended Profile Images</h2>
-        <ProfilePics images={suspendedProfilePics} />
+        <ProfilePics
+          images={suspendedProfilePics}
+          removeProfile={removeProfileFromList}
+          setMessage={setMessage}
+        />
       </main>
       <MemoryModal
         memoryId={selectedMemoryID}

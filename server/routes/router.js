@@ -615,6 +615,57 @@ router.get("/suspendedProfilePics", async (req, res) => {
   }
 });
 
+router.put("/blockUser/:userId", async (req, res) => {
+  const users = schemas.Users;
+  const memories = schemas.Memories;
+
+  try {
+    const requestedUser = await users.findById(req.params.userId);
+    if (!requestedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    requestedUser.isBlocked = true;
+    fs.unlinkSync(
+      `../public/images/users/${requestedUser.suspendedProfileImage}`
+    );
+    requestedUser.suspendedProfileImage = "default__profile.png";
+    await requestedUser.save();
+
+    await memories.deleteMany({ author: requestedUser._id });
+    res
+      .status(200)
+      .json({ message: `${requestedUser.nickname} blocked successfully!` });
+  } catch (error) {
+    console.log("Server Error: ", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+router.put("/acceptProfilePic/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+    selectedUser.profileImage = selectedUser.suspendedProfileImage;
+    selectedUser.suspendedProfileImage = "default__profile.png";
+    selectedUser.amountOfSuspiciousActivity =
+      selectedUser.amountOfSuspiciousActivity - 1;
+    selectedUser.isSuspended = false;
+    await selectedUser.save();
+
+    res.status(200).json({
+      message: "User's profile image suspension was revoked successfully!",
+    });
+  } catch (error) {
+    console.log("Server error while accepting user's new profile pic: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // #endregion
 
 module.exports = router;
