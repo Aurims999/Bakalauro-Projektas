@@ -15,6 +15,7 @@ export default function Memory({
   setSelection,
   setMessage,
   removeMemory,
+  suspended,
 }) {
   const [memoryId, setID] = useState(id);
   const [authorNickname, setNickname] = useState("");
@@ -58,8 +59,14 @@ export default function Memory({
     }
   };
 
-  return (
-    <div className="memory">
+  let displayMemory = !suspended;
+  displayMemory = displayMemory
+    ? true
+    : sessionStorage.getItem("user-role") === "ADMIN" ||
+      sessionStorage.getItem("user-id") === author;
+
+  return displayMemory ? (
+    <div className="memory" style={suspended ? { opacity: 0.4 } : {}}>
       <img
         className="postImage"
         src={`./images/memories/${image}`}
@@ -83,5 +90,7 @@ export default function Memory({
         )}
       </section>
     </div>
+  ) : (
+    <></>
   );
 }

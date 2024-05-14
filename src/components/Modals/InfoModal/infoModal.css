@@ -13,7 +13,7 @@
   align-items: center;
   gap: 25px;
 
-  z-index: 100;
+  z-index: 1000;
   border-radius: 20px;
   box-shadow: 10px 10px 15px var(--dropShadow__gray);
 

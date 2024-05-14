@@ -19,6 +19,16 @@ export default function MainPage({ setMessage, suspended }) {
       });
   }, []);
 
+  const removeMemoryFromList = (memoryId) => {
+    console.log(memories);
+    setMemory((previousData) => {
+      const updatedMemories = previousData.memories.filter(
+        (memory) => memory._id !== memoryId
+      );
+      return { memories: updatedMemories };
+    });
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,12 +55,14 @@ export default function MainPage({ setMessage, suspended }) {
         setModal={setModal}
         setMemorySelection={setID}
         setMessage={setMessage}
+        removeMemory={removeMemoryFromList}
       />
       <MemoryModal
         memoryId={selectedMemoryID}
         openModal={modal}
         closeModal={() => setModal(false)}
-        suspended={suspended}
+        setMessage={setMessage}
+        removeMemory={removeMemoryFromList}
       />
     </main>
   );

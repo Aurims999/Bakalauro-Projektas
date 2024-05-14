@@ -3,7 +3,7 @@ import { useState } from "react";
 import StatusBlock from "../StatusBlock/StatusBlock";
 import ButtonEvent from "../Button/ButtonEvent";
 
-export default function TableRow({ data, type, setModal, setSelection }) {
+export default function TableRow({ data, setModal, setSelection }) {
   const [comment, setComment] = useState(data.comment);
   const [commentStatus, setStatus] = useState(data.status);
 

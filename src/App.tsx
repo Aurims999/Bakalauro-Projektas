@@ -95,7 +95,10 @@ function App() {
             }
           />
           <Route path="comments" element={<CommentsPage />} />
-          <Route path="contentManagement" element={<ContentManagement />} />
+          <Route
+            path="contentManagement"
+            element={<ContentManagement setMessage={handlePopupDisplay} />}
+          />
           <Route path="users" element={<UsersPage />} />
         </Route>
         <Route

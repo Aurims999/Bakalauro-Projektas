@@ -9,6 +9,7 @@ const argon2 = require("argon2");
 
 const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
+const { error } = require("console");
 
 // #region === Memories ===
 router.get("/allmemories", async (req, res) => {
@@ -447,6 +448,48 @@ router.get("/suspendedMemories", async (req, res) => {
   }
 });
 
+router.put("/suspendMemory/:memoryId", async (req, res) => {
+  try {
+    const memories = schemas.Memories;
+    const users = schemas.Users;
+
+    const selectedMemory = await memories.findById(req.params.memoryId);
+    if (!selectedMemory) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    selectedMemory.isSuspended = !selectedMemory.isSuspended;
+    await selectedMemory.save();
+
+    const memoryAuthor = await users.findById(selectedMemory.author);
+    let suspiciousActivity = memoryAuthor.amountOfSuspiciousActivity;
+    memoryAuthor.amountOfSuspiciousActivity = selectedMemory.isSuspended
+      ? suspiciousActivity + 1
+      : suspiciousActivity - 1;
+
+    if (
+      memoryAuthor.amountOfSuspiciousActivity >= 3 &&
+      memoryAuthor.isBlocked === false
+    ) {
+      memoryAuthor.isBlocked = true;
+    } else if (
+      memoryAuthor.amountOfSuspiciousActivity < 3 &&
+      memoryAuthor.isBlocked
+    ) {
+      memoryAuthor.isBlocked = false;
+    }
+    await memoryAuthor.save();
+
+    res.status(200).json({
+      message: "Memory suspension status changed successfully",
+      suspended: selectedMemory.isSuspended,
+    });
+  } catch (error) {
+    console.log("Memory processing error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/suspendedComments", async (req, res) => {
   const comments = schemas.Comments;
   const memories = schemas.Memories;
@@ -484,6 +527,27 @@ router.get("/suspendedComments", async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: error });
+  }
+});
+
+router.put("/suspendComment/:commentId", async (req, res) => {
+  try {
+    const comments = schemas.Comments;
+    const selectedComment = await comments.findById(req.params.commentId);
+    if (!selectedComment) {
+      res.status(404).json({ error: "Comment not found" });
+    }
+
+    selectedComment.isSuspended = !selectedComment.isSuspended;
+    await selectedComment.save();
+
+    res.status(200).json({
+      message: "Comment suspension status changed successfully",
+      suspended: selectedComment.isSuspended,
+    });
+  } catch (error) {
+    console.log("Comment processing error: ", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

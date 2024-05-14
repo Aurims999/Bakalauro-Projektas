@@ -2,7 +2,11 @@ import Comment from "./Comment";
 import NoData from "../Others/Error-Handling/NoData/NoData";
 import "./commentsContainer.css";
 
-export default function CommentsContainer({ comments }) {
+export default function CommentsContainer({
+  comments,
+  setCommentsCount,
+  removeComment,
+}) {
   return (
     <div
       className={`allComments ${
@@ -11,7 +15,14 @@ export default function CommentsContainer({ comments }) {
     >
       {comments && comments.length > 0 ? (
         comments.map((comment, index) => (
-          <Comment key={index} userId={comment.author}>
+          <Comment
+            key={index}
+            commentId={comment._id}
+            userId={comment.author}
+            suspended={comment.isSuspended}
+            setCommentsCount={setCommentsCount}
+            removeComment={removeComment}
+          >
             {comment.text}
           </Comment>
         ))

@@ -5,12 +5,7 @@ import NoData from "../Error-Handling/NoData/NoData";
 
 import "./commentsTable.css";
 
-export default function CommentsTable({
-  data,
-  setModal,
-  type = "DEFAULT",
-  setMemorySelection,
-}) {
+export default function CommentsTable({ data, setModal, setMemorySelection }) {
   const [tableData, setData] = useState(data.comments ?? []);
 
   useEffect(() => {
@@ -39,7 +34,6 @@ export default function CommentsTable({
                 return (
                   <TableRow
                     data={comment}
-                    type={type}
                     setModal={setModal}
                     setSelection={setMemorySelection}
                   />
@@ -51,7 +45,9 @@ export default function CommentsTable({
           <NoData
             icon={"./icons/comments-purple.png"}
             text={
-              "You haven't posted any comments yet. Go and check out what others have posted!"
+              sessionStorage.getItem("user-role") === "ADMIN"
+                ? "There are no comments to display"
+                : "You haven't posted any comments yet. Go and check out what others have posted!"
             }
           />
         )}
