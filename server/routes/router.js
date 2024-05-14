@@ -220,7 +220,7 @@ router.post("/login", async (req, res) => {
       res.status(400).json({ error: "User not found" });
     } else if (await argon2.verify(user.password, password)) {
       console.log("Login data correct");
-      if (user.isBlocked) {
+      if (user.isBlocked || user.amountOfSuspiciousActivity >= 3) {
         res.status(403).json({
           message: `This account is blocked and requires administrator approval for access. Contact customer service for more details`,
         });
@@ -427,9 +427,52 @@ router.post("/newComment", async (req, res) => {
     res.status(500).json({ error: "Failed to save comment." });
   }
 });
+
+router.delete("/deleteComment/:commentId", async (req, res) => {
+  const comments = schemas.Comments;
+
+  try {
+    const selectedComment = await comments.findById(req.params.commentId);
+    if (!selectedComment) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    await comments.deleteOne({ post: selectedComment._id });
+    console.log("Comment from memory removed successfully");
+    await selectedComment.deleteOne();
+    res.status(204).send();
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
 // #endregion ================
 
 // #region === Admin ===
+
+const changeSuspicioutActivityCounter = async (userId, suspended) => {
+  const users = schemas.Users;
+  const postAuthor = await users.findById(userId);
+
+  let suspiciousActivity = postAuthor.amountOfSuspiciousActivity;
+  postAuthor.amountOfSuspiciousActivity = suspended
+    ? suspiciousActivity + 1
+    : suspiciousActivity - 1;
+
+  if (
+    postAuthor.amountOfSuspiciousActivity >= 3 &&
+    postAuthor.isBlocked === false
+  ) {
+    postAuthor.isBlocked = true;
+  } else if (
+    postAuthor.amountOfSuspiciousActivity < 3 &&
+    postAuthor.isBlocked
+  ) {
+    postAuthor.isBlocked = false;
+  }
+  await postAuthor.save();
+};
+
 router.get("/suspendedMemories", async (req, res) => {
   const memories = schemas.Memories;
 
@@ -461,24 +504,10 @@ router.put("/suspendMemory/:memoryId", async (req, res) => {
     selectedMemory.isSuspended = !selectedMemory.isSuspended;
     await selectedMemory.save();
 
-    const memoryAuthor = await users.findById(selectedMemory.author);
-    let suspiciousActivity = memoryAuthor.amountOfSuspiciousActivity;
-    memoryAuthor.amountOfSuspiciousActivity = selectedMemory.isSuspended
-      ? suspiciousActivity + 1
-      : suspiciousActivity - 1;
-
-    if (
-      memoryAuthor.amountOfSuspiciousActivity >= 3 &&
-      memoryAuthor.isBlocked === false
-    ) {
-      memoryAuthor.isBlocked = true;
-    } else if (
-      memoryAuthor.amountOfSuspiciousActivity < 3 &&
-      memoryAuthor.isBlocked
-    ) {
-      memoryAuthor.isBlocked = false;
-    }
-    await memoryAuthor.save();
+    changeSuspicioutActivityCounter(
+      selectedMemory.author,
+      selectedMemory.isSuspended
+    );
 
     res.status(200).json({
       message: "Memory suspension status changed successfully",
@@ -533,6 +562,8 @@ router.get("/suspendedComments", async (req, res) => {
 router.put("/suspendComment/:commentId", async (req, res) => {
   try {
     const comments = schemas.Comments;
+    const users = schemas.Users;
+
     const selectedComment = await comments.findById(req.params.commentId);
     if (!selectedComment) {
       res.status(404).json({ error: "Comment not found" });
@@ -540,6 +571,11 @@ router.put("/suspendComment/:commentId", async (req, res) => {
 
     selectedComment.isSuspended = !selectedComment.isSuspended;
     await selectedComment.save();
+
+    changeSuspicioutActivityCounter(
+      selectedComment.author,
+      selectedComment.isSuspended
+    );
 
     res.status(200).json({
       message: "Comment suspension status changed successfully",

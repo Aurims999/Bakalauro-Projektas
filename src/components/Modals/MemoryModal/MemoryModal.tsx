@@ -103,6 +103,12 @@ export default function MemoryModal({
     }
   };
 
+  const removeCommentFromList = (commentId) => {
+    setComments((previousData) =>
+      previousData.filter((comment) => comment._id !== commentId)
+    );
+  };
+
   useEffect(() => {
     if (openModal) {
       ref.current?.showModal();
@@ -153,10 +159,11 @@ export default function MemoryModal({
             <CommentsContainer
               comments={comments}
               setCommentsCount={setCommentsCount}
-              removeComment={removeComment}
+              removeComment={removeCommentFromList}
+              changeSuspension={removeComment}
             />
             {userRole === "USER" &&
-              !sessionStorage.getItem("user-suspended") && (
+              sessionStorage.getItem("user-suspended") === "false" && (
                 <CommentInput memoryId={memoryId} setComments={setComments} />
               )}
             {userRole === "ADMIN" && (
