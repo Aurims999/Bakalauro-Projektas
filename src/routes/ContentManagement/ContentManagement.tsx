@@ -13,8 +13,10 @@ import "./contentManagement.css";
 export default function ContentManagement({ setMessage }) {
   const [suspendedMemories, setMemories] = useState([]);
   const [suspendedComments, setComments] = useState([]);
+  const [suspendedProfilePics, setProfiles] = useState([]);
   const [amountOfMemories, setMemoriesCount] = useState(0);
   const [amountOfComments, setCommentsCount] = useState(0);
+  const [amountOfProfilePics, setProfileCount] = useState(0);
 
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
@@ -33,7 +35,12 @@ export default function ContentManagement({ setMessage }) {
       .then((data) => {
         setComments(data.comments);
       });
-    setCommentsCount(suspendedComments.length);
+
+    fetch(`http://localhost:4000/suspendedProfilePics`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProfiles(data.users);
+      });
   }, []);
 
   useEffect(() => {
@@ -43,6 +50,10 @@ export default function ContentManagement({ setMessage }) {
   useEffect(() => {
     setCommentsCount(suspendedComments.length);
   }, [suspendedComments]);
+
+  useEffect(() => {
+    setProfileCount(suspendedProfilePics.length);
+  }, [suspendedProfilePics]);
 
   const removeCommentFromList = (commentId) => {
     setComments((previousData) =>
@@ -70,7 +81,10 @@ export default function ContentManagement({ setMessage }) {
         <section className="statistics">
           <StatBlock value={amountOfMemories} title={"Suspended Memories"} />
           <StatBlock value={amountOfComments} title={"Suspended Comments"} />
-          <StatBlock value={25} title={"Suspended Profile Images"} />
+          <StatBlock
+            value={amountOfProfilePics}
+            title={"Suspended Profile Images"}
+          />
         </section>
 
         <h2 className="tableTitle">Suspended Memories</h2>
@@ -88,7 +102,7 @@ export default function ContentManagement({ setMessage }) {
           setMemorySelection={setID}
         />
         <h2 className="tableTitle">Suspended Profile Images</h2>
-        <ProfilePics />
+        <ProfilePics images={suspendedProfilePics} />
       </main>
       <MemoryModal
         memoryId={selectedMemoryID}

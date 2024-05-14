@@ -2,15 +2,15 @@ import "./profilePics.css";
 
 import ButtonEvent from "../Others/Button/ButtonEvent";
 
-export default function ProfilePicsRow({ data }) {
+export default function ProfilePicsRow({ userId, nickname, image }) {
   return (
     <div className="profilePics-row">
       <img
-        src="./images/users/a35ee524-aa2f-438b-9982-a467d0c712ba.png"
-        alt="User's profile pic"
+        src={`./images/users/${image}`}
+        alt={`${nickname} suspended profile pic`}
       />
       <div className="profilePics-contentBlock">
-        <h2>Username</h2>
+        <h2>{nickname}</h2>
         <div className="profilePics-buttons">
           <ButtonEvent
             innerText={"Block User"}

@@ -39,4 +39,12 @@
       background-color: var(--light__purple);
     }
   }
+
+  & .noData-InfoBlock {
+    font-size: 20px;
+    & img {
+      height: 45%;
+      width: 20%;
+    }
+  }
 }

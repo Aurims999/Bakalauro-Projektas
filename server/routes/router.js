@@ -449,7 +449,6 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
 // #endregion ================
 
 // #region === Admin ===
-
 const changeSuspicioutActivityCounter = async (userId, suspended) => {
   const users = schemas.Users;
   const postAuthor = await users.findById(userId);
@@ -584,6 +583,35 @@ router.put("/suspendComment/:commentId", async (req, res) => {
   } catch (error) {
     console.log("Comment processing error: ", error);
     res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/suspendedProfilePics", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const matchedUsers = await users.find({
+      suspendedProfileImage: { $ne: "default__profile.png" },
+    });
+    if (!matchedUsers) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    const responseData = matchedUsers.map((user) => {
+      return {
+        userId: user._id,
+        nickname: user.nickname,
+        suspendedImage: user.suspendedProfileImage,
+      };
+    });
+
+    res.status(200).json({
+      message: "Suspended profile pics returned successfully",
+      users: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: error });
   }
 });
 
