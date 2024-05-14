@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import StatBlock from "../../components/Others/StatBlock/StatBlock";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import CommentsTable from "../../components/Others/Table/CommentsTable";
+import ProfilePics from "../../components/ProfilePics/ProfilePics";
+
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
 import "./contentManagement.css";
@@ -85,6 +87,8 @@ export default function ContentManagement({ setMessage }) {
           setModal={setModal}
           setMemorySelection={setID}
         />
+        <h2 className="tableTitle">Suspended Profile Images</h2>
+        <ProfilePics />
       </main>
       <MemoryModal
         memoryId={selectedMemoryID}
