@@ -8,6 +8,8 @@ export default function TextField({
   placeHolder,
   onChangeMethod,
   required = false,
+  minlength = 4,
+  maxlength = 30,
 }) {
   return (
     <>
@@ -22,6 +24,8 @@ export default function TextField({
         placeholder={placeHolder}
         onChange={onChangeMethod}
         {...(required ? { required: "required" } : {})}
+        minLength={minlength}
+        maxLength={maxlength}
       />
     </>
   );

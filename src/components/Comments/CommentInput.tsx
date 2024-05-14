@@ -55,6 +55,7 @@ export default function CommentInput({ setComments, memoryId }) {
         value={comment}
         onChange={handleCommentChange}
         onKeyDown={handleKeyDown}
+        minLength={1}
       />
       <button className="postComment" onClick={postComment}>
         <p>Comment</p>

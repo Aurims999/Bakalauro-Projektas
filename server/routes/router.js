@@ -655,6 +655,7 @@ router.put("/acceptProfilePic/:userId", async (req, res) => {
     selectedUser.amountOfSuspiciousActivity =
       selectedUser.amountOfSuspiciousActivity - 1;
     selectedUser.isSuspended = false;
+    selectedUser.isBlocked = false;
     await selectedUser.save();
 
     res.status(200).json({

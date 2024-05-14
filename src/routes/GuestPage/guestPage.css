@@ -26,6 +26,10 @@
       font-family: var(--headlineFont);
       color: var(--main__black);
 
+      animation-name: slideFromRight;
+      animation-duration: 1.5s;
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
       & h1 {
         font-size: 4.25rem;
       }
@@ -46,6 +50,10 @@
       display: flex;
       justify-content: end;
       align-items: end;
+
+      animation-name: fadeIn;
+      animation-duration: 1s;
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 
       & img {
         position: absolute;

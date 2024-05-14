@@ -94,6 +94,8 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
         placeHolder={"Choose title for your memory"}
         onChangeMethod={handleTitleChange}
         required={true}
+        minlength={1}
+        maxlength={30}
       />
       <TextField
         title={"Description"}
@@ -101,6 +103,7 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
         name={"postDescription"}
         placeHolder={"Describe your memory"}
         onChangeMethod={handleDescriptionChange}
+        maxlength={256}
       />
       <TextField
         title={"Tags"}
