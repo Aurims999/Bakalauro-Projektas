@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../../components/Others/Table/Table";
+import Table from "../../components/Others/Table/CommentsTable";
 import Button from "../../components/Others/Button/Button";
 
 export default function MessagesPage() {

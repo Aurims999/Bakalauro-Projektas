@@ -12,7 +12,7 @@ export default function Like() {
   return (
     <button className="likeButton">
       <img
-        src={`./icons/heart-${heartIcon}.png`}
+        src={`/icons/heart-${heartIcon}.png`}
         alt="Like button"
         onClick={handleClick}
       />

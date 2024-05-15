@@ -11,6 +11,9 @@ import MainPage from "./routes/MainPage/mainPage";
 import MessagesPage from "./routes/MessagesPage/MessagesPage";
 import MemoriesPage from "./routes/MemoriesPage/MemoriesPage";
 import CommentsPage from "./routes/CommentsPage/CommentsPage";
+import ContentManagement from "./routes/ContentManagement/ContentManagement";
+import UsersPage from "./routes/UsersPage/UsersPage";
+import UserStatsPage from "./routes/UserStatsPage/UserStatsPage";
 
 import PostUploadPage from "./routes/PostUploadPage/PostUploadPage";
 
@@ -93,6 +96,15 @@ function App() {
             }
           />
           <Route path="comments" element={<CommentsPage />} />
+          <Route
+            path="contentManagement"
+            element={<ContentManagement setMessage={handlePopupDisplay} />}
+          />
+          <Route path="users" element={<UsersPage />} />
+          <Route
+            path="userData/:userID"
+            element={<UserStatsPage setMessage={handlePopupDisplay} />}
+          />
         </Route>
         <Route
           path="new-memory"

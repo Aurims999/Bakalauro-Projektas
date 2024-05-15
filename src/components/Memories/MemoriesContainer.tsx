@@ -10,6 +10,7 @@ export default function MemoriesContainer({
   setModal,
   setMemorySelection,
   setMessage,
+  removeMemory,
 }) {
   const [memories, setMemories] = useState(data.memories ?? []);
 
@@ -18,16 +19,6 @@ export default function MemoriesContainer({
       setMemories(data.memories);
     }
   }, [data]);
-
-  useEffect(() => {
-    console.log(memories);
-  }, [memories]);
-
-  const removeMemoryFromList = (memoryId) => {
-    setMemories((prevMemories) =>
-      prevMemories.filter((memory) => memory._id !== memoryId)
-    );
-  };
 
   return (
     <div
@@ -44,14 +35,19 @@ export default function MemoriesContainer({
               setModal={setModal}
               setSelection={setMemorySelection}
               setMessage={setMessage}
-              removeMemory={removeMemoryFromList}
+              removeMemory={removeMemory}
+              suspended={memory.isSuspended}
             />
           );
         })
       ) : (
         <NoData
-          icon={"./icons/memories-purple.png"}
-          text={"You haven't posted anything yet. Go and try it out!"}
+          icon={"/icons/memories-purple.png"}
+          text={
+            sessionStorage.getItem("user-role") === "ADMIN"
+              ? "There are no memories to display"
+              : "You haven't posted anything yet. Go and try it out!"
+          }
         />
       )}
     </div>

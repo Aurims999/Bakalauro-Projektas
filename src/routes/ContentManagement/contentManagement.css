@@ -1,0 +1,14 @@
+.contentManagement-container {
+  & .statistics {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 25px;
+  }
+
+  & h2.tableTitle {
+    font-size: 2rem;
+    font-family: var(--mainFont);
+    color: var(--main__black);
+  }
+}

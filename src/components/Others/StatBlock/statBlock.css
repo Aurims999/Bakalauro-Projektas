@@ -1,0 +1,16 @@
+& .statBlock {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0;
+
+  color: white;
+  font-family: var(--mainFont);
+  border-radius: 15px;
+
+  animation-name: fadeIn;
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  & .statValue {
+    font-size: 3rem;
+  }
+}

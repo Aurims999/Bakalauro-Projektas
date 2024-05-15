@@ -36,7 +36,7 @@ export default function ProfileImage({ userImage, handleNewImage }) {
       />
       <img
         className="profilePicture"
-        src={`./images/users/${userImage}`}
+        src={`/images/users/${userImage}`}
         alt="Profile Image"
       />
     </label>

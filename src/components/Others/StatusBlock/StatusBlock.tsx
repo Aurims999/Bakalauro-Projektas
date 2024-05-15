@@ -2,8 +2,10 @@ import "./statusBlock.css";
 
 export default function StatusBlock({ suspended }) {
   return suspended ? (
-    <div className="statusBlock suspended">Suspended</div>
+    <button className="statusBlock suspended">Suspended</button>
   ) : (
-    <div className="statusBlock">Approved</div>
+    <button className="statusBlock" disabled>
+      Approved
+    </button>
   );
 }

@@ -9,6 +9,7 @@ const argon2 = require("argon2");
 
 const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
+const { error } = require("console");
 
 // #region === Memories ===
 router.get("/allmemories", async (req, res) => {
@@ -146,6 +147,36 @@ router.delete("/deleteMemory/:memoryId", async (req, res) => {
 // #endregion ================
 
 // #region === User Management ===
+router.get("/users", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const allUsers = await users
+      .find()
+      .sort({ amountOfSuspiciousActivity: -1 });
+
+    const responseData = allUsers.map((user) => {
+      return {
+        id: user._id,
+        role: user.role,
+        nickname: user.nickname,
+        profileImage: user.profileImage,
+        amountOfSuspiciousActivity: user.amountOfSuspiciousActivity,
+        isSuspended: user.isSuspended,
+        isBlocked: user.isBlocked,
+      };
+    });
+
+    res.status(200).json({
+      message: "A list of users successfully returned",
+      users: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/user/:id", async (req, res) => {
   const users = schemas.Users;
 
@@ -164,6 +195,58 @@ router.get("/user/:id", async (req, res) => {
   } catch (error) {
     console.log("Error retrieving user's data: ", error);
     res.status(500).json({ error: "Server error occured" });
+  }
+});
+
+router.get("/userDetailed/:id", async (req, res) => {
+  const users = schemas.Users;
+  const memories = schemas.Memories;
+  const comments = schemas.Comments;
+
+  try {
+    const selectedUser = await users.findById(req.params.id);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    const userMemories = await memories.find({ author: selectedUser._id });
+    let userComments = await comments.find({ author: selectedUser._id });
+
+    if (userComments.length > 0) {
+      userComments = await Promise.all(
+        userComments.map(async (comment) => {
+          const post = await memories.findById(comment.post);
+          return {
+            comment: comment.text,
+            status: comment.isSuspended,
+            postId: post._id,
+            postImage: post.image,
+            postTitle: post.title,
+          };
+        })
+      );
+    }
+
+    const responseData = {
+      userId: selectedUser._id,
+      nickname: selectedUser.nickname,
+      profileImage: selectedUser.profileImage,
+      posts: userMemories,
+      comments: userComments,
+      amountOfActivity: selectedUser.amountOfSuspiciousActivity,
+      suspended: selectedUser.isSuspended,
+      blocked: selectedUser.isBlocked,
+    };
+
+    res.status(200).json({
+      message: "Successfully retrieved detailed info about user",
+      userData: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({
+      error: "Server error while retrieving detailed info about user",
+    });
   }
 });
 
@@ -219,7 +302,7 @@ router.post("/login", async (req, res) => {
       res.status(400).json({ error: "User not found" });
     } else if (await argon2.verify(user.password, password)) {
       console.log("Login data correct");
-      if (user.isBlocked) {
+      if (user.isBlocked || user.amountOfSuspiciousActivity >= 3) {
         res.status(403).json({
           message: `This account is blocked and requires administrator approval for access. Contact customer service for more details`,
         });
@@ -358,9 +441,7 @@ router.get("/comments/:userId", async (req, res) => {
     const comments = schemas.Comments;
     const memories = schemas.Memories;
 
-    const userComments = await comments
-      .find({ author: req.params.userId })
-      .exec();
+    const userComments = await comments.find({ author: req.params.userId });
 
     if (userComments.length > 0) {
       const responseData = await Promise.all(
@@ -390,7 +471,7 @@ router.get("/comments/:userId", async (req, res) => {
 
       res.json({ comments: responseData });
     } else {
-      res.status(404).json({ error: "User hasn't posted any comments" });
+      res.json({ comments: [] });
     }
   } catch (error) {
     console.error("Error fetching comments:", error);
@@ -426,6 +507,330 @@ router.post("/newComment", async (req, res) => {
     res.status(500).json({ error: "Failed to save comment." });
   }
 });
+
+router.delete("/deleteComment/:commentId", async (req, res) => {
+  const comments = schemas.Comments;
+
+  try {
+    const selectedComment = await comments.findById(req.params.commentId);
+    if (!selectedComment) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    await comments.deleteOne({ post: selectedComment._id });
+    console.log("Comment from memory removed successfully");
+    await selectedComment.deleteOne();
+    res.status(204).send();
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
 // #endregion ================
+
+// #region === Admin ===
+const changeSuspicioutActivityCounter = async (userId, suspended) => {
+  const users = schemas.Users;
+  const postAuthor = await users.findById(userId);
+
+  let suspiciousActivity = postAuthor.amountOfSuspiciousActivity;
+  postAuthor.amountOfSuspiciousActivity = suspended
+    ? suspiciousActivity + 1
+    : postAuthor.amountOfSuspiciousActivity > 0
+    ? suspiciousActivity - 1
+    : 0;
+
+  if (
+    postAuthor.amountOfSuspiciousActivity >= 3 &&
+    postAuthor.isBlocked === false
+  ) {
+    postAuthor.isBlocked = true;
+  } else if (
+    postAuthor.amountOfSuspiciousActivity < 3 &&
+    postAuthor.isBlocked
+  ) {
+    postAuthor.isBlocked = false;
+  }
+  await postAuthor.save();
+};
+
+router.get("/suspendedMemories", async (req, res) => {
+  const memories = schemas.Memories;
+
+  try {
+    const suspendedMemories = await memories.find({ isSuspended: true }).exec();
+    res.status(200).json({
+      message: "A list of all suspended memories",
+      memories: suspendedMemories,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error:
+        "Server Error. Unable to retrieve a list of all suspended memories",
+    });
+  }
+});
+
+router.put("/suspendMemory/:memoryId", async (req, res) => {
+  try {
+    const memories = schemas.Memories;
+    const users = schemas.Users;
+
+    const selectedMemory = await memories.findById(req.params.memoryId);
+    if (!selectedMemory) {
+      res.status(404).json({ error: "Memory not found" });
+    }
+
+    selectedMemory.isSuspended = !selectedMemory.isSuspended;
+    await selectedMemory.save();
+
+    changeSuspicioutActivityCounter(
+      selectedMemory.author,
+      selectedMemory.isSuspended
+    );
+
+    res.status(200).json({
+      message: "Memory suspension status changed successfully",
+      suspended: selectedMemory.isSuspended,
+    });
+  } catch (error) {
+    console.log("Memory processing error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/suspendedComments", async (req, res) => {
+  const comments = schemas.Comments;
+  const memories = schemas.Memories;
+
+  try {
+    const suspendedComments = await comments.find({ isSuspended: true }).exec();
+    if (suspendedComments.length > 0) {
+      const responseData = await Promise.all(
+        suspendedComments.map(async (comment) => {
+          const { _id, post, text, isSuspended } = comment;
+          const memory = await memories.findById(post);
+
+          if (memory) {
+            return {
+              id: _id,
+              postId: post,
+              postImage: memory.image,
+              postTitle: memory.title,
+              comment: text,
+              status: isSuspended,
+            };
+          } else {
+            return {
+              postId: post,
+              comment: text,
+              status: isSuspended,
+              error: "Memory details not found",
+            };
+          }
+        })
+      );
+      res.status(200).json({ comments: responseData });
+    } else {
+      res.status(200).json({ comments: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+router.put("/suspendComment/:commentId", async (req, res) => {
+  try {
+    const comments = schemas.Comments;
+    const users = schemas.Users;
+
+    const selectedComment = await comments.findById(req.params.commentId);
+    if (!selectedComment) {
+      res.status(404).json({ error: "Comment not found" });
+    }
+
+    selectedComment.isSuspended = !selectedComment.isSuspended;
+    await selectedComment.save();
+
+    changeSuspicioutActivityCounter(
+      selectedComment.author,
+      selectedComment.isSuspended
+    );
+
+    res.status(200).json({
+      message: "Comment suspension status changed successfully",
+      suspended: selectedComment.isSuspended,
+    });
+  } catch (error) {
+    console.log("Comment processing error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/suspendedProfilePics", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const matchedUsers = await users.find({
+      suspendedProfileImage: { $ne: "default__profile.png" },
+    });
+    if (!matchedUsers) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    const responseData = matchedUsers.map((user) => {
+      return {
+        userId: user._id,
+        nickname: user.nickname,
+        suspendedImage: user.suspendedProfileImage,
+      };
+    });
+
+    res.status(200).json({
+      message: "Suspended profile pics returned successfully",
+      users: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: error });
+  }
+});
+
+const deleteUserContent = async (userId) => {
+  const memories = schemas.Memories;
+  const comments = schemas.Comments;
+
+  const userMemories = await memories.findById(userId);
+  if (userMemories) {
+    userMemories.forEach((memory) => {
+      fs.unlinkSync(`../public/images/memories/${memory.image}`);
+    });
+  }
+
+  await memories.deleteMany({ author: userId });
+  await comments.deleteMany({ author: userId });
+};
+
+router.put("/suspendUser/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    selectedUser.isSuspended = !selectedUser.isSuspended;
+    await selectedUser.save();
+    res.status(200).json({
+      message: "User's suspension status changed successfully",
+      suspended: selectedUser.isSuspended,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+router.put("/blockUser/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    selectedUser.isBlocked = !selectedUser.isBlocked;
+    if (selectedUser.isBlocked) {
+      deleteUserContent(selectedUser._id);
+    } else {
+      selectedUser.amountOfSuspiciousActivity = 0;
+    }
+    await selectedUser.save();
+    res.status(200).json({
+      message: "User's block status changed successfully",
+      blocked: selectedUser.isBlocked,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+router.delete("/deleteUser/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    await deleteUserContent(selectedUser._id);
+    await selectedUser.deleteOne();
+    console.log("Account removed successfully");
+    res.status(204).send();
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
+  }
+});
+
+router.put("/acceptProfilePic/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+    selectedUser.profileImage = selectedUser.suspendedProfileImage;
+    selectedUser.suspendedProfileImage = "default__profile.png";
+    selectedUser.amountOfSuspiciousActivity =
+      selectedUser.amountOfSuspiciousActivity - 1;
+    selectedUser.isSuspended = false;
+    selectedUser.isBlocked = false;
+    await selectedUser.save();
+
+    res.status(200).json({
+      message: "User's profile image suspension was revoked successfully!",
+    });
+  } catch (error) {
+    console.log("Server error while accepting user's new profile pic: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.put("/declineProfilePic/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const requestedUser = await users.findById(req.params.userId);
+    if (!requestedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    requestedUser.isBlocked = true;
+    if (requestedUser.suspendedProfileImage != "default__profile.png") {
+      fs.unlinkSync(
+        `../public/images/users/${requestedUser.suspendedProfileImage}`
+      );
+    }
+    requestedUser.suspendedProfileImage = "default__profile.png";
+    await requestedUser.save();
+    deleteUserContent(requestedUser._id);
+
+    res
+      .status(200)
+      .json({ message: `${requestedUser.nickname} blocked successfully!` });
+  } catch (error) {
+    console.log("Server Error: ", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+// #endregion
 
 module.exports = router;

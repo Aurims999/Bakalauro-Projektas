@@ -45,7 +45,7 @@ header {
         align-items: center;
         margin-bottom: 25px;
         padding: 0.5rem 2rem;
-        gap: 15px;
+        gap: 20px;
 
         font-size: 1.125rem;
 
@@ -54,6 +54,7 @@ header {
 
         & p {
           text-decoration: none;
+          text-align: end;
         }
 
         &:hover {

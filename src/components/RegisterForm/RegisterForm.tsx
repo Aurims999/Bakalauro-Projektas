@@ -94,6 +94,7 @@ export default function RegisterForm({ setMessage, setUserId }) {
         id={"re-password"}
         name={"re-password"}
         type={"password"}
+        minlength={8}
         placeHolder={"Repeat your password"}
         onChangeMethod={handlePasswordRepeatChange}
         required={true}

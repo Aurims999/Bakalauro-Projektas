@@ -15,11 +15,12 @@ export default function Memory({
   setSelection,
   setMessage,
   removeMemory,
+  suspended,
 }) {
   const [memoryId, setID] = useState(id);
   const [authorNickname, setNickname] = useState("");
   const [authorImage, setImage] = useState(
-    "./images/users/default__profile.png"
+    "/images/users/default__profile.png"
   );
   const [userId, setUserId] = useState("");
 
@@ -58,11 +59,17 @@ export default function Memory({
     }
   };
 
-  return (
-    <div className="memory">
+  let displayMemory = !suspended;
+  displayMemory = displayMemory
+    ? true
+    : sessionStorage.getItem("user-role") === "ADMIN" ||
+      sessionStorage.getItem("user-id") === author;
+
+  return displayMemory ? (
+    <div className="memory" style={suspended ? { opacity: 0.4 } : {}}>
       <img
         className="postImage"
-        src={`./images/memories/${image}`}
+        src={`/images/memories/${image}`}
         alt="Image of the memory"
         onClick={() => {
           setModal(true);
@@ -71,7 +78,7 @@ export default function Memory({
       />
       <section className="postInfoContainer">
         <div className="memoryDescription">
-          <UserImage userImage={`./images/users/${authorImage}`} />
+          <UserImage userImage={`/images/users/${authorImage}`} />
           <div className="textBlock">
             <h2 className="title">{title}</h2>
             <p>{authorNickname}</p>
@@ -83,5 +90,7 @@ export default function Memory({
         )}
       </section>
     </div>
+  ) : (
+    <></>
   );
 }
