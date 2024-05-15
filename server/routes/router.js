@@ -210,7 +210,22 @@ router.get("/userDetailed/:id", async (req, res) => {
     }
 
     const userMemories = await memories.find({ author: selectedUser._id });
-    const userComments = await comments.find({ author: selectedUser._id });
+    let userComments = await comments.find({ author: selectedUser._id });
+
+    if (userComments.length > 0) {
+      userComments = await Promise.all(
+        userComments.map(async (comment) => {
+          const post = await memories.findById(comment.post);
+          return {
+            comment: comment.text,
+            status: comment.isSuspended,
+            postId: post._id,
+            postImage: post.image,
+            postTitle: post.title,
+          };
+        })
+      );
+    }
 
     const responseData = {
       userId: selectedUser._id,

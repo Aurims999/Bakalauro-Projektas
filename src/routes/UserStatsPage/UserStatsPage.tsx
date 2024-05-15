@@ -55,9 +55,9 @@ export default function UserStatsPage() {
           blocked={blocked}
           activityCount={amountOfActivity}
         />
-        <h2 className="sectionTitle">{`${username}'s Memories`}</h2>
+        <h2 className="sectionTitle">{`${username} memories`}</h2>
         <MemoriesContainer data={{ memories: userMemories }} />
-        <h2 className="sectionTitle">{`${username}'s Comments`}</h2>
+        <h2 className="sectionTitle">{`${username} comments`}</h2>
         <CommentsTable data={{ comments: userComments }} />
       </main>
     </>
