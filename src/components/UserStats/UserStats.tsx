@@ -11,10 +11,66 @@ export default function UserStats({
   suspended,
   blocked,
   activityCount,
+  setMessage,
+  setMemories,
+  setComments,
 }) {
   const [status, setStatus] = useState(
     blocked ? "BLOCKED" : suspended ? "SUSPENED" : "ACTIVE"
   );
+  const [activitiesCounter, setCounter] = useState(0);
+  const [userSuspended, setSuspension] = useState(false);
+  const [userBlocked, setBlock] = useState(false);
+
+  useEffect(() => {
+    setStatus(userBlocked ? "BLOCKED" : userSuspended ? "SUSPENDED" : "ACTIVE");
+  }, [userSuspended, userBlocked]);
+
+  useEffect(() => {
+    setSuspension(suspended);
+  }, [suspended]);
+
+  useEffect(() => {
+    setBlock(blocked);
+  }, [blocked]);
+
+  useEffect(() => {
+    setCounter(activityCount);
+  }, [activityCount]);
+
+  const suspendUser = async () => {
+    fetch(`http://localhost:4000/suspendUser/${userId}`, {
+      method: "PUT",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setMessage("ERROR", data.error);
+          return;
+        }
+
+        setSuspension(data.suspended);
+        setMessage("SUCCESS", data.message);
+      });
+  };
+
+  const blockUser = async () => {
+    fetch(`http://localhost:4000/blockUser/${userId}`, {
+      method: "PUT",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setMessage("ERROR", data.error);
+          return;
+        }
+
+        setBlock(data.blocked);
+        setMemories([]);
+        setComments([]);
+        setMessage("SUCCESS", data.message);
+      });
+  };
 
   return (
     <div className="userStats-container dataTable">
@@ -31,26 +87,30 @@ export default function UserStats({
                 innerText={"Delete Account"}
                 buttonColor={"var(--failure__red__main)"}
               />
-              {status === "BLOCKED" ? (
+              {userBlocked === true ? (
                 <ButtonEvent
                   innerText={"Revoke Block"}
                   buttonColor={"var(--info__blue__main)"}
+                  handleClick={blockUser}
                 />
               ) : (
                 <ButtonEvent
                   innerText={"Block User"}
                   buttonColor={"var(--warning__orange__main)"}
+                  handleClick={blockUser}
                 />
               )}
-              {status === "SUSPENDED" ? (
+              {userSuspended === true ? (
                 <ButtonEvent
                   innerText={"Revoke Suspension"}
                   buttonColor={"var(--info__blue__main)"}
+                  handleClick={suspendUser}
                 />
               ) : (
                 <ButtonEvent
                   innerText={"Suspend User"}
                   buttonColor={"var(--warning__orange__main)"}
+                  handleClick={suspendUser}
                 />
               )}
             </div>
@@ -63,9 +123,9 @@ export default function UserStats({
             textColor="white"
           />
           <InfoBlock
-            text={`Amount of Suspicious activity registered : ${activityCount}`}
+            text={`Amount of Suspicious activity registered : ${activitiesCounter}`}
             blockColor={
-              activityCount >= 3
+              activitiesCounter >= 3
                 ? "var(--failure__red__main)"
                 : "var(--status__ACTIVE)"
             }

@@ -13,6 +13,8 @@
   }
   & .usersTable-row {
     margin-bottom: 1.25rem;
+    cursor: pointer;
+
     & .usersTable-content {
       display: flex;
       justify-content: space-between;

@@ -16,6 +16,10 @@ export default function UsersPage() {
       });
   }, []);
 
+  const handleRowClick = (userID) => {
+    navigate(`/userData/${userID}`);
+  };
+
   useEffect(() => {
     const userRole = sessionStorage.getItem("user-role");
     if (userRole != "ADMIN") {
@@ -27,7 +31,7 @@ export default function UsersPage() {
     <>
       <main>
         <h1>System Users</h1>
-        <UsersTable data={users} />
+        <UsersTable data={users} onClickRow={handleRowClick} />
       </main>
     </>
   );

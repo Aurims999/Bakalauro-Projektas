@@ -4,7 +4,7 @@ import NoData from "../Others/Error-Handling/NoData/NoData";
 
 import "./usersTable.css";
 
-export default function UsersTable({ data }) {
+export default function UsersTable({ data, onClickRow }) {
   const [users, setUsers] = useState(data);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function UsersTable({ data }) {
               amountOfSuspiciousActivity={user.amountOfSuspiciousActivity}
               suspended={user.isSuspended}
               blocked={user.isBlocked}
+              onClickRow={onClickRow}
             />
           );
         })

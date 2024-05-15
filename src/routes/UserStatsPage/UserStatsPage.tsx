@@ -9,7 +9,7 @@ import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
 import "./userStatsPage.css";
 
-export default function UserStatsPage() {
+export default function UserStatsPage({ setMessage }) {
   const [username, setUsername] = useState("");
   const [image, setImage] = useState("default__profile.png");
   const [amountOfActivity, setActivityCount] = useState(0);
@@ -59,6 +59,9 @@ export default function UserStatsPage() {
           suspended={suspended}
           blocked={blocked}
           activityCount={amountOfActivity}
+          setMessage={setMessage}
+          setMemories={setMemories}
+          setComments={setComments}
         />
         <h2 className="sectionTitle">{`${username} memories`}</h2>
         <MemoriesContainer

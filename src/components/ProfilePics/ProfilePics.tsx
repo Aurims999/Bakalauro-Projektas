@@ -12,7 +12,7 @@ export default function ProfilePics({ images, removeProfile, setMessage }) {
   }, [images]);
 
   const blockProfile = async (userId) => {
-    fetch(`http://localhost:4000/blockUser/${userId}`, {
+    fetch(`http://localhost:4000/declineProfilePic/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

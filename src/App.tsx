@@ -101,7 +101,10 @@ function App() {
             element={<ContentManagement setMessage={handlePopupDisplay} />}
           />
           <Route path="users" element={<UsersPage />} />
-          <Route path="userData/:userID" element={<UserStatsPage />} />
+          <Route
+            path="userData/:userID"
+            element={<UserStatsPage setMessage={handlePopupDisplay} />}
+          />
         </Route>
         <Route
           path="new-memory"

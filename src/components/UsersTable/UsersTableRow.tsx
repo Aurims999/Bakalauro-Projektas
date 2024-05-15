@@ -9,12 +9,13 @@ export default function UsersTableRow({
   amountOfSuspiciousActivity,
   suspended,
   blocked,
+  onClickRow,
 }) {
   const [status, setStatus] = useState(
     blocked ? "BLOCKED" : suspended ? "SUSPENDED" : "ACTIVE"
   );
   return (
-    <div className="usersTable-row">
+    <div className="usersTable-row" onClick={() => onClickRow(userId)}>
       <div className="usersTable-content">
         <div className="usersTable-infoBlock">
           <img
