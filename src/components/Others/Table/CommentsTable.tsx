@@ -43,7 +43,7 @@ export default function CommentsTable({ data, setModal, setMemorySelection }) {
           </>
         ) : (
           <NoData
-            icon={"./icons/comments-purple.png"}
+            icon={"/icons/comments-purple.png"}
             text={
               sessionStorage.getItem("user-role") === "ADMIN"
                 ? "There are no comments to display"

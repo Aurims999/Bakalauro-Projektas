@@ -389,9 +389,7 @@ router.get("/comments/:userId", async (req, res) => {
     const comments = schemas.Comments;
     const memories = schemas.Memories;
 
-    const userComments = await comments
-      .find({ author: req.params.userId })
-      .exec();
+    const userComments = await comments.find({ author: req.params.userId });
 
     if (userComments.length > 0) {
       const responseData = await Promise.all(
@@ -421,7 +419,7 @@ router.get("/comments/:userId", async (req, res) => {
 
       res.json({ comments: responseData });
     } else {
-      res.status(404).json({ error: "User hasn't posted any comments" });
+      res.json({ comments: [] });
     }
   } catch (error) {
     console.error("Error fetching comments:", error);

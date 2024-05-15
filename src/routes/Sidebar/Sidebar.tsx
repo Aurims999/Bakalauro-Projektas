@@ -125,7 +125,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
       <header>
         <div className="mainInfo">
           <Link to="/">
-            <img className="websiteLogo" src="./icons/logo.png" alt="Icon" />
+            <img className="websiteLogo" src="/icons/logo.png" alt="Icon" />
           </Link>
           <ProfileImage
             userImage={userImage}
@@ -143,7 +143,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"messages"} className="navButton">
                     <img
-                      src="./icons/email-black.png"
+                      src="/icons/email-black.png"
                       alt="Messages' icon"
                       className="icon"
                     />
@@ -153,7 +153,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"memories"} className="navButton">
                     <img
-                      src="./icons/posts-black.png"
+                      src="/icons/posts-black.png"
                       alt="Memories' icon"
                       className="icon"
                     />
@@ -163,7 +163,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"comments"} className="navButton">
                     <img
-                      src="./icons/comments-black.png"
+                      src="/icons/comments-black.png"
                       alt="Comments' icon"
                       className="icon"
                     />
@@ -178,7 +178,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"/"} className="navButton">
                     <img
-                      src="./icons/posts-black.png"
+                      src="/icons/posts-black.png"
                       alt="Memories' icon"
                       className="icon"
                     />
@@ -188,7 +188,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"contentManagement"} className="navButton">
                     <img
-                      src="./icons/ban-black.png"
+                      src="/icons/ban-black.png"
                       alt="Content Management' icon"
                       className="icon"
                     />
@@ -202,7 +202,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
                 <li>
                   <Link to={"users"} className="navButton">
                     <img
-                      src="./icons/users-black.png"
+                      src="/icons/users-black.png"
                       alt="Users' icon"
                       className="icon"
                     />
@@ -220,7 +220,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
         <div className="logoutArea">
           <Link to={"/guestpage"} className="logout" onClick={resetSession}>
             <img
-              src="./icons/exit-black.png"
+              src="/icons/exit-black.png"
               alt="Logout icon"
               className="icon"
             />

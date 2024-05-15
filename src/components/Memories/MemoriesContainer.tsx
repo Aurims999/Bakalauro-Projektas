@@ -42,7 +42,7 @@ export default function MemoriesContainer({
         })
       ) : (
         <NoData
-          icon={"./icons/memories-purple.png"}
+          icon={"/icons/memories-purple.png"}
           text={
             sessionStorage.getItem("user-role") === "ADMIN"
               ? "There are no memories to display"

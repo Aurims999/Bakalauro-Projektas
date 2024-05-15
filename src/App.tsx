@@ -13,6 +13,7 @@ import MemoriesPage from "./routes/MemoriesPage/MemoriesPage";
 import CommentsPage from "./routes/CommentsPage/CommentsPage";
 import ContentManagement from "./routes/ContentManagement/ContentManagement";
 import UsersPage from "./routes/UsersPage/UsersPage";
+import UserStatsPage from "./routes/UserStatsPage/UserStatsPage";
 
 import PostUploadPage from "./routes/PostUploadPage/PostUploadPage";
 
@@ -100,6 +101,7 @@ function App() {
             element={<ContentManagement setMessage={handlePopupDisplay} />}
           />
           <Route path="users" element={<UsersPage />} />
+          <Route path="userData/:userID" element={<UserStatsPage />} />
         </Route>
         <Route
           path="new-memory"

@@ -19,7 +19,7 @@ export default function TableRow({ data, setModal, setSelection }) {
   return (
     <div className="table-row" onClick={handleMemorySelection}>
       <div className="table-row-block memoryPreview">
-        <img src={`./images/memories/${image}`} alt="Memory preview image" />
+        <img src={`/images/memories/${image}`} alt="Memory preview image" />
       </div>
       <div className="table-row-block">
         <p>{title}</p>
