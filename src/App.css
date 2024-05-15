@@ -13,14 +13,18 @@
   --light__yellow: #ffe1b4;
   --light__red: #fadce1;
 
-  --info__blue__main: #699a74;
-  --info__blue__back: #e6faeb;
+  --info__blue__main: #5b8a8f;
+  --info__blue__back: #cce6e7;
   --success__green__main: #699a74;
   --success__green__back: #e6faeb;
   --warning__orange__main: #f59b12;
   --warning__orange__back: #ffe1b4;
   --failure__red__main: #b84f66;
   --failure__red__back: #ffc3cd;
+
+  --status__ACTIVE: #699a74;
+  --status__SUSPENDED: #f59b12;
+  --status__BLOCKED: #b84f66;
 
   --focus__lighter__purple: #a476ff;
 

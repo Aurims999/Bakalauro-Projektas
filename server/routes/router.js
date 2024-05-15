@@ -198,6 +198,43 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
+router.get("/userDetailed/:id", async (req, res) => {
+  const users = schemas.Users;
+  const memories = schemas.Memories;
+  const comments = schemas.Comments;
+
+  try {
+    const selectedUser = await users.findById(req.params.id);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    const userMemories = await memories.find({ author: selectedUser._id });
+    const userComments = await comments.find({ author: selectedUser._id });
+
+    const responseData = {
+      userId: selectedUser._id,
+      nickname: selectedUser.nickname,
+      profileImage: selectedUser.profileImage,
+      posts: userMemories,
+      comments: userComments,
+      amountOfActivity: selectedUser.amountOfSuspiciousActivity,
+      suspended: selectedUser.isSuspended,
+      blocked: selectedUser.isBlocked,
+    };
+
+    res.status(200).json({
+      message: "Successfully retrieved detailed info about user",
+      userData: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({
+      error: "Server error while retrieving detailed info about user",
+    });
+  }
+});
+
 router.post("/register", async (req, res) => {
   const users = schemas.Users;
   const { username, password } = req.body;
