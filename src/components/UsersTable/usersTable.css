@@ -2,6 +2,15 @@
   &.dataTable {
     height: 80vh;
   }
+
+  & .noData-InfoBlock {
+    font-size: 20px;
+
+    & img {
+      height: 200px;
+      width: 200px;
+    }
+  }
   & .usersTable-row {
     margin-bottom: 1.25rem;
     & .usersTable-content {

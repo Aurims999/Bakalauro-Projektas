@@ -147,6 +147,36 @@ router.delete("/deleteMemory/:memoryId", async (req, res) => {
 // #endregion ================
 
 // #region === User Management ===
+router.get("/users", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const allUsers = await users
+      .find()
+      .sort({ amountOfSuspiciousActivity: -1 });
+
+    const responseData = allUsers.map((user) => {
+      return {
+        id: user._id,
+        role: user.role,
+        nickname: user.nickname,
+        profileImage: user.profileImage,
+        amountOfSuspiciousActivity: user.amountOfSuspiciousActivity,
+        isSuspended: user.isSuspended,
+        isBlocked: user.isBlocked,
+      };
+    });
+
+    res.status(200).json({
+      message: "A list of users successfully returned",
+      users: responseData,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/user/:id", async (req, res) => {
   const users = schemas.Users;
 

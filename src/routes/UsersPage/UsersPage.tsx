@@ -8,14 +8,13 @@ export default function UsersPage() {
 
   const navigate = useNavigate();
 
-  /*useEffect(() => {
-    const id = sessionStorage.getItem("user-id");
-    fetch(`http://localhost:4000/comments/${id}`)
+  useEffect(() => {
+    fetch(`http://localhost:4000/users`)
       .then((response) => response.json())
-      .then((memory) => {
-        setComments(memory);
+      .then((data) => {
+        setUsers(data.users);
       });
-  }, []);*/
+  }, []);
 
   useEffect(() => {
     const userRole = sessionStorage.getItem("user-role");
@@ -28,7 +27,7 @@ export default function UsersPage() {
     <>
       <main>
         <h1>System Users</h1>
-        <UsersTable />
+        <UsersTable data={users} />
       </main>
     </>
   );

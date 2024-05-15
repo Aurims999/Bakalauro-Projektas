@@ -2,7 +2,5 @@
   padding: 1rem 2rem;
   border-radius: 20px;
 
-  background-color: var(--warning__orange__back);
-  color: var(--warning__orange__main);
   font-weight: bold;
 }
