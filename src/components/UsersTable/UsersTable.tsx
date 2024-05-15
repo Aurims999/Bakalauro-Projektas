@@ -15,7 +15,7 @@ export default function UsersTable({ data, onClickRow }) {
     <div className="usersTable-container dataTable">
       {users.length > 0 ? (
         users.map((user) => {
-          return (
+          return user.role === "USER" ? (
             <UsersTableRow
               userId={user.id}
               image={user.profileImage}
@@ -25,6 +25,8 @@ export default function UsersTable({ data, onClickRow }) {
               blocked={user.isBlocked}
               onClickRow={onClickRow}
             />
+          ) : (
+            <></>
           );
         })
       ) : (

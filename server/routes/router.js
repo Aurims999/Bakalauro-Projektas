@@ -536,7 +536,9 @@ const changeSuspicioutActivityCounter = async (userId, suspended) => {
   let suspiciousActivity = postAuthor.amountOfSuspiciousActivity;
   postAuthor.amountOfSuspiciousActivity = suspended
     ? suspiciousActivity + 1
-    : suspiciousActivity - 1;
+    : postAuthor.amountOfSuspiciousActivity > 0
+    ? suspiciousActivity - 1
+    : 0;
 
   if (
     postAuthor.amountOfSuspiciousActivity >= 3 &&
@@ -699,6 +701,13 @@ const deleteUserContent = async (userId) => {
   const memories = schemas.Memories;
   const comments = schemas.Comments;
 
+  const userMemories = await memories.findById(userId);
+  if (userMemories) {
+    userMemories.forEach((memory) => {
+      fs.unlinkSync(`../public/images/memories/${memory.image}`);
+    });
+  }
+
   await memories.deleteMany({ author: userId });
   await comments.deleteMany({ author: userId });
 };
@@ -734,10 +743,12 @@ router.put("/blockUser/:userId", async (req, res) => {
     }
 
     selectedUser.isBlocked = !selectedUser.isBlocked;
-    await selectedUser.save();
     if (selectedUser.isBlocked) {
       deleteUserContent(selectedUser._id);
+    } else {
+      selectedUser.amountOfSuspiciousActivity = 0;
     }
+    await selectedUser.save();
     res.status(200).json({
       message: "User's block status changed successfully",
       blocked: selectedUser.isBlocked,
@@ -745,6 +756,25 @@ router.put("/blockUser/:userId", async (req, res) => {
   } catch (error) {
     console.log("Server error: ", error);
     res.status(500).json({ error: "Server Error" });
+  }
+});
+
+router.delete("/deleteUser/:userId", async (req, res) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    await deleteUserContent(selectedUser._id);
+    await selectedUser.deleteOne();
+    console.log("Account removed successfully");
+    res.status(204).send();
+  } catch (error) {
+    console.log("Error retrieving data: ", error);
+    res.status(500).json({ error: "Server error occured" });
   }
 });
 

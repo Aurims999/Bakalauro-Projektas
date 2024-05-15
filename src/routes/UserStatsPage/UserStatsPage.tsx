@@ -48,6 +48,10 @@ export default function UserStatsPage({ setMessage }) {
     }
   }, [navigate]);
 
+  const handleAccountRemoval = () => {
+    navigate(`/users`);
+  };
+
   return (
     <>
       <main className="UserStatsPage">
@@ -62,6 +66,7 @@ export default function UserStatsPage({ setMessage }) {
           setMessage={setMessage}
           setMemories={setMemories}
           setComments={setComments}
+          handleAccountRemoval={handleAccountRemoval}
         />
         <h2 className="sectionTitle">{`${username} memories`}</h2>
         <MemoriesContainer

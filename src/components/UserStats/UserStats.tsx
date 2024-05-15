@@ -14,6 +14,7 @@ export default function UserStats({
   setMessage,
   setMemories,
   setComments,
+  handleAccountRemoval,
 }) {
   const [status, setStatus] = useState(
     blocked ? "BLOCKED" : suspended ? "SUSPENED" : "ACTIVE"
@@ -66,10 +67,39 @@ export default function UserStats({
         }
 
         setBlock(data.blocked);
-        setMemories([]);
-        setComments([]);
+        if (data.blocked) {
+          setMemories([]);
+          setComments([]);
+        } else {
+          setCounter(0);
+        }
         setMessage("SUCCESS", data.message);
       });
+  };
+
+  const deleteUser = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/deleteUser/${userId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 204) {
+        console.log("User removed successfully");
+        setMessage("SUCCESS", "Account was deleted successfully!");
+        handleAccountRemoval();
+      } else {
+        const responseBody = await response.json();
+        setMessage("ERROR", responseBody.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -86,6 +116,7 @@ export default function UserStats({
               <ButtonEvent
                 innerText={"Delete Account"}
                 buttonColor={"var(--failure__red__main)"}
+                handleClick={deleteUser}
               />
               {userBlocked === true ? (
                 <ButtonEvent
