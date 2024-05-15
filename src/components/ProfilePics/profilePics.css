@@ -1,6 +1,5 @@
 .profilePics-container {
   padding: 2rem 1rem;
-  overflow-y: scroll;
 
   & .profilePics-row {
     width: 100%;
@@ -43,7 +42,7 @@
   & .noData-InfoBlock {
     font-size: 20px;
     & img {
-      height: 45%;
+      height: 48%;
       width: 20%;
     }
   }

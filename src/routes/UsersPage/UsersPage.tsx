@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../../components/Others/Table/CommentsTable";
-import Button from "../../components/Others/Button/Button";
+import UsersTable from "../../components/UsersTable/UsersTable";
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -29,6 +28,7 @@ export default function UsersPage() {
     <>
       <main>
         <h1>System Users</h1>
+        <UsersTable />
       </main>
     </>
   );

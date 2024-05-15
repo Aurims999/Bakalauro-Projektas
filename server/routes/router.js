@@ -618,6 +618,7 @@ router.get("/suspendedProfilePics", async (req, res) => {
 router.put("/blockUser/:userId", async (req, res) => {
   const users = schemas.Users;
   const memories = schemas.Memories;
+  const comments = schemas.Comments;
 
   try {
     const requestedUser = await users.findById(req.params.userId);
@@ -633,6 +634,7 @@ router.put("/blockUser/:userId", async (req, res) => {
     await requestedUser.save();
 
     await memories.deleteMany({ author: requestedUser._id });
+    await comments.deleteMany({ author: requestedUser._id });
     res
       .status(200)
       .json({ message: `${requestedUser.nickname} blocked successfully!` });

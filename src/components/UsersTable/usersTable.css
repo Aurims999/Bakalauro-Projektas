@@ -1,0 +1,53 @@
+.usersTable-container {
+  &.dataTable {
+    height: 80vh;
+  }
+  & .usersTable-row {
+    margin-bottom: 1.25rem;
+    & .usersTable-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & .usersTable-infoBlock {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 25px;
+
+        & img {
+          height: 100px;
+          aspect-ratio: 1/1;
+
+          border-radius: 50%;
+          border: 10px solid var(--main__orange);
+
+          object-fit: cover;
+          object-position: center;
+        }
+
+        & .infoBlock-details {
+          display: flex;
+          flex-direction: column;
+          justify-content: start;
+          align-items: start;
+
+          text-align: left;
+
+          & p {
+            font-size: 1.25rem;
+          }
+        }
+      }
+
+      & .infoBlockComponent {
+        width: 20%;
+        text-align: center;
+      }
+    }
+
+    &:hover {
+      background-color: var(--light__purple);
+    }
+  }
+}
