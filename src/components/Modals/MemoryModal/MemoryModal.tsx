@@ -25,12 +25,12 @@ export default function MemoryModal({
 }) {
   const ref = useRef();
 
-  const [img, setImage] = useState("./images/memories/default__image.png");
+  const [img, setImage] = useState("/images/memories/default__image.png");
   const [memoryTitle, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [username, setUsername] = useState("");
   const [userImage, setUserImage] = useState(
-    "./images/users/default__profile.png"
+    "/images/users/default__profile.png"
   );
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
@@ -121,7 +121,7 @@ export default function MemoryModal({
     <dialog ref={ref} onCancel={closeModal} className="memoryModal">
       <div className="modal-container">
         <div className="imageDisplay">
-          <img src={`./images/memories/${img}`} alt="Memory Image" />
+          <img src={`/images/memories/${img}`} alt="Memory Image" />
         </div>
         <section className="content">
           <section className="modal-header">
@@ -134,7 +134,7 @@ export default function MemoryModal({
                 <div className="userInfo">
                   <UserImage
                     size="60px"
-                    userImage={`./images/users/${userImage}`}
+                    userImage={`/images/users/${userImage}`}
                   />
                   <p>{username}</p>
                 </div>
@@ -195,7 +195,7 @@ export default function MemoryModal({
         </section>
       </div>
       <button className="exit" onClick={closeModal}>
-        <img src="./icons/arrow-white.png" alt="Modal exit button" />
+        <img src="/icons/arrow-white.png" alt="Modal exit button" />
       </button>
     </dialog>
   );

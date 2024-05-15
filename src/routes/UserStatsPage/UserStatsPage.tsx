@@ -5,6 +5,8 @@ import UserStats from "../../components/UserStats/UserStats";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import CommentsTable from "../../components/Others/Table/CommentsTable";
 
+import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
+
 import "./userStatsPage.css";
 
 export default function UserStatsPage() {
@@ -16,6 +18,9 @@ export default function UserStatsPage() {
 
   const [userMemories, setMemories] = useState([]);
   const [userComments, setComments] = useState([]);
+
+  const [modal, setModal] = useState(false);
+  const [selectedMemoryID, setID] = useState("");
 
   const navigate = useNavigate();
   const { userID } = useParams();
@@ -56,10 +61,24 @@ export default function UserStatsPage() {
           activityCount={amountOfActivity}
         />
         <h2 className="sectionTitle">{`${username} memories`}</h2>
-        <MemoriesContainer data={{ memories: userMemories }} />
-        <h2 className="sectionTitle">{`${username} comments`}</h2>
-        <CommentsTable data={{ comments: userComments }} />
+        <MemoriesContainer
+          data={{ memories: userMemories }}
+          setModal={setModal}
+          setMemorySelection={setID}
+        />
+        <h2 className="sectionTitle">{`${username} comments`} </h2>
+        <CommentsTable
+          data={{ comments: userComments }}
+          setModal={setModal}
+          setMemorySelection={setID}
+        />
       </main>
+
+      <MemoryModal
+        memoryId={selectedMemoryID}
+        openModal={modal}
+        closeModal={() => setModal(false)}
+      />
     </>
   );
 }

@@ -88,7 +88,7 @@ export default function Comment({
       >
         <div className="infoBlock">
           <div className="image">
-            <UserImage userImage={`./images/users/${userImage}`} size="40px" />
+            <UserImage userImage={`/images/users/${userImage}`} size="40px" />
           </div>
           <div className="commentContainer">
             <h3 className="author">{username}</h3>
@@ -113,7 +113,7 @@ export default function Comment({
                 />
               ))}
             <button className="removeComment" onClick={handleCommentRemoval}>
-              <img src="./icons/cross-black.png" alt="Delete comment" />
+              <img src="/icons/cross-black.png" alt="Delete comment" />
             </button>
           </div>
         )}

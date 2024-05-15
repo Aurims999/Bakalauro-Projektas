@@ -5,7 +5,7 @@ export default function Category({ children }) {
   return (
     <div className="categoryBubble">
       <img
-        src={`./icons/categories/${children.toLowerCase()}-black.png`}
+        src={`/icons/categories/${children.toLowerCase()}-black.png`}
         alt={`${children} icon`}
       />
       <p>{category}</p>

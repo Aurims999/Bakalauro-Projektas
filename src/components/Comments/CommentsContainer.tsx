@@ -38,7 +38,7 @@ export default function CommentsContainer({
         ))
       ) : (
         <NoData
-          icon={"./icons/noComments-purple.png"}
+          icon={"/icons/noComments-purple.png"}
           text={"Be the first to comment under this memory!"}
         />
       )}
