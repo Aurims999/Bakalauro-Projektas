@@ -11,6 +11,36 @@ const { ObjectId } = require("mongodb");
 const schemas = require("../models/schemas");
 const { error } = require("console");
 
+const sendMessage = async (
+  userId,
+  message,
+  messageTitle,
+  banner = "default__banner.png"
+) => {
+  const users = schemas.Users;
+
+  try {
+    const selectedUser = await users.findById(userId);
+    if (!selectedUser) {
+      return false;
+    }
+
+    const newMessage = {
+      banner: banner,
+      date: new Date(),
+      title: messageTitle,
+      text: message,
+    };
+
+    await selectedUser.messages.push(newMessage);
+    await selectedUser.save();
+    return true;
+  } catch (error) {
+    console.log("Server error: ", error);
+    return false;
+  }
+};
+
 // #region === Memories ===
 router.get("/allmemories", async (req, res) => {
   try {
@@ -104,7 +134,6 @@ router.post("/newMemory", async (req, res) => {
       description: description,
       category: category,
       tags: tags,
-      comments: [],
       isSuspended: false,
     };
 
@@ -272,6 +301,11 @@ router.post("/register", async (req, res) => {
 
       if (savedUserData) {
         console.log("New user was registered successfully!");
+        sendMessage(
+          savedUserData._id,
+          `Welcome ${savedUserData.nickname}. We're glad to have you join our community at Trip Share! Explore exciting trips, share your travel experiences, and connect with fellow travelers. We hope you have an amazing journey with us!`,
+          "Welcome to Trip Share!"
+        );
         res.status(200).json({
           message: "New user was registered successfully!",
           newUser: {
@@ -433,6 +467,23 @@ router.put("/newProfilePic", async (req, res) => {
     res.status(500).json({ error: "Failed to save image." });
   }
 });
+
+router.get("/messages/:userId", async (req, res) => {
+  const users = schemas.Users;
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({
+      message: "Successfully retrieved a list of user's messages",
+      messages: selectedUser.messages,
+    });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 // #endregion ================
 
 // #region === Comments ===
@@ -540,6 +591,14 @@ const changeSuspicioutActivityCounter = async (userId, suspended) => {
     ? suspiciousActivity - 1
     : 0;
 
+  if (postAuthor.amountOfSuspiciousActivity === 2 && suspended) {
+    sendMessage(
+      userId,
+      "Warning: We're noticing some suspicious activity from your account. We remind you that users are not allowed to post fake content or make aggressive or vulgar comments under user memories. If more suspicious activities are detected by the system, your account will be permanently banned.",
+      "Suspicious Activity"
+    );
+  }
+
   if (
     postAuthor.amountOfSuspiciousActivity >= 3 &&
     postAuthor.isBlocked === false
@@ -590,6 +649,12 @@ router.put("/suspendMemory/:memoryId", async (req, res) => {
       selectedMemory.isSuspended
     );
 
+    sendMessage(
+      selectedMemory.author,
+      `Your memory "${selectedMemory.title}" was suspended. Our team will review your memory and decide if it meets our Community Guidelines. In any case, you'll be informed about our decision.`,
+      "Memory Suspension",
+      selectedMemory.image
+    );
     res.status(200).json({
       message: "Memory suspension status changed successfully",
       suspended: selectedMemory.isSuspended,
@@ -644,6 +709,7 @@ router.put("/suspendComment/:commentId", async (req, res) => {
   try {
     const comments = schemas.Comments;
     const users = schemas.Users;
+    const memories = schemas.Memories;
 
     const selectedComment = await comments.findById(req.params.commentId);
     if (!selectedComment) {
@@ -656,6 +722,15 @@ router.put("/suspendComment/:commentId", async (req, res) => {
     changeSuspicioutActivityCounter(
       selectedComment.author,
       selectedComment.isSuspended
+    );
+
+    const memory = await memories.findById(selectedComment.post);
+
+    sendMessage(
+      selectedComment.author,
+      `One of your under memory "${memory.title}" was suspended. Our team will review your comment and decide if this comment meets our Community Guidelines. In any case, you'll be informed about our decision.`,
+      "Comment Suspension",
+      memory.image
     );
 
     res.status(200).json({
@@ -723,6 +798,19 @@ router.put("/suspendUser/:userId", async (req, res) => {
 
     selectedUser.isSuspended = !selectedUser.isSuspended;
     await selectedUser.save();
+    if (selectedUser.isSuspended) {
+      sendMessage(
+        selectedUser,
+        "Due to suspicious acitivity, your profile was suspended. While our team is reviewing your profile activity, you won't be able to post anything on the website",
+        "Profile Suspension"
+      );
+    } else {
+      sendMessage(
+        selectedUser,
+        "Our team reviewed your profile and decided that your activity meets our Community Guidelines. We're grateful for your patience and we hope that you'll have great time here!",
+        "Suspension Revoke"
+      );
+    }
     res.status(200).json({
       message: "User's suspension status changed successfully",
       suspended: selectedUser.isSuspended,
@@ -747,6 +835,11 @@ router.put("/blockUser/:userId", async (req, res) => {
       deleteUserContent(selectedUser._id);
     } else {
       selectedUser.amountOfSuspiciousActivity = 0;
+      sendMessage(
+        selectedUser,
+        'Our team reviewed your account and decided to remove previously proposed ban. Due to account ban, your content has been removed. Welcome back to "Trip Share"!',
+        "Welcome Back!"
+      );
     }
     await selectedUser.save();
     res.status(200).json({
@@ -794,6 +887,10 @@ router.put("/acceptProfilePic/:userId", async (req, res) => {
     selectedUser.isBlocked = false;
     await selectedUser.save();
 
+    sendMessage(
+      selectedUser,
+      "Our team reviewed your previously suspended profile pic and we decided that it meets our Community Guidelines. Your previous account suspension was revoked. Enjoy your new and fresh profile picture. -TripShare team"
+    );
     res.status(200).json({
       message: "User's profile image suspension was revoked successfully!",
     });

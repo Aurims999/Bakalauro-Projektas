@@ -88,7 +88,7 @@ function App() {
               />
             }
           />
-          <Route path="messages" element={<MessagesPage />} />
+          <Route path="messages" element={<MessagesPage id={userId} />} />
           <Route
             path="memories"
             element={

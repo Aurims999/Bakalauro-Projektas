@@ -13,6 +13,14 @@ const userSchema = new Schema({
     type: String,
     default: "default__profile.png",
   },
+  messages: [
+    {
+      banner: { type: String, default: "default__banner.png" },
+      date: { type: Date, default: Date.now, required: true },
+      title: { type: String, required: true },
+      text: { type: String, required: true },
+    },
+  ],
   amountOfSuspiciousActivity: { type: Number, default: 0, required: true },
   isSuspended: { type: Boolean, default: false, required: true },
   isBlocked: { type: Boolean, default: false, required: true },
@@ -26,7 +34,6 @@ const memorySchema = new Schema({
   description: { type: String, default: "" },
   category: { type: String, default: "" },
   tags: { type: Array, default: [] },
-  comments: { type: Array, default: [] },
   isSuspended: { type: Boolean, required: true },
 });
 
@@ -39,23 +46,13 @@ const commentSchema = new Schema({
   isSuspended: { type: Boolean, required: true },
 });
 
-const messageSchema = new Schema({
-  createDate: { type: Date, default: Date.now, required: true },
-  post: { type: String, required: true },
-  text: { type: String, required: true },
-  messageType: { type: String, required: true },
-  isRead: { type: Boolean, required: true },
-});
-
 const Users = mongoose.model("Users", userSchema, "users");
 const Memories = mongoose.model("Memories", memorySchema, "memories");
 const Comments = mongoose.model("Comments", commentSchema, "comments");
-const Messages = mongoose.model("Messages", messageSchema, "messages");
 const mySchemas = {
   Users: Users,
   Memories: Memories,
   Comments: Comments,
-  Messages: Messages,
 };
 
 module.exports = mySchemas;
