@@ -8,12 +8,22 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm({ image, predictedCategory, setMessage }) {
+export default function InputForm({
+  image,
+  predictedCategory,
+  setMessage,
+  probFake,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
+  const [probOfFake, setFakeProb] = useState(probFake);
   const userId = sessionStorage.getItem("user-id");
+
+  useEffect(() => {
+    setFakeProb(probFake);
+  }, [probFake]);
 
   const navigate = useNavigate();
 
@@ -63,6 +73,7 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
       tags,
       category,
       image,
+      probFake,
     };
 
     // Example: Sending form data to the server using fetch API
@@ -77,6 +88,7 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
       .then((data) => {
         console.log("Form submitted successfully", data);
         setMessage("SUCCESS", data.message);
+        sessionStorage.setItem("user-suspended", data.suspended);
         navigate("/");
       })
       .catch((error) => {

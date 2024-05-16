@@ -110,7 +110,8 @@ router.get("/memory/:id", async (req, res) => {
 });
 
 router.post("/newMemory", async (req, res) => {
-  const { title, description, userId, tags, category, image } = req.body;
+  const { title, description, userId, tags, category, image, probFake } =
+    req.body;
 
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
@@ -127,6 +128,14 @@ router.post("/newMemory", async (req, res) => {
   try {
     fs.writeFileSync(imagePath, buffer);
 
+    let suspended = false;
+
+    if (probFake >= 0.85) {
+      changeSuspicioutActivityCounter(userId, false);
+      suspendUser(userId);
+      suspended = true;
+    }
+
     const postData = {
       author: userId,
       image: imageName,
@@ -134,14 +143,17 @@ router.post("/newMemory", async (req, res) => {
       description: description,
       category: category,
       tags: tags,
-      isSuspended: false,
+      isSuspended: suspended,
     };
 
-    const newPost = new schemas.Memories(postData);
+    const newPost = await schemas.Memories(postData);
     const savePost = await newPost.save();
 
     if (savePost) {
-      res.json({ message: "New post was added successfully!" });
+      res.json({
+        message: "New post was added successfully!",
+        suspended: suspended,
+      });
     } else {
       res.status(500).json({ error: "Failed to save post." });
     }
@@ -797,11 +809,10 @@ const deleteUserContent = async (userId) => {
   await comments.deleteMany({ author: userId });
 };
 
-router.put("/suspendUser/:userId", async (req, res) => {
+const suspendUser = async (userId) => {
   const users = schemas.Users;
-
   try {
-    const selectedUser = await users.findById(req.params.userId);
+    const selectedUser = await users.findById(userId);
     if (!selectedUser) {
       res.status(404).json({ error: "User not found" });
     }
@@ -814,21 +825,30 @@ router.put("/suspendUser/:userId", async (req, res) => {
         "Due to suspicious acitivity, your profile was suspended. While our team is reviewing your profile activity, you won't be able to post anything on the website",
         "Profile Suspension"
       );
+      return true;
     } else {
       sendMessage(
         selectedUser,
         "Our team reviewed your profile and decided that your activity meets our Community Guidelines. We're grateful for your patience and we hope that you'll have great time here!",
         "Suspension Revoke"
       );
+      return false;
     }
-    res.status(200).json({
-      message: "User's suspension status changed successfully",
-      suspended: selectedUser.isSuspended,
-    });
   } catch (error) {
     console.log("Server error: ", error);
+    return "ERROR";
+  }
+};
+
+router.put("/suspendUser/:userId", async (req, res) => {
+  const suspended = await suspendUser(req.params.userId);
+  if (suspended === "ERROR") {
     res.status(500).json({ error: "Server Error" });
   }
+  res.status(200).json({
+    message: "User's suspension status changed successfully",
+    suspended: suspended,
+  });
 });
 
 router.put("/blockUser/:userId", async (req, res) => {

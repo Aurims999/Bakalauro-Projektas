@@ -14,7 +14,7 @@ export default function PostUploadPage({ setMessage }) {
   const [showImageField, setShowImageField] = useState(true);
   const [componentMounted, setComponentMounted] = useState(false);
 
-  const [fakeImageProb, setFakeImgProb] = useState(0);
+  const [fakeImageProb, setFakeImgProb] = useState(-1);
   const [predictedCategory, setPredictedCategory] = useState("");
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function PostUploadPage({ setMessage }) {
 
           const data = await response.json();
           setPredictedCategory(data.classification);
-          setMessage("INFO", "AI Predicted values added to the form");
+          setFakeImgProb(data.probability_of_fake);
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -52,6 +52,20 @@ export default function PostUploadPage({ setMessage }) {
       uploadImage();
     }
   }, [image, componentMounted]);
+
+  useEffect(() => {
+    if (fakeImageProb > -1) {
+      if (fakeImageProb >= 0.85) {
+        setMessage(
+          "WARNING",
+          "AI Content detected. Fake images are prohibited and will suspend your account!",
+          6000
+        );
+      } else {
+        setMessage("INFO", "AI Predicted values added to the form");
+      }
+    }
+  }, [fakeImageProb]);
 
   const navigate = useNavigate();
 
@@ -81,6 +95,7 @@ export default function PostUploadPage({ setMessage }) {
             image={imageUrl}
             predictedCategory={predictedCategory}
             setMessage={setMessage}
+            probFake={fakeImageProb}
           />
         </div>
       </section>

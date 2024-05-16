@@ -5,11 +5,13 @@ import Button from "../../components/Others/Button/Button";
 import MemoriesContainer from "../../components/Memories/MemoriesContainer";
 import MemoryModal from "../../components/Modals/MemoryModal/MemoryModal";
 
-export default function MainPage({ setMessage, suspended }) {
+export default function MainPage({ setMessage }) {
   const [memories, setMemory] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedMemoryID, setID] = useState("");
   const userRole = sessionStorage.getItem("user-role");
+
+  const [suspended, setSuspension] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:4000/allmemories")
@@ -17,6 +19,7 @@ export default function MainPage({ setMessage, suspended }) {
       .then((memory) => {
         setMemory(memory);
       });
+    setSuspension(sessionStorage.getItem("user-suspended") === "true");
   }, []);
 
   const removeMemoryFromList = (memoryId) => {
@@ -46,7 +49,7 @@ export default function MainPage({ setMessage, suspended }) {
           innerText={"Share your memory"}
           link={"new-memory"}
           setMessage={setMessage}
-          disabled={sessionStorage.getItem("user-suspended") === "true"}
+          disabled={suspended}
         />
       )}
 
