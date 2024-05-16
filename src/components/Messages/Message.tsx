@@ -1,13 +1,18 @@
-export default function Message() {
+export default function Message({
+  img = "default__banner.png",
+  date,
+  title,
+  message,
+}) {
   return (
     <div className="table-row">
       <div className="messageBanner">
-        <img src="/images/memories/default__banner.png" alt="message banner" />
+        <img src={`/images/memories/${img}`} alt="message banner" />
       </div>
 
-      <p>Date</p>
-      <p>Title</p>
-      <p>Comment</p>
+      <p>{date}</p>
+      <p>{title}</p>
+      <p>{message}</p>
     </div>
   );
 }

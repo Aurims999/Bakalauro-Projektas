@@ -1,15 +1,63 @@
-.messages-container dataTable {
-  & .noData-InfoBlock {
-    & img {
-      margin-bottom: 100px;
+.messages-table {
+  & .messages-table-container {
+    width: 100%;
+    height: 100%;
+
+    & .messages-table-header {
+      height: 15%;
+
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr 0.75fr 1.75fr;
+      grid-template-rows: 1fr;
+      justify-content: center;
+      align-items: center;
+
+      border-bottom: 1px solid var(--dropShadow__gray);
+
+      text-align: left;
+    }
+
+    & .messages-table-content {
+      height: 85%;
+
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-auto-rows: min-content;
+      justify-content: start;
+      align-items: start;
+
+      gap: 10px;
+
+      overflow-y: auto;
+
+      & .table-row {
+        height: fit-content;
+
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr 0.75fr 1.75fr;
+        justify-content: start;
+        align-items: center;
+
+        font-weight: bold;
+        font-size: 1.1rem;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--light__purple);
+        }
+      }
+    }
+
+    & .noData-InfoBlock {
+      & img {
+        margin-bottom: 30px;
+      }
     }
   }
 }
 
 .messageBanner {
-  width: 100%;
-  height: 100%;
-
   & img {
     width: 80%;
     height: 100px;
