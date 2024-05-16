@@ -83,6 +83,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
           } else if (data.status === "SUSPENDED") {
             setUserImage("default__profile.png");
             sessionStorage.setItem("user-suspended", "true");
+            sessionStorage.setItem("user-image", "default__profile.png");
             suspendUser("true");
             setMessage("WARNING", data.message, 8000);
           } else {

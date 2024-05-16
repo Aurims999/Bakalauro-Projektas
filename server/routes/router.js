@@ -449,9 +449,14 @@ router.put("/newProfilePic", async (req, res) => {
         user: updatedUser,
       });
     } else if (probOfDeepFake >= 0.5) {
+      sendMessage(
+        userId,
+        "Potential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
+        "Profile Suspension"
+      );
       return res.status(200).json({
         message:
-          "Pottential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
+          "Potential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
         status: "SUSPENDED",
         user: updatedUser,
       });
@@ -475,9 +480,14 @@ router.get("/messages/:userId", async (req, res) => {
     if (!selectedUser) {
       res.status(404).json({ error: "User not found" });
     }
+
+    const sortedMessages = selectedUser.messages.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+
     res.status(200).json({
       message: "Successfully retrieved a list of user's messages",
-      messages: selectedUser.messages,
+      messages: sortedMessages,
     });
   } catch (error) {
     console.log("Server error: ", error);
@@ -889,7 +899,8 @@ router.put("/acceptProfilePic/:userId", async (req, res) => {
 
     sendMessage(
       selectedUser,
-      "Our team reviewed your previously suspended profile pic and we decided that it meets our Community Guidelines. Your previous account suspension was revoked. Enjoy your new and fresh profile picture. -TripShare team"
+      "Our team reviewed your previously suspended profile pic and we decided that it meets our Community Guidelines. Your previous account suspension was revoked. Enjoy your new and fresh profile picture. -TripShare team",
+      "Profile Update"
     );
     res.status(200).json({
       message: "User's profile image suspension was revoked successfully!",
