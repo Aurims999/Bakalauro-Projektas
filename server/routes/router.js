@@ -104,7 +104,6 @@ router.post("/newMemory", async (req, res) => {
       description: description,
       category: category,
       tags: tags,
-      comments: [],
       isSuspended: false,
     };
 
@@ -433,6 +432,27 @@ router.put("/newProfilePic", async (req, res) => {
     res.status(500).json({ error: "Failed to save image." });
   }
 });
+
+router.get("/messages/:userId", async (req, res) => {
+  const users = schemas.Users;
+  try {
+    const selectedUser = await users.findById(req.params.userId);
+    if (!selectedUser) {
+      res.status(404).json({ error: "User not found" });
+    }
+    res
+      .status(200)
+      .json({
+        message: "Successfully retrieved a list of user's messages",
+        messages: selectedUser.messages,
+      });
+  } catch (error) {
+    console.log("Server error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.put("/newMessage/:userId", async (req, res) => {});
 // #endregion ================
 
 // #region === Comments ===

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../../components/Others/Table/CommentsTable";
+import Messages from "../../components/Messages/Messages";
 import Button from "../../components/Others/Button/Button";
 
 export default function MessagesPage() {
@@ -18,7 +18,7 @@ export default function MessagesPage() {
     <main>
       <h1>Messages</h1>
       <Button innerText={"Back to Main Page"} link={"/"} />
-      <Table />
+      <Messages />
     </main>
   );
 }
