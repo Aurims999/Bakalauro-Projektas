@@ -110,7 +110,8 @@ router.get("/memory/:id", async (req, res) => {
 });
 
 router.post("/newMemory", async (req, res) => {
-  const { title, description, userId, tags, category, image } = req.body;
+  const { title, description, userId, tags, category, image, probFake } =
+    req.body;
 
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
@@ -127,21 +128,32 @@ router.post("/newMemory", async (req, res) => {
   try {
     fs.writeFileSync(imagePath, buffer);
 
+    let suspended = false;
+
+    if (probFake >= 0.85) {
+      changeSuspicioutActivityCounter(userId, false);
+      suspendUser(userId);
+      suspended = true;
+    }
+
     const postData = {
       author: userId,
       image: imageName,
       title: title,
       description: description,
       category: category,
-      tags: tags,
-      isSuspended: false,
+      tags: tags.split(" "),
+      isSuspended: suspended,
     };
 
-    const newPost = new schemas.Memories(postData);
+    const newPost = await schemas.Memories(postData);
     const savePost = await newPost.save();
 
     if (savePost) {
-      res.json({ message: "New post was added successfully!" });
+      res.json({
+        message: "New post was added successfully!",
+        suspended: suspended,
+      });
     } else {
       res.status(500).json({ error: "Failed to save post." });
     }
@@ -449,9 +461,14 @@ router.put("/newProfilePic", async (req, res) => {
         user: updatedUser,
       });
     } else if (probOfDeepFake >= 0.5) {
+      sendMessage(
+        userId,
+        "Potential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
+        "Profile Suspension"
+      );
       return res.status(200).json({
         message:
-          "Pottential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
+          "Potential Deepfake image detected. Your new profile image will be reviewed by our team. Till then, your account will be suspended",
         status: "SUSPENDED",
         user: updatedUser,
       });
@@ -475,9 +492,14 @@ router.get("/messages/:userId", async (req, res) => {
     if (!selectedUser) {
       res.status(404).json({ error: "User not found" });
     }
+
+    const sortedMessages = selectedUser.messages.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+
     res.status(200).json({
       message: "Successfully retrieved a list of user's messages",
-      messages: selectedUser.messages,
+      messages: sortedMessages,
     });
   } catch (error) {
     console.log("Server error: ", error);
@@ -532,20 +554,23 @@ router.get("/comments/:userId", async (req, res) => {
 
 router.post("/newComment", async (req, res) => {
   console.log("Received a request to create new comment");
-  const { postId, author, text } = req.body;
+  const { postId, author, text, isSuspended } = req.body;
 
   try {
     const commentData = {
       author: author,
       post: postId,
       text: text,
-      category: "Positive",
-      isSuspended: false,
+      isSuspended: isSuspended,
     };
-    console.log(commentData);
 
     const newComment = new schemas.Comments(commentData);
     const saveComment = await newComment.save();
+
+    if (isSuspended) {
+      suspendUser(author);
+      changeSuspicioutActivityCounter(author, true);
+    }
 
     if (saveComment) {
       console.log("Comment was added successfully!");
@@ -728,7 +753,7 @@ router.put("/suspendComment/:commentId", async (req, res) => {
 
     sendMessage(
       selectedComment.author,
-      `One of your under memory "${memory.title}" was suspended. Our team will review your comment and decide if this comment meets our Community Guidelines. In any case, you'll be informed about our decision.`,
+      `One of your comment under memory "${memory.title}" was suspended. Our team will review your comment and decide if this comment meets our Community Guidelines. In any case, you'll be informed about our decision.`,
       "Comment Suspension",
       memory.image
     );
@@ -787,11 +812,10 @@ const deleteUserContent = async (userId) => {
   await comments.deleteMany({ author: userId });
 };
 
-router.put("/suspendUser/:userId", async (req, res) => {
+const suspendUser = async (userId) => {
   const users = schemas.Users;
-
   try {
-    const selectedUser = await users.findById(req.params.userId);
+    const selectedUser = await users.findById(userId);
     if (!selectedUser) {
       res.status(404).json({ error: "User not found" });
     }
@@ -804,21 +828,30 @@ router.put("/suspendUser/:userId", async (req, res) => {
         "Due to suspicious acitivity, your profile was suspended. While our team is reviewing your profile activity, you won't be able to post anything on the website",
         "Profile Suspension"
       );
+      return true;
     } else {
       sendMessage(
         selectedUser,
         "Our team reviewed your profile and decided that your activity meets our Community Guidelines. We're grateful for your patience and we hope that you'll have great time here!",
         "Suspension Revoke"
       );
+      return false;
     }
-    res.status(200).json({
-      message: "User's suspension status changed successfully",
-      suspended: selectedUser.isSuspended,
-    });
   } catch (error) {
     console.log("Server error: ", error);
+    return "ERROR";
+  }
+};
+
+router.put("/suspendUser/:userId", async (req, res) => {
+  const suspended = await suspendUser(req.params.userId);
+  if (suspended === "ERROR") {
     res.status(500).json({ error: "Server Error" });
   }
+  res.status(200).json({
+    message: "User's suspension status changed successfully",
+    suspended: suspended,
+  });
 });
 
 router.put("/blockUser/:userId", async (req, res) => {
@@ -889,7 +922,8 @@ router.put("/acceptProfilePic/:userId", async (req, res) => {
 
     sendMessage(
       selectedUser,
-      "Our team reviewed your previously suspended profile pic and we decided that it meets our Community Guidelines. Your previous account suspension was revoked. Enjoy your new and fresh profile picture. -TripShare team"
+      "Our team reviewed your previously suspended profile pic and we decided that it meets our Community Guidelines. Your previous account suspension was revoked. Enjoy your new and fresh profile picture. -TripShare team",
+      "Profile Update"
     );
     res.status(200).json({
       message: "User's profile image suspension was revoked successfully!",

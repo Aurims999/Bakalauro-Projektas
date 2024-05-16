@@ -148,10 +148,24 @@ export default function MemoryModal({
             </div>
           </section>
           <section className="description">
-            <p>{description}</p>
+            {description ? (
+              <p>{description}</p>
+            ) : (
+              <p style={{ opacity: 0.25 }}>
+                This memory does not have a description
+              </p>
+            )}
+
             <div className="tags">
-              <Tag>Example tag 1</Tag>
-              <Tag>Example tag 2</Tag>
+              {tags.length > 0 ? (
+                tags.map((tag) => {
+                  return <Tag>{tag}</Tag>;
+                })
+              ) : (
+                <p style={{ opacity: 0.25 }}>
+                  This memory does not have any tags
+                </p>
+              )}
             </div>
           </section>
           <section className="comments">

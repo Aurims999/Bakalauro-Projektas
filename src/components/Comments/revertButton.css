@@ -1,9 +1,0 @@
-.revertButton {
-  padding: 0.5rem 2rem;
-
-  border-radius: 15px;
-  background-color: var(--info__blue__main);
-
-  font-weight: bold;
-  color: white;
-}

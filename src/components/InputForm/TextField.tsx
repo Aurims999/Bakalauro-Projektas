@@ -5,6 +5,7 @@ export default function TextField({
   id,
   name,
   type = "text",
+  value,
   placeHolder,
   onChangeMethod,
   required = false,
@@ -26,6 +27,7 @@ export default function TextField({
         {...(required ? { required: "required" } : {})}
         minLength={minlength}
         maxLength={maxlength}
+        {...(value !== undefined ? { value: value } : {})}
       />
     </>
   );

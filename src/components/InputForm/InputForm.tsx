@@ -8,12 +8,34 @@ import SubmitButton from "./SubmitButton";
 
 import "./inputForm.css";
 
-export default function InputForm({ image, predictedCategory, setMessage }) {
+export default function InputForm({
+  image,
+  predictedCategory,
+  setMessage,
+  probFake,
+  predictedTags,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const [category, setCategory] = useState("");
+  const [probOfFake, setFakeProb] = useState(probFake);
   const userId = sessionStorage.getItem("user-id");
+
+  useEffect(() => {
+    setFakeProb(probFake);
+  }, [probFake]);
+
+  useEffect(() => {
+    console.log(predictedTags);
+    console.log(tags);
+    const tagsArray = predictedTags
+      .map((tag) => tag.replace(/ /g, "_"))
+      .join(" ");
+    setTags((prevTags) => (prevTags ? `${prevTags} ${tagsArray}` : tagsArray));
+    console.log(tagsArray);
+    console.log(tags);
+  }, [predictedTags]);
 
   const navigate = useNavigate();
 
@@ -63,9 +85,9 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
       tags,
       category,
       image,
+      probFake,
     };
 
-    // Example: Sending form data to the server using fetch API
     fetch("http://localhost:4000/newMemory", {
       method: "POST",
       headers: {
@@ -77,6 +99,7 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
       .then((data) => {
         console.log("Form submitted successfully", data);
         setMessage("SUCCESS", data.message);
+        sessionStorage.setItem("user-suspended", data.suspended);
         navigate("/");
       })
       .catch((error) => {
@@ -111,6 +134,7 @@ export default function InputForm({ image, predictedCategory, setMessage }) {
         name={"postTags"}
         placeHolder={"Add relevant tags for your memory"}
         onChangeMethod={handleTagsChange}
+        value={tags}
       />
 
       <section className="categories" style={{ margin: "15px 0px" }}>
