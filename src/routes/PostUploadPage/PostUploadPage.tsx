@@ -16,6 +16,7 @@ export default function PostUploadPage({ setMessage }) {
 
   const [fakeImageProb, setFakeImgProb] = useState(-1);
   const [predictedCategory, setPredictedCategory] = useState("");
+  const [predictedTags, setTags] = useState([]);
 
   useEffect(() => {
     setComponentMounted(true);
@@ -44,6 +45,7 @@ export default function PostUploadPage({ setMessage }) {
           const data = await response.json();
           setPredictedCategory(data.classification);
           setFakeImgProb(data.probability_of_fake);
+          setTags(data.tags);
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -96,6 +98,7 @@ export default function PostUploadPage({ setMessage }) {
             predictedCategory={predictedCategory}
             setMessage={setMessage}
             probFake={fakeImageProb}
+            predictedTags={predictedTags}
           />
         </div>
       </section>

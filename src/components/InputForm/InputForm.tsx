@@ -13,10 +13,11 @@ export default function InputForm({
   predictedCategory,
   setMessage,
   probFake,
+  predictedTags,
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const [category, setCategory] = useState("");
   const [probOfFake, setFakeProb] = useState(probFake);
   const userId = sessionStorage.getItem("user-id");
@@ -24,6 +25,17 @@ export default function InputForm({
   useEffect(() => {
     setFakeProb(probFake);
   }, [probFake]);
+
+  useEffect(() => {
+    console.log(predictedTags);
+    console.log(tags);
+    const tagsArray = predictedTags
+      .map((tag) => tag.replace(/ /g, "_"))
+      .join(" ");
+    setTags((prevTags) => (prevTags ? `${prevTags} ${tagsArray}` : tagsArray));
+    console.log(tagsArray);
+    console.log(tags);
+  }, [predictedTags]);
 
   const navigate = useNavigate();
 
@@ -122,6 +134,7 @@ export default function InputForm({
         name={"postTags"}
         placeHolder={"Add relevant tags for your memory"}
         onChangeMethod={handleTagsChange}
+        value={tags}
       />
 
       <section className="categories" style={{ margin: "15px 0px" }}>

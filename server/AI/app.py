@@ -3,14 +3,20 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 from PIL import Image
 import numpy as np
+import tensorflow as tf
 
 from transformers import pipeline
+from google.cloud import vision
+import tempfile
+import shutil
 
 import os
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './models/CloudVision/tripshare-423520-d96d736ba453.json'
 
 fakeImagesModel = load_model('./models/Images/AI-Images/AI-Image-Detection.h5')
 imageClassificationModel = load_model('./models/Images/Image-Categorize/image_classification.h5')
@@ -42,6 +48,32 @@ def processImage(request):
     cl_img_processed = cl_img_array.reshape((1,) + cl_img_array.shape)
     return cl_img_processed
 
+def detect_labels(path):
+    """Detects labels in the file."""
+    from google.cloud import vision
+
+    client = vision.ImageAnnotatorClient()
+
+    with open(path, "rb") as image_file:
+        content = image_file.read()
+
+    image = vision.Image(content=content)
+
+    response = client.label_detection(image=image)
+    labels = response.label_annotations
+    print("Labels:")
+
+    for label in labels:
+        print(label.description)
+
+    if response.error.message:
+        raise Exception(
+            "{}\nFor more info on error messages, check: "
+            "https://cloud.google.com/apis/design/errors".format(response.error.message)
+        )
+    
+    return [label.description for label in labels[:5]]
+
 @app.route('/evaluateImage', methods=['POST'])
 def evaluate_image():
     if 'image' not in request.files:
@@ -71,7 +103,15 @@ def evaluate_image():
     predicted_label_index = np.argmax(classification)
     predicted_label = categories[predicted_label_index]
 
-    return jsonify({'probability_of_fake': float(fakeImage[0][0]), 'classification' : predicted_label})
+    temp_dir = tempfile.mkdtemp()
+    temp_image_path = os.path.join(temp_dir, 'cropped_image.jpg')
+    userInput.save(temp_image_path)
+
+    tags = detect_labels(temp_image_path)
+
+    shutil.rmtree(temp_dir)
+
+    return jsonify({'probability_of_fake': float(fakeImage[0][0]), 'classification' : predicted_label, 'tags' : tags})
 
 @app.route('/evaluateProfilePic', methods=['POST'])
 def evaluate_profilePic():

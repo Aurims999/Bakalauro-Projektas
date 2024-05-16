@@ -142,7 +142,7 @@ router.post("/newMemory", async (req, res) => {
       title: title,
       description: description,
       category: category,
-      tags: tags,
+      tags: tags.split(" "),
       isSuspended: suspended,
     };
 
