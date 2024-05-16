@@ -554,20 +554,23 @@ router.get("/comments/:userId", async (req, res) => {
 
 router.post("/newComment", async (req, res) => {
   console.log("Received a request to create new comment");
-  const { postId, author, text } = req.body;
+  const { postId, author, text, isSuspended } = req.body;
 
   try {
     const commentData = {
       author: author,
       post: postId,
       text: text,
-      category: "Positive",
-      isSuspended: false,
+      isSuspended: isSuspended,
     };
-    console.log(commentData);
 
     const newComment = new schemas.Comments(commentData);
     const saveComment = await newComment.save();
+
+    if (isSuspended) {
+      suspendUser(author);
+      changeSuspicioutActivityCounter(author, true);
+    }
 
     if (saveComment) {
       console.log("Comment was added successfully!");
@@ -750,7 +753,7 @@ router.put("/suspendComment/:commentId", async (req, res) => {
 
     sendMessage(
       selectedComment.author,
-      `One of your under memory "${memory.title}" was suspended. Our team will review your comment and decide if this comment meets our Community Guidelines. In any case, you'll be informed about our decision.`,
+      `One of your comment under memory "${memory.title}" was suspended. Our team will review your comment and decide if this comment meets our Community Guidelines. In any case, you'll be informed about our decision.`,
       "Comment Suspension",
       memory.image
     );

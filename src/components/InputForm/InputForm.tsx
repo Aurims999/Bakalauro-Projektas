@@ -76,7 +76,6 @@ export default function InputForm({
       probFake,
     };
 
-    // Example: Sending form data to the server using fetch API
     fetch("http://localhost:4000/newMemory", {
       method: "POST",
       headers: {

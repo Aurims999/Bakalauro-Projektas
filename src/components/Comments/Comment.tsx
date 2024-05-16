@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import UserImage from "../Others/UserImage/UserImage";
 
-import RevertButton from "./RevertButton";
 import ButtonEvent from "../Others/Button/ButtonEvent";
 
 import "./comment.css";
@@ -77,7 +76,8 @@ export default function Comment({
 
   {
     return !commentSuspended ||
-      sessionStorage.getItem("user-role") === "ADMIN" ? (
+      sessionStorage.getItem("user-role") === "ADMIN" ||
+      sessionStorage.getItem("user-id") === userId ? (
       <div
         className="comment"
         style={
