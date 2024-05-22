@@ -36,3 +36,49 @@
     }
   }
 }
+
+.loadScreen {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 100;
+
+  & img {
+    z-index: 101;
+    animation: twistAround 1s linear infinite;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background-color: var(--focus__lighter__purple);
+    opacity: 0.85;
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}

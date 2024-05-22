@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./profilePics.css";
 
 import ButtonEvent from "../Others/Button/ButtonEvent";
@@ -9,11 +10,22 @@ export default function ProfilePicsRow({
   blockProfile,
   revokeProfile,
 }) {
+  const [userImage, setImage] = useState(`/images/users/${image}`);
+
+  useEffect(() => {
+    setImage(`/images/users/${image}`);
+  }, [image]);
+
+  const handleImageError = () => {
+    setImage(`/images/users/default__profile.png`);
+  };
+
   return (
     <div className="profilePics-row">
       <img
-        src={`./images/users/${image}`}
+        src={userImage}
         alt={`${nickname} suspended profile pic`}
+        onError={handleImageError}
       />
       <div className="profilePics-contentBlock">
         <h2>{nickname}</h2>

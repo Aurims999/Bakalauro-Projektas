@@ -8,7 +8,7 @@ import "./memory.css";
 
 export default function Memory({
   id,
-  image,
+  image = "default__image.png",
   title,
   author,
   setModal,
@@ -23,6 +23,15 @@ export default function Memory({
     "/images/users/default__profile.png"
   );
   const [userId, setUserId] = useState("");
+  const [img, setMemoryImage] = useState(`/images/memories/${image}`);
+
+  useEffect(() => {
+    setMemoryImage(`/images/memories/${image}`);
+  }, [image]);
+
+  const handleImageError = () => {
+    setMemoryImage("/images/memories/default__image.png");
+  };
 
   const userRole = sessionStorage.getItem("user-role");
 
@@ -69,12 +78,13 @@ export default function Memory({
     <div className="memory" style={suspended ? { opacity: 0.4 } : {}}>
       <img
         className="postImage"
-        src={`/images/memories/${image}`}
+        src={img}
         alt="Image of the memory"
         onClick={() => {
           setModal(true);
           setSelection(memoryId);
         }}
+        onError={handleImageError}
       />
       <section className="postInfoContainer">
         <div className="memoryDescription">
@@ -85,7 +95,7 @@ export default function Memory({
           </div>
         </div>
         {userRole === "USER" && userId != author && <Like />}
-        {(userRole === "ADMIN" || userId === author) && (
+        {(userRole === "ADMIN" || (userId === author && !suspended)) && (
           <TrashBin deleteMemory={deleteMemory} />
         )}
       </section>

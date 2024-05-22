@@ -1,6 +1,14 @@
+import { useState, useEffect } from "react";
+
 import "./profileImage.css";
 
 export default function ProfileImage({ userImage, handleNewImage }) {
+  const [image, setImage] = useState(`/images/users/${userImage}`);
+
+  useEffect(() => {
+    setImage(`/images/users/${userImage}`);
+  }, [userImage]);
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -25,6 +33,10 @@ export default function ProfileImage({ userImage, handleNewImage }) {
     return "data:image/png;base64," + window.btoa(binary);
   };
 
+  const handleImageError = () => {
+    setImage(`/images/users/default__profile.png`);
+  };
+
   return (
     <label htmlFor="profileImageInput" className="profileImageInputContainer">
       <input
@@ -36,8 +48,9 @@ export default function ProfileImage({ userImage, handleNewImage }) {
       />
       <img
         className="profilePicture"
-        src={`/images/users/${userImage}`}
+        src={image}
         alt="Profile Image"
+        onError={handleImageError}
       />
     </label>
   );
