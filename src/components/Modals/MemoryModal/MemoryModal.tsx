@@ -59,6 +59,10 @@ export default function MemoryModal({
     }
   }, [memoryId]);
 
+  useEffect(() => {
+    console.log(comments);
+  }, [comments]);
+
   const handleMemorySuspension = async () => {
     fetch(`http://localhost:4000/suspendMemory/${memoryId}`, {
       method: "PUT",

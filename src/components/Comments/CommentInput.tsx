@@ -34,7 +34,7 @@ export default function CommentInput({ setComments, memoryId }) {
       .then((response) => response.json())
       .then((data) => {
         aggressiveComment = data.status === "SUSPENDED" ? true : false;
-        const commentData = {
+        let commentData = {
           postId: memoryId,
           author: commentAuthor,
           text: comment,
@@ -50,7 +50,7 @@ export default function CommentInput({ setComments, memoryId }) {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("Comment posted successfully", data);
+            commentData = { ...commentData, _id: data.commentId };
             setComments((prevComments) => [...prevComments, commentData]);
             if (aggressiveComment) {
               sessionStorage.setItem("user-suspended", "true");

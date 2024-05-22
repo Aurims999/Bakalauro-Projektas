@@ -574,7 +574,10 @@ router.post("/newComment", async (req, res) => {
 
     if (saveComment) {
       console.log("Comment was added successfully!");
-      res.json({ message: "Comment was added successfully!" });
+      res.json({
+        message: "Comment was added successfully!",
+        commentId: saveComment._id,
+      });
     } else {
       res.status(500).json({ error: "Failed to add comment." });
     }
