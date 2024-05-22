@@ -22,6 +22,10 @@ export default function Comment({
   const [commentSuspended, setSuspension] = useState(suspended);
 
   useEffect(() => {
+    setSuspension(suspended);
+  }, [suspended]);
+
+  useEffect(() => {
     if (userId) {
       fetch(`http://localhost:4000/user/${userId}`)
         .then((response) => response.json())
@@ -30,6 +34,13 @@ export default function Comment({
           setUserImage(userData.image);
         });
     }
+
+    console.log(
+      `Suspended: ${commentSuspended} 
+      User role: ${sessionStorage.getItem("user-role")} 
+      Author: ${sessionStorage.getItem("user-id")} Userid: ${userId}
+       Text: ${children}`
+    );
   }, [userId]);
 
   const handleCommentSuspension = async () => {
@@ -95,7 +106,7 @@ export default function Comment({
             <p className="comment">{children}</p>
           </div>
         </div>
-        {(sessionStorage.getItem("user-id") === userId ||
+        {((sessionStorage.getItem("user-id") === userId && !suspended) ||
           sessionStorage.getItem("user-role") === "ADMIN") && (
           <div className="buttons">
             {sessionStorage.getItem("user-role") === "ADMIN" &&

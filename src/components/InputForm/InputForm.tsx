@@ -135,6 +135,7 @@ export default function InputForm({
         placeHolder={"Add relevant tags for your memory"}
         onChangeMethod={handleTagsChange}
         value={tags}
+        maxlength={256}
       />
 
       <section className="categories" style={{ margin: "15px 0px" }}>

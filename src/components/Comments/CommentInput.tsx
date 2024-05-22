@@ -23,7 +23,12 @@ export default function CommentInput({ setComments, memoryId }) {
   };
 
   const postComment = async () => {
+    if (comment === "") {
+      return;
+    }
+
     let aggressiveComment = false;
+    setComment("");
     fetch("http://127.0.0.1:5000/evaluateComment", {
       method: "POST",
       headers: {
@@ -60,8 +65,6 @@ export default function CommentInput({ setComments, memoryId }) {
           .catch((error) => {
             console.error("Error submitting comment:", error);
           });
-
-        setComment("");
       });
   };
 
@@ -77,7 +80,11 @@ export default function CommentInput({ setComments, memoryId }) {
           onKeyDown={handleKeyDown}
           minLength={1}
         />
-        <button className="postComment" onClick={postComment}>
+        <button
+          className="postComment"
+          onClick={postComment}
+          disabled={comment === ""}
+        >
           <p>Comment</p>
           <img src="./icons/rightArrow-purple.png" alt="Comment submit icon" />
         </button>

@@ -85,7 +85,7 @@ export default function Memory({
           </div>
         </div>
         {userRole === "USER" && userId != author && <Like />}
-        {(userRole === "ADMIN" || userId === author) && (
+        {(userRole === "ADMIN" || (userId === author && !suspended)) && (
           <TrashBin deleteMemory={deleteMemory} />
         )}
       </section>
