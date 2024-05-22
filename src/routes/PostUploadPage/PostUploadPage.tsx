@@ -103,7 +103,7 @@ export default function PostUploadPage({ setMessage }) {
               image={imageUrl}
               predictedCategory={predictedCategory}
               setMessage={setMessage}
-              probFake={fakeImageProb}
+              probFake={0}
               predictedTags={predictedTags}
             />
           </div>

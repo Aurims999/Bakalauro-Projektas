@@ -31,16 +31,9 @@ export default function Comment({
         .then((response) => response.json())
         .then((userData) => {
           setUsername(userData.nickname);
-          setUserImage(userData.image);
+          setUserImage(`/images/users/${userData.image}`);
         });
     }
-
-    console.log(
-      `Suspended: ${commentSuspended} 
-      User role: ${sessionStorage.getItem("user-role")} 
-      Author: ${sessionStorage.getItem("user-id")} Userid: ${userId}
-       Text: ${children}`
-    );
   }, [userId]);
 
   const handleCommentSuspension = async () => {
@@ -85,6 +78,10 @@ export default function Comment({
     }
   };
 
+  const handleImageError = () => {
+    setUserImage("./images/users/default__profile.png");
+  };
+
   {
     return !commentSuspended ||
       sessionStorage.getItem("user-role") === "ADMIN" ||
@@ -99,7 +96,11 @@ export default function Comment({
       >
         <div className="infoBlock">
           <div className="image">
-            <UserImage userImage={`/images/users/${userImage}`} size="40px" />
+            <UserImage
+              userImage={userImage}
+              size="40px"
+              onError={handleImageError}
+            />
           </div>
           <div className="commentContainer">
             <h3 className="author">{username}</h3>

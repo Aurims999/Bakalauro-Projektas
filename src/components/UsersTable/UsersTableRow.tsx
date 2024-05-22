@@ -1,6 +1,5 @@
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import InfoBlock from "../Others/InfoBlock/InfoBlock";
-import { useState } from "react";
 
 export default function UsersTableRow({
   userId,
@@ -14,13 +13,24 @@ export default function UsersTableRow({
   const [status, setStatus] = useState(
     blocked ? "BLOCKED" : suspended ? "SUSPENDED" : "ACTIVE"
   );
+
+  const [userImage, setImage] = useState(`./images/users/${image}`);
+  useEffect(() => {
+    setImage(`./images/users/${image}`);
+  }, [image]);
+
+  const handleImageError = () => {
+    setImage(`/images/users/default__profile.png`);
+  };
+
   return (
     <div className="usersTable-row" onClick={() => onClickRow(userId)}>
       <div className="usersTable-content">
         <div className="usersTable-infoBlock">
           <img
-            src={`./images/users/${image}`}
+            src={userImage}
             alt={`${username}'s profile image`}
+            onError={handleImageError}
           />
           <div className="infoBlock-details">
             <h2>{username}</h2>

@@ -45,7 +45,7 @@ export default function MemoryModal({
       fetch(`http://localhost:4000/memory/${memoryId}`)
         .then((response) => response.json())
         .then((memory) => {
-          setImage(memory.image);
+          setImage(`/images/memories/${memory.image}`);
           setTitle(memory.title);
           setUserImage(memory.profilePic);
           setUsername(memory.username);
@@ -59,9 +59,9 @@ export default function MemoryModal({
     }
   }, [memoryId]);
 
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
+  const handleImageError = () => {
+    setImage(`/images/memories/default__image.png`);
+  };
 
   const handleMemorySuspension = async () => {
     fetch(`http://localhost:4000/suspendMemory/${memoryId}`, {
@@ -125,7 +125,7 @@ export default function MemoryModal({
     <dialog ref={ref} onCancel={closeModal} className="memoryModal">
       <div className="modal-container">
         <div className="imageDisplay">
-          <img src={`/images/memories/${img}`} alt="Memory Image" />
+          <img src={img} alt="Memory Image" onError={handleImageError} />
         </div>
         <section className="content">
           <section className="modal-header">
