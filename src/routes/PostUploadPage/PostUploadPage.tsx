@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 
 import ImageField from "../../components/InputForm/ImageField";
 import InputForm from "../../components/InputForm/InputForm";
@@ -18,6 +19,8 @@ export default function PostUploadPage({ setMessage }) {
   const [predictedCategory, setPredictedCategory] = useState("");
   const [predictedTags, setTags] = useState([]);
 
+  const [loading, setLoadingScreen] = useState(false);
+
   useEffect(() => {
     setComponentMounted(true);
   }, []);
@@ -25,6 +28,7 @@ export default function PostUploadPage({ setMessage }) {
   useEffect(() => {
     if (componentMounted && image !== backgroundImage) {
       setShowImageField(false);
+      setLoadingScreen(true);
 
       const uploadImage = async () => {
         try {
@@ -46,6 +50,7 @@ export default function PostUploadPage({ setMessage }) {
           setPredictedCategory(data.classification);
           setFakeImgProb(data.probability_of_fake);
           setTags(data.tags);
+          setLoadingScreen(false);
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -79,29 +84,36 @@ export default function PostUploadPage({ setMessage }) {
   }, [navigate]);
 
   return (
-    <div className="uploadPageContainer">
-      <section
-        className="imageUploadField"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
-      >
-        {showImageField && (
-          <ImageField setImage={setImage} setUrl={setImageUrl} />
-        )}
-      </section>
-      <section className="postDetailsForm">
-        <div className="contentContainer">
-          <h1>Share your new memory!</h1>
-          <InputForm
-            image={imageUrl}
-            predictedCategory={predictedCategory}
-            setMessage={setMessage}
-            probFake={fakeImageProb}
-            predictedTags={predictedTags}
-          />
+    <>
+      <div className="uploadPageContainer">
+        <section
+          className="imageUploadField"
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+          }}
+        >
+          {showImageField && (
+            <ImageField setImage={setImage} setUrl={setImageUrl} />
+          )}
+        </section>
+        <section className="postDetailsForm">
+          <div className="contentContainer">
+            <h1>Share your new memory!</h1>
+            <InputForm
+              image={imageUrl}
+              predictedCategory={predictedCategory}
+              setMessage={setMessage}
+              probFake={fakeImageProb}
+              predictedTags={predictedTags}
+            />
+          </div>
+        </section>
+      </div>
+      <CSSTransition in={loading} timeout={300} classNames="fade" unmountOnExit>
+        <div className="loadScreen">
+          <img src="/icons/hourglass-white.png" alt="Loading screen" />
         </div>
-      </section>
-    </div>
+      </CSSTransition>
+    </>
   );
 }
