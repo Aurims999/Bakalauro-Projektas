@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# Dirbtinio intelekto modelių pritaikymas socialinių tinklų administravime
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##### Projekto autorius: Aurimas Būta
 
-Currently, two official plugins are available:
+##### Vadovas: jaun. asist. Arnas Nakrošis
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Šis bakalauro baigiamasis projektas nagrinėja socialinių tinklų taikomas turinio monitoringo priemones bei išbando dirbtiniu intelektu grįstų sistemų integravimą automatiniam duomenų vertinimui. Taip pat, šio projekto metu bandoma ieškot priemonių kaip asistuoti naudotojus keliančius į sistemą naujus įrašus, paruošiant automatines rekomendacijas turinio aprašui.
 
-## Expanding the ESLint configuration
+Šiame dokumente apžvelgiamos socialinių tinklų turinio moderavimo aktualijos, išsikeliami tiek funkciniai, tiek nefunkciniai reikalavimai kuriamam imitaciniam socialiniam tinklui, pateikiamas informacinės sistemos projektas bei gautų rezultatų aptarimas bei testavimas.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Socialinis tinklas, atsižvelgiant į šių laikų technologines aktualijas, naudoja React naudotojo sąsajos kūrimui, Node.js bei Express.js standartinių operacijų serverio realizacijai bei MongoDB svetainės duomenų saugojimui. Taip pat, sukurtas atskiras serveris naudojant Python Flask dirbtinio intelekto modelių naudojimui
 
-- Configure the top-level `parserOptions` property like this:
+## Pasileidimo instrukcijos
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Backend:
+
+```sh
+cd server
+npm install
+npm start
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Backend (AI):
+
+```sh
+cd server/AI
+python app.py
+```
+
+Reikalingos Python bibliotekos:
+
+```sh
+python install flask
+python install tensorflow
+python install pillow
+python install transformers
+python install google-cloud-vision
+python install flask-cors
+```
+
+> Dirbtinio intelekto modelius (aplankas - models) reikia rankiniu būdu įkelti į server/AI aplanką
+> (Šis žingsnis atliekamas rankiniu būdu dėl per didelės modelių apimties bei github ribojimų)
+
+FE:
+
+```sh
+npm run dev
+```
+
+> Platesnė diegimo instrukcija baigiamojo projekto ataskaitos 4.1 poskyryje
