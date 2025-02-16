@@ -78,6 +78,7 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
           console.log("Profile pic updated successfully", data);
           if (data.status === "SAFE") {
             setUserImage(data.user.newProfilePic);
+            console.log(data.user.newProfilePic);
             sessionStorage.setItem("user-image", data.user.newProfilePic);
             setMessage("SUCCESS", data.message);
           } else if (data.status === "SUSPENDED") {
@@ -107,8 +108,8 @@ export default function Sidebar({ setUserId, setMessage, suspendUser }) {
       return;
     }
 
-    const prediction = await evaluateImage();
-    updateProfilePic(imageUrl, prediction);
+    //const prediction = await evaluateImage();
+    updateProfilePic(imageUrl, 0);
   };
 
   const resetSession = () => {
