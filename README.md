@@ -1,5 +1,8 @@
 # Dirbtinio intelekto modelių pritaikymas socialinių tinklų administravime
 
+=======================================
+## DUE TO AI MODEL SIZES, THE MODELS ARE NOT STORED IN THE GITHUB, AI FUNCTIONALITIES WERE DISABLED FOR DEMO PURPOSES
+=======================================
 ##### Projekto autorius: Aurimas Būta
 
 ##### Vadovas: jaun. asist. Arnas Nakrošis
@@ -21,6 +24,7 @@ npm start
 ```
 
 Backend (AI):
+### AI FUNCTIONALITIES DISABLED
 
 ```sh
 cd server/AI
