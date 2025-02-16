@@ -28,7 +28,7 @@ export default function PostUploadPage({ setMessage }) {
   useEffect(() => {
     if (componentMounted && image !== backgroundImage) {
       setShowImageField(false);
-      setLoadingScreen(true);
+      //setLoadingScreen(true);
 
       const uploadImage = async () => {
         try {
@@ -36,21 +36,21 @@ export default function PostUploadPage({ setMessage }) {
           const formData = new FormData();
           formData.append("image", blob);
 
-          const response = await fetch("http://127.0.0.1:5000/evaluateImage", {
-            method: "POST",
-            body: formData,
-          });
+          // const response = await fetch("http://127.0.0.1:5000/evaluateImage", {
+          //   method: "POST",
+          //   body: formData,
+          // });
 
-          if (!response.ok) {
-            setMessage("ERROR", "Failed to upload image");
-            throw new Error("Failed to upload image");
-          }
+          // if (!response.ok) {
+          //   setMessage("ERROR", "Failed to upload image");
+          //   throw new Error("Failed to upload image");
+          // }
 
-          const data = await response.json();
-          setPredictedCategory(data.classification);
-          setFakeImgProb(data.probability_of_fake);
-          setTags(data.tags);
-          setLoadingScreen(false);
+          // const data = await response.json();
+          // setPredictedCategory(data.classification);
+          // setFakeImgProb(data.probability_of_fake);
+          // setTags(data.tags);
+          // setLoadingScreen(false);
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -60,19 +60,19 @@ export default function PostUploadPage({ setMessage }) {
     }
   }, [image, componentMounted]);
 
-  useEffect(() => {
-    if (fakeImageProb > -1) {
-      if (fakeImageProb >= 0.85) {
-        setMessage(
-          "WARNING",
-          "AI Content detected. Fake images are prohibited and will suspend your account!",
-          6000
-        );
-      } else {
-        setMessage("INFO", "AI Predicted values added to the form");
-      }
-    }
-  }, [fakeImageProb]);
+  // useEffect(() => {
+  //   if (fakeImageProb > -1) {
+  //     if (fakeImageProb >= 0.85) {
+  //       setMessage(
+  //         "WARNING",
+  //         "AI Content detected. Fake images are prohibited and will suspend your account!",
+  //         6000
+  //       );
+  //     } else {
+  //       setMessage("INFO", "AI Predicted values added to the form");
+  //     }
+  //   }
+  // }, [fakeImageProb]);
 
   const navigate = useNavigate();
 
