@@ -24,7 +24,7 @@
     & .profilePics-contentBlock {
       & h2 {
         font-family: var(--mainFont);
-        font-size: 3rem;
+        font-size: 2rem;
       }
       & .profilePics-buttons {
         display: flex;

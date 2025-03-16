@@ -108,7 +108,6 @@ dialog.memoryModal {
         align-items: start;
 
         font-weight: 500;
-        font-size: 1.25rem;
 
         & .tags {
           display: flex;
@@ -125,7 +124,7 @@ dialog.memoryModal {
   }
 
   & button.exit {
-    width: 75px;
+    width: 60px;
     aspect-ratio: 1/1;
     border-radius: 50%;
     border: none;

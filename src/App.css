@@ -13,6 +13,8 @@
   --light__yellow: #ffe1b4;
   --light__red: #fadce1;
 
+  --dark__purple: #623bae;
+
   --info__blue__main: #5b8a8f;
   --info__blue__back: #cce6e7;
   --success__green__main: #699a74;
@@ -68,7 +70,7 @@ body {
 }
 
 img.icon {
-  width: 50px;
+  width: 40px;
   aspect-ratio: 1/1;
 }
 

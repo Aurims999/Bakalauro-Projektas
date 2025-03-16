@@ -47,13 +47,14 @@ header {
         padding: 0.5rem 2rem;
         gap: 20px;
 
-        font-size: 1.125rem;
+        font-size: 1rem;
 
         transition: background-color 0.2s ease-out;
         cursor: pointer;
 
         & p {
           text-decoration: none;
+          color: var(--dark__purple);
           text-align: end;
         }
 
@@ -72,7 +73,7 @@ header {
     width: 100%;
 
     & img {
-      width: 40px;
+      width: 30px;
     }
 
     & .logout {
@@ -92,6 +93,7 @@ header {
       font-size: 1rem;
       font-weight: bold;
       font-family: var(--mainFont);
+      color: var(--dark__purple);
 
       cursor: pointer;
       transition: background-color 0.2s ease-out;
