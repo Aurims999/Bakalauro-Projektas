@@ -63,7 +63,7 @@ input.input-imageField {
 }
 
 .input-textField {
-  height: 50px;
+  height: 40px;
   width: 100%;
 
   margin-bottom: 10px;
@@ -72,7 +72,7 @@ input.input-imageField {
   border-bottom: 1px solid var(--main__black);
 
   font-family: var(--mainFont);
-  font-size: 1.15rem;
+  font-size: 1rem;
 
   & &:focus {
     border-bottom: 1px solid var(--main__black);
@@ -82,6 +82,7 @@ input.input-imageField {
 .label-textField {
   font-family: var(--headlineFont);
   font-weight: bold;
+  font-size: 1.25rem;
 }
 
 .input-radioField {
@@ -113,6 +114,8 @@ input.input-imageField {
     border: 4px solid var(--main__black);
     border-radius: 15px;
 
+    font-size: 1rem;
+
     text-transform: capitalize;
     cursor: pointer;
 
@@ -142,18 +145,13 @@ input.input-imageField {
 }
 
 & .submitButton {
-  font-size: 1.125rem;
+  font-size: 1rem;
 
   & [type="submit"] {
     display: none;
   }
 
   & label {
-    width: fit-content;
-    height: auto;
-    padding: 15px 30px;
-    margin: 10px 0px;
-
     display: flex;
     justify-content: space-around;
     align-content: center;
@@ -165,7 +163,7 @@ input.input-imageField {
     cursor: pointer;
 
     & img {
-      height: 30px;
+      height: 20px;
       aspect-ratio: 1/1;
     }
   }

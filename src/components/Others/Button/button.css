@@ -1,7 +1,7 @@
 .styledButton {
   width: fit-content;
   height: auto;
-  padding: 15px 30px;
+  padding: 1rem 2rem;
   margin: 10px 0px;
 
   display: flex;
@@ -24,7 +24,7 @@
   }
 
   & p {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-family: var(--headlineFont);
     font-weight: bold;
     text-transform: capitalize;

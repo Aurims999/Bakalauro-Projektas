@@ -2,7 +2,7 @@ h1 {
   padding: 0.5rem 0rem;
 
   font-family: var(--headlineFont);
-  font-size: 3.75rem;
+  font-size: 3rem;
   font-weight: bold;
   text-transform: capitalize;
 
@@ -11,7 +11,7 @@ h1 {
 
 h2 {
   font-family: var(--mainFont);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 input {

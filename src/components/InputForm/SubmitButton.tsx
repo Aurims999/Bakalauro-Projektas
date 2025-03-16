@@ -8,7 +8,7 @@ export default function SubmitButton({ icon, text }) {
       <label className="styledButton">
         <input type="submit" value={text} />
         {icon && <img src={icon} alt="icon" />}
-        <span>{text}</span>
+        <span style={{ fontSize: "1rem" }}>{text}</span>
       </label>
     </div>
   );
